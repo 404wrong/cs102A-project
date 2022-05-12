@@ -23,4 +23,8 @@ public enum ChessColor {
     public Color getColor() {
         return color;
     }
+
+    public char toChar(){
+        return (char) (getName().charAt(0)+'a'-'A');
+    }
 }

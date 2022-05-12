@@ -9,7 +9,11 @@ import java.awt.event.MouseEvent;
 import java.io.IOException;
 
 /**
- * 这个类是一个抽象类，主要表示8*8棋盘上每个格子的棋子情况，当前有两个子类继承它，分别是EmptySlotComponent(空棋子)和RookChessComponent(车)。
+ * 这个类是一个抽象类，主要表示8*8棋盘上每个格子的棋子情况
+ * <br>
+ * 当前有两个子类继承它，分别是EmptySlotComponent(空棋子)和RookChessComponent(车)。
+ * <br>
+ * ChessComponent[行][列]
  */
 public abstract class ChessComponent extends JComponent {
 
@@ -36,14 +40,29 @@ public abstract class ChessComponent extends JComponent {
      * selected: 表示这个棋子是否被选中
      */
     private ChessboardPoint chessboardPoint;
-    protected final ChessColor chessColor;
+    protected ChessColor chessColor;
     private boolean selected;
 
-    protected ChessComponent(ChessboardPoint chessboardPoint, Point location, ChessColor chessColor, ClickController clickController, int size) {
+    protected ChessComponent(ChessboardPoint chessboardPoint, Point location,
+                             ChessColor chessColor, ClickController clickController, int size) {
         enableEvents(AWTEvent.MOUSE_EVENT_MASK);
         setLocation(location);
         setSize(size, size);
         this.chessboardPoint = chessboardPoint;
+        this.chessColor = chessColor;
+        this.selected = false;
+        this.clickController = clickController;
+    }
+
+    protected ChessComponent(ChessboardPoint chessboardPoint){
+        this.chessboardPoint = chessboardPoint;
+    }
+
+    public void MoreInformation(Point location,
+                                ChessColor chessColor, ClickController clickController, int size) {
+        enableEvents(AWTEvent.MOUSE_EVENT_MASK);
+        setLocation(location);
+        setSize(size, size);
         this.chessColor = chessColor;
         this.selected = false;
         this.clickController = clickController;
@@ -61,6 +80,10 @@ public abstract class ChessComponent extends JComponent {
         return chessColor;
     }
 
+    public void setChessColor(ChessColor chessColor) {
+        this.chessColor = chessColor;
+    }
+
     public boolean isSelected() {
         return selected;
     }
@@ -68,6 +91,8 @@ public abstract class ChessComponent extends JComponent {
     public void setSelected(boolean selected) {
         this.selected = selected;
     }
+
+    public abstract char toChar();
 
     /**
      * @param another 主要用于和另外一个棋子交换位置
@@ -114,6 +139,10 @@ public abstract class ChessComponent extends JComponent {
      */
     public abstract void loadResource() throws IOException;
 
+    /**
+     * 画棋盘
+     * @param g
+     */
     @Override
     protected void paintComponent(Graphics g) {
         super.paintComponents(g);
@@ -122,4 +151,6 @@ public abstract class ChessComponent extends JComponent {
         g.setColor(squareColor);
         g.fillRect(0, 0, this.getWidth(), this.getHeight());
     }
+
+
 }

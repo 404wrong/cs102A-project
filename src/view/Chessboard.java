@@ -1,14 +1,13 @@
 package view;
 
 
-import model.ChessColor;
-import model.ChessComponent;
-import model.EmptySlotComponent;
-import model.RookChessComponent;
 import controller.ClickController;
+import model.*;
+import save_write.Save_Write;
 
 import javax.swing.*;
 import java.awt.*;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -16,24 +15,23 @@ import java.util.List;
  */
 public class Chessboard extends JComponent {
     /**
-     * CHESSBOARD_SIZE： 棋盘是8 * 8的
-     * <br>
-     * BACKGROUND_COLORS: 棋盘的两种背景颜色
-     * <br>
-     * chessListener：棋盘监听棋子的行动
-     * <br>
-     * chessboard: 表示8 * 8的棋盘
-     * <br>
+     * CHESSBOARD_SIZE： 棋盘是8 * 8的<br>
+     * BACKGROUND_COLORS: 棋盘的两种背景颜色<br>
+     * chessListener：棋盘监听棋子的行动<br>
+     * chessboard: 表示8 * 8的棋盘<br>
      * currentColor: 当前行棋方
      */
-    private static final int CHESSBOARD_SIZE = 8;
+    private ArrayList<ChessComponent[][]> store =new ArrayList<>();
 
-    private final ChessComponent[][] chessComponents = new ChessComponent[CHESSBOARD_SIZE][CHESSBOARD_SIZE];
+    private ChessComponent[][] chessComponents = new ChessComponent[8][8];
     private ChessColor currentColor = ChessColor.BLACK;
     //all chessComponents in this chessboard are shared only one model controller
     private final ClickController clickController = new ClickController(this);
-    private final int CHESS_SIZE;
+    private int CHESS_SIZE;
 
+    public void setCHESS_SIZE(int width) {
+        this.CHESS_SIZE = width / 8;
+    }
 
     public Chessboard(int width, int height) {
         setLayout(null); // Use absolute layout.
@@ -42,12 +40,55 @@ public class Chessboard extends JComponent {
         System.out.printf("chessboard size = %d, chess size = %d\n", width, CHESS_SIZE);
 
         initiateEmptyChessboard();
-
+        ChessComponent chessComponent = new RookChessComponent(new ChessboardPoint(0,0));
+        chessComponent.MoreInformation(calculatePoint(0,0), ChessColor.BLACK, clickController, CHESS_SIZE);
+        initOnBoard(0,0,chessComponent);
         // FIXME: Initialize chessboard for testing only.
-        initRookOnBoard(0, 0, ChessColor.BLACK);
-        initRookOnBoard(0, CHESSBOARD_SIZE - 1, ChessColor.BLACK);
-        initRookOnBoard(CHESSBOARD_SIZE - 1, 0, ChessColor.WHITE);
-        initRookOnBoard(CHESSBOARD_SIZE - 1, CHESSBOARD_SIZE - 1, ChessColor.WHITE);
+    }
+
+    /**
+     * @param width
+     * @param height
+     * @param path
+     */
+    public Chessboard(int width, int height,String path) {
+        setLayout(null); // Use absolute layout.
+        setSize(width, height);
+        CHESS_SIZE = width / 8;
+        System.out.printf("chessboard size = %d, chess size = %d\n", width, CHESS_SIZE);
+
+//        initiateEmptyChessboard();
+//        ChessComponent chessComponent = new RookChessComponent(new ChessboardPoint(0,0));
+//        chessComponent.MoreInformation(calculatePoint(0,0), ChessColor.BLACK, clickController, CHESS_SIZE);
+//        initOnBoard(0,0,chessComponent);
+//        // FIXME: Initialize chessboard for testing only.
+
+        Save_Write a=new Save_Write();
+        if(!a.convertToChessboard(a.readFileByFileReader(path))){
+            if (!a.convertToChessboard(a.readFileByFileReader("resource/save1.txt"))){
+                a.writeFileByFileWriter("resource/save1.txt", new ArrayList<String>(){{add("RNBQKBNRPPPPPPPP________________________________pppppppprnbqkbnrw");}});
+                a.convertToChessboard(a.readFileByFileReader("resource/save1.txt"));
+            }
+        }
+        store=a.getStore();
+        chessComponents=store.get(store.size()-1);
+
+//        for (int row = 0; row < 8; row++) {
+//            for (int col = 0; col < 8; col++) {
+//                System.out.print(chessComponents[row][col].toChar());
+//            }
+//        }
+
+//        initOnBoard(0,0,chessComponent);
+//        ChessComponent chessComponent = new RookChessComponent(new ChessboardPoint(0,0));
+//        chessComponent.MoreInformation(calculatePoint(0,0),ChessColor.BLACK, clickController, CHESS_SIZE);
+//        initOnBoard(0,0,chessComponent);
+        for (int row = 0; row < 8; row++) {
+            for (int col = 0; col < 8; col++) {
+//                System.out.print(chessComponents[row][col].getChessColor().getName());
+                initOnBoard(row,col,chessComponents[row][col]);
+            }
+        }
     }
 
     public ChessComponent[][] getChessComponents() {
@@ -83,6 +124,7 @@ public class Chessboard extends JComponent {
         chess2.repaint();
     }
 
+
     public void initiateEmptyChessboard() {
         for (int i = 0; i < chessComponents.length; i++) {
             for (int j = 0; j < chessComponents[i].length; j++) {
@@ -90,11 +132,16 @@ public class Chessboard extends JComponent {
             }
         }
     }
-
+//换人
     public void swapColor() {
         currentColor = currentColor == ChessColor.BLACK ? ChessColor.WHITE : ChessColor.BLACK;
     }
 
+    private void initOnBoard(int row, int col,ChessComponent chessComponent) {
+        chessComponent.MoreInformation(calculatePoint(row, col),chessComponent.getChessColor(), clickController, CHESS_SIZE);
+        chessComponent.setVisible(true);
+        putChessOnBoard(chessComponent);
+    }
     private void initRookOnBoard(int row, int col, ChessColor color) {
         ChessComponent chessComponent = new RookChessComponent(new ChessboardPoint(row, col), calculatePoint(row, col), color, clickController, CHESS_SIZE);
         chessComponent.setVisible(true);
@@ -102,10 +149,36 @@ public class Chessboard extends JComponent {
     }
 
 
+//    private void initBishopOnBoard(int row, int col, ChessColor color) {
+//        ChessComponent chessComponent = new BishopChessComponent(new ChessboardPoint(row, col), calculatePoint(row, col), color, clickController, CHESS_SIZE);
+//        chessComponent.setVisible(true);
+//        putChessOnBoard(chessComponent);
+//    }
+//    private void initKingOnBoard(int row, int col, ChessColor color) {
+//        ChessComponent chessComponent = new KingChessComponent(new ChessboardPoint(row, col), calculatePoint(row, col), color, clickController, CHESS_SIZE);
+//        chessComponent.setVisible(true);
+//        putChessOnBoard(chessComponent);
+//    }
+//    private void initKnightOnBoard(int row, int col, ChessColor color) {
+//        ChessComponent chessComponent = new KnightChessComponent(new ChessboardPoint(row, col), calculatePoint(row, col), color, clickController, CHESS_SIZE);
+//        chessComponent.setVisible(true);
+//        putChessOnBoard(chessComponent);
+//    }
+//    private void initPawnOnBoard(int row, int col, ChessColor color) {
+//        ChessComponent chessComponent = new PawnChessComponent(new ChessboardPoint(row, col), calculatePoint(row, col), color, clickController, CHESS_SIZE);
+//        chessComponent.setVisible(true);
+//        putChessOnBoard(chessComponent);
+//    }
+//    private void initQueenOnBoard(int row, int col, ChessColor color) {
+//        ChessComponent chessComponent = new QueenChessComponent(new ChessboardPoint(row, col), calculatePoint(row, col), color, clickController, CHESS_SIZE);
+//        chessComponent.setVisible(true);
+//        putChessOnBoard(chessComponent);
+//    }
     @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
-        ((Graphics2D) g).setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+        ((Graphics2D) g).setRenderingHint(RenderingHints.KEY_ANTIALIASING,
+                RenderingHints.VALUE_ANTIALIAS_ON);
     }
 
 

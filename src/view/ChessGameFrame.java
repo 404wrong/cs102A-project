@@ -7,6 +7,8 @@ import java.awt.*;
 
 /**
  * 这个类表示游戏过程中的整个游戏界面，是一切的载体
+ * 调用了chessboard。java文件
+ * 调用方法 new，setlocation
  */
 public class ChessGameFrame extends JFrame {
     //    public final Dimension FRAME_SIZE ;
@@ -25,8 +27,6 @@ public class ChessGameFrame extends JFrame {
         setLocationRelativeTo(null); // Center the window.
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE); //设置程序关闭按键，如果点击右上方的叉就游戏全部关闭了
         setLayout(null);
-
-
         addChessboard();
         addLabel();
         addHelloButton();
@@ -38,7 +38,9 @@ public class ChessGameFrame extends JFrame {
      * 在游戏面板中添加棋盘
      */
     private void addChessboard() {
-        Chessboard chessboard = new Chessboard(CHESSBOARD_SIZE, CHESSBOARD_SIZE);
+        Chessboard chessboard = new Chessboard(CHESSBOARD_SIZE, CHESSBOARD_SIZE
+                ,"resource/save1.txt"
+        );
         gameController = new GameController(chessboard);
         chessboard.setLocation(HEIGTH / 10, HEIGTH / 10);
         add(chessboard);
@@ -61,7 +63,8 @@ public class ChessGameFrame extends JFrame {
 
     private void addHelloButton() {
         JButton button = new JButton("Show Hello Here");
-        button.addActionListener((e) -> JOptionPane.showMessageDialog(this, "Hello, world!"));
+        button.addActionListener((e) -> JOptionPane.showMessageDialog(
+                this, "Hello, world!"));
         button.setLocation(HEIGTH, HEIGTH / 10 + 120);
         button.setSize(200, 60);
         button.setFont(new Font("Rockwell", Font.BOLD, 20));
@@ -81,5 +84,4 @@ public class ChessGameFrame extends JFrame {
             gameController.loadGameFromFile(path);
         });
     }
-
 }

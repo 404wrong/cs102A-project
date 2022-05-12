@@ -59,9 +59,25 @@ public class RookChessComponent extends ChessComponent {
             e.printStackTrace();
         }
     }
+    @Override
+    public char toChar(){
+        switch (chessColor){
+            case WHITE:
+                return 'r';
+        }
+        return 'R';
+    }
 
-    public RookChessComponent(ChessboardPoint chessboardPoint, Point location, ChessColor color, ClickController listener, int size) {
+    public RookChessComponent(ChessboardPoint chessboardPoint,
+                              Point location, ChessColor color, ClickController listener, int size) {
         super(chessboardPoint, location, color, listener, size);
+        initiateRookImage(color);
+    }
+    public RookChessComponent(ChessboardPoint chessboardPoint){
+        super(chessboardPoint);
+    }
+    public void MoreInformation(Point location, ChessColor color, ClickController listener, int size) {
+        super.MoreInformation(location, color, listener, size);
         initiateRookImage(color);
     }
 
@@ -75,26 +91,26 @@ public class RookChessComponent extends ChessComponent {
 
     @Override
     public boolean canMoveTo(ChessComponent[][] chessComponents, ChessboardPoint destination) {
-        ChessboardPoint source = getChessboardPoint();
-        if (source.getX() == destination.getX()) {
-            int row = source.getX();
-            for (int col = Math.min(source.getY(), destination.getY()) + 1;
-                 col < Math.max(source.getY(), destination.getY()); col++) {
-                if (!(chessComponents[row][col] instanceof EmptySlotComponent)) {
-                    return false;
-                }
-            }
-        } else if (source.getY() == destination.getY()) {
-            int col = source.getY();
-            for (int row = Math.min(source.getX(), destination.getX()) + 1;
-                 row < Math.max(source.getX(), destination.getX()); row++) {
-                if (!(chessComponents[row][col] instanceof EmptySlotComponent)) {
-                    return false;
-                }
-            }
-        } else { // Not on the same row or the same column.
-            return false;
-        }
+//        ChessboardPoint source = getChessboardPoint();
+//        if (source.getX() == destination.getX()) {
+//            int row = source.getX();
+//            for (int col = Math.min(source.getY(), destination.getY()) + 1;
+//                 col < Math.max(source.getY(), destination.getY()); col++) {
+//                if (!(chessComponents[row][col] instanceof EmptySlotComponent)) {
+//                    return false;
+//                }
+//            }
+//        } else if (source.getY() == destination.getY()) {
+//            int col = source.getY();
+//            for (int row = Math.min(source.getX(), destination.getX()) + 1;
+//                 row < Math.max(source.getX(), destination.getX()); row++) {
+//                if (!(chessComponents[row][col] instanceof EmptySlotComponent)) {
+//                    return false;
+//                }
+//            }
+//        } else { // Not on the same row or the same column.
+//            return false;
+//        }
         return true;
     }
 
