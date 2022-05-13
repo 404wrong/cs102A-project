@@ -14,8 +14,8 @@ public class EmptySlotComponent extends ChessComponent {
     public EmptySlotComponent(ChessboardPoint chessboardPoint, Point location, ClickController listener, int size) {
         super(chessboardPoint, location, ChessColor.NONE, listener, size);
     }
-    public EmptySlotComponent(ChessboardPoint chessboardPoint){
-        super(chessboardPoint);
+    public EmptySlotComponent(ChessboardPoint chessboardPoint,ChessColor color){
+        super(chessboardPoint,color);
     }
     public void MoreInformation(Point location, ChessColor color, ClickController listener, int size) {
         super.MoreInformation(location, color, listener, size);
@@ -24,12 +24,10 @@ public class EmptySlotComponent extends ChessComponent {
     public boolean canMoveTo(ChessComponent[][] chessboard, ChessboardPoint destination) {
         return false;
     }
-
     @Override
     public void loadResource() throws IOException {
         //No resource!
     }
-
     @Override
     public char toChar(){
         return '_';

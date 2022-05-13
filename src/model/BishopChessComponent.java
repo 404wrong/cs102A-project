@@ -19,14 +19,12 @@ public class BishopChessComponent extends ChessComponent {
      */
     private static Image BISHOP_WHITE;
     private static Image BISHOP_BLACK;
-
     /**
-     * 车棋子对象自身的图片，是上面两种中的一种
+     * 象棋子对象自身的图片，是上面两种中的一种
      */
     private Image BishopImage;
-
     /**
-     * 读取加载车棋子的图片
+     * 读取加载象棋子的图片
      *
      * @throws IOException
      */
@@ -39,14 +37,11 @@ public class BishopChessComponent extends ChessComponent {
             BISHOP_BLACK = ImageIO.read(new File("./images/Bishop-black.png"));
         }
     }
-
-
     /**
      * 在构造棋子对象的时候，调用此方法以根据颜色确定BishopImage的图片是哪一种
      *
      * @param color 棋子颜色
      */
-
     private void initiateBishopImage(ChessColor color) {
         try {
             loadResource();
@@ -59,25 +54,26 @@ public class BishopChessComponent extends ChessComponent {
             e.printStackTrace();
         }
     }
-
+    /**
+     * 构造对象方法，第一行为原方法，第二行为重构方法，将原方法拆分成构造方法和get数据方法
+     */
     public BishopChessComponent(ChessboardPoint chessboardPoint, Point location, ChessColor color, ClickController listener, int size) {
         super(chessboardPoint, location, color, listener, size);
         initiateBishopImage(color);
     }
-    public BishopChessComponent(ChessboardPoint chessboardPoint){
-        super(chessboardPoint);
+    public BishopChessComponent(ChessboardPoint chessboardPoint,ChessColor color){
+        super(chessboardPoint,color);
     }
     public void MoreInformation(Point location, ChessColor color, ClickController listener, int size) {
         super.MoreInformation(location, color, listener, size);
         initiateBishopImage(color);
     }
-
     /**
-     * 车棋子的移动规则
+     * 象棋子的移动规则
      *
      * @param chessComponents 棋盘
      * @param destination     目标位置，如(0, 0), (0, 7)等等
-     * @return 车棋子移动的合法性
+     * @return 象棋子移动的合法性
      */
     @Override
     public boolean canMoveTo(ChessComponent[][] chessComponents, ChessboardPoint destination) {
@@ -103,6 +99,7 @@ public class BishopChessComponent extends ChessComponent {
         }
         return true;
     }
+    @Override
     public char toChar(){
         switch (chessColor){
             case WHITE:

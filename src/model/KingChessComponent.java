@@ -13,20 +13,18 @@ import java.io.IOException;
  */
 public class KingChessComponent extends ChessComponent {
     /**
-     * 黑车和白车的图片，static使得其可以被所有车对象共享
+     * 黑王和白王的图片，static使得其可以被所有王对象共享
      * <br>
      * FIXME: 需要特别注意此处加载的图片是没有背景底色的！！！
      */
     private static Image KING_WHITE;
     private static Image KING_BLACK;
-
     /**
-     * 车棋子对象自身的图片，是上面两种中的一种
+     * 王棋子对象自身的图片，是上面两种中的一种
      */
     private Image KingImage;
-
     /**
-     * 读取加载车棋子的图片
+     * 读取加载王棋子的图片
      *
      * @throws IOException
      */
@@ -39,14 +37,11 @@ public class KingChessComponent extends ChessComponent {
             KING_BLACK = ImageIO.read(new File("./images/King-black.png"));
         }
     }
-
-
     /**
      * 在构造棋子对象的时候，调用此方法以根据颜色确定KingImage的图片是哪一种
      *
      * @param color 棋子颜色
      */
-
     private void initiateKingImage(ChessColor color) {
         try {
             loadResource();
@@ -59,33 +54,27 @@ public class KingChessComponent extends ChessComponent {
             e.printStackTrace();
         }
     }
-
+    /**
+     * 构造对象方法，第一行为原方法，第二行为重构方法，将原方法拆分成构造方法和get数据方法
+     */
     public KingChessComponent(ChessboardPoint chessboardPoint, Point location, ChessColor color, ClickController listener, int size) {
         super(chessboardPoint, location, color, listener, size);
         initiateKingImage(color);
     }
-    public KingChessComponent(ChessboardPoint chessboardPoint){
-        super(chessboardPoint);
+    public KingChessComponent(ChessboardPoint chessboardPoint,ChessColor color){
+        super(chessboardPoint,color);
     }
     public void MoreInformation(Point location, ChessColor color, ClickController listener, int size) {
         super.MoreInformation(location, color, listener, size);
         initiateKingImage(color);
     }
-    public char toChar(){
-        switch (chessColor){
-            case WHITE:
-                return 'k';
-        }
-        return 'K';
-    }
     /**
-     * 车棋子的移动规则
+     * 王棋子的移动规则
      *
      * @param chessComponents 棋盘
      * @param destination     目标位置，如(0, 0), (0, 7)等等
-     * @return 车棋子移动的合法性
+     * @return 王棋子移动的合法性
      */
-
     @Override
     public boolean canMoveTo(ChessComponent[][] chessComponents, ChessboardPoint destination) {
         ChessboardPoint source = getChessboardPoint();
@@ -110,7 +99,14 @@ public class KingChessComponent extends ChessComponent {
         }
         return true;
     }
-
+    @Override
+    public char toChar(){
+        switch (chessColor){
+            case WHITE:
+                return 'k';
+        }
+        return 'K';
+    }
     /**
      * 注意这个方法，每当窗体受到了形状的变化，或者是通知要进行绘图的时候，就会调用这个方法进行画图。
      *

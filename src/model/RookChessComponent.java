@@ -19,12 +19,10 @@ public class RookChessComponent extends ChessComponent {
      */
     private static Image ROOK_WHITE;
     private static Image ROOK_BLACK;
-
     /**
      * 车棋子对象自身的图片，是上面两种中的一种
      */
     private Image rookImage;
-
     /**
      * 读取加载车棋子的图片
      *
@@ -39,14 +37,11 @@ public class RookChessComponent extends ChessComponent {
             ROOK_BLACK = ImageIO.read(new File("./images/rook-black.png"));
         }
     }
-
-
     /**
      * 在构造棋子对象的时候，调用此方法以根据颜色确定rookImage的图片是哪一种
      *
      * @param color 棋子颜色
      */
-
     private void initiateRookImage(ChessColor color) {
         try {
             loadResource();
@@ -59,28 +54,20 @@ public class RookChessComponent extends ChessComponent {
             e.printStackTrace();
         }
     }
-    @Override
-    public char toChar(){
-        switch (chessColor){
-            case WHITE:
-                return 'r';
-        }
-        return 'R';
-    }
-
-    public RookChessComponent(ChessboardPoint chessboardPoint,
-                              Point location, ChessColor color, ClickController listener, int size) {
+    /**
+     * 构造对象方法，第一行为原方法，第二行为重构方法，将原方法拆分成构造方法和get数据方法
+     */
+    public RookChessComponent(ChessboardPoint chessboardPoint, Point location, ChessColor color, ClickController listener, int size) {
         super(chessboardPoint, location, color, listener, size);
         initiateRookImage(color);
     }
-    public RookChessComponent(ChessboardPoint chessboardPoint){
-        super(chessboardPoint);
+    public RookChessComponent(ChessboardPoint chessboardPoint,ChessColor color){
+        super(chessboardPoint,color);
     }
     public void MoreInformation(Point location, ChessColor color, ClickController listener, int size) {
         super.MoreInformation(location, color, listener, size);
         initiateRookImage(color);
     }
-
     /**
      * 车棋子的移动规则
      *
@@ -88,7 +75,6 @@ public class RookChessComponent extends ChessComponent {
      * @param destination     目标位置，如(0, 0), (0, 7)等等
      * @return 车棋子移动的合法性
      */
-
     @Override
     public boolean canMoveTo(ChessComponent[][] chessComponents, ChessboardPoint destination) {
 //        ChessboardPoint source = getChessboardPoint();
@@ -113,7 +99,14 @@ public class RookChessComponent extends ChessComponent {
 //        }
         return true;
     }
-
+    @Override
+    public char toChar(){
+        switch (chessColor){
+            case WHITE:
+                return 'r';
+        }
+        return 'R';
+    }
     /**
      * 注意这个方法，每当窗体受到了形状的变化，或者是通知要进行绘图的时候，就会调用这个方法进行画图。
      *

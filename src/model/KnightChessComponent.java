@@ -13,20 +13,18 @@ import java.io.IOException;
  */
 public class KnightChessComponent extends ChessComponent {
     /**
-     * 黑车和白车的图片，static使得其可以被所有车对象共享
+     * 黑马和白马的图片，static使得其可以被所有马对象共享
      * <br>
      * FIXME: 需要特别注意此处加载的图片是没有背景底色的！！！
      */
     private static Image KNIGHT_WHITE;
     private static Image KNIGHT_BLACK;
-
     /**
-     * 车棋子对象自身的图片，是上面两种中的一种
+     * 马棋子对象自身的图片，是上面两种中的一种
      */
     private Image KnightImage;
-
     /**
-     * 读取加载车棋子的图片
+     * 读取加载马棋子的图片
      *
      * @throws IOException
      */
@@ -39,14 +37,11 @@ public class KnightChessComponent extends ChessComponent {
             KNIGHT_BLACK = ImageIO.read(new File("./images/Knight-black.png"));
         }
     }
-
-
     /**
      * 在构造棋子对象的时候，调用此方法以根据颜色确定KnightImage的图片是哪一种
      *
      * @param color 棋子颜色
      */
-
     private void initiateKnightImage(ChessColor color) {
         try {
             loadResource();
@@ -59,33 +54,27 @@ public class KnightChessComponent extends ChessComponent {
             e.printStackTrace();
         }
     }
-
+    /**
+     * 构造对象方法，第一行为原方法，第二行为重构方法，将原方法拆分成构造方法和get数据方法
+     */
     public KnightChessComponent(ChessboardPoint chessboardPoint, Point location, ChessColor color, ClickController listener, int size) {
         super(chessboardPoint, location, color, listener, size);
         initiateKnightImage(color);
     }
-    public KnightChessComponent(ChessboardPoint chessboardPoint){
-        super(chessboardPoint);
+    public KnightChessComponent(ChessboardPoint chessboardPoint,ChessColor color){
+        super(chessboardPoint,color);
     }
     public void MoreInformation(Point location, ChessColor color, ClickController listener, int size) {
         super.MoreInformation(location, color, listener, size);
         initiateKnightImage(color);
     }
-    public char toChar(){
-        switch (chessColor){
-            case WHITE:
-                return 'n';
-        }
-        return 'N';
-    }
     /**
-     * 车棋子的移动规则
+     * 马棋子的移动规则
      *
      * @param chessComponents 棋盘
      * @param destination     目标位置，如(0, 0), (0, 7)等等
-     * @return 车棋子移动的合法性
+     * @return 马棋子移动的合法性
      */
-
     @Override
     public boolean canMoveTo(ChessComponent[][] chessComponents, ChessboardPoint destination) {
         ChessboardPoint source = getChessboardPoint();
@@ -110,7 +99,14 @@ public class KnightChessComponent extends ChessComponent {
         }
         return true;
     }
-
+    @Override
+    public char toChar(){
+        switch (chessColor){
+            case WHITE:
+                return 'n';
+        }
+        return 'N';
+    }
     /**
      * 注意这个方法，每当窗体受到了形状的变化，或者是通知要进行绘图的时候，就会调用这个方法进行画图。
      *
