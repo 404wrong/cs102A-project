@@ -14,6 +14,8 @@ import java.io.IOException;
  * 当前有两个子类继承它，分别是EmptySlotComponent(空棋子)和RookChessComponent(车)。
  * <br>
  * ChessComponent[行][列]
+ * <br>
+ * todo:在每一个棋子中构造一个tostring方法，为棋子符号（大小写敏感）
  */
 public abstract class ChessComponent extends JComponent {
 

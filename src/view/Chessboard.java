@@ -1,6 +1,5 @@
 package view;
 
-
 import controller.ClickController;
 import controller.GameController;
 import model.*;
