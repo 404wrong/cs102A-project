@@ -124,4 +124,3 @@ public class BishopChessComponent extends ChessComponent {
         }
     }
 }
-

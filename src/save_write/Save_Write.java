@@ -59,49 +59,50 @@ public class Save_Write {
                 return false;
             ChessComponent[][] chessComponents = new ChessComponent[8][8];
             for (int j = 0; j < pieces.length() - 1; j++) {
+                int a=j/8;
+                int b=j%8;
                 switch (pieces.charAt(j)) {
                     case 'r' -> {
-                        chessComponents[j / 8][j % 8] = new RookChessComponent(new ChessboardPoint(j / 8, j % 8),ChessColor.WHITE);
+                        chessComponents[a][b] = new RookChessComponent(new ChessboardPoint(j / 8, j % 8),ChessColor.WHITE);
                     }
                     case 'n' -> {
-                        chessComponents[j / 8][j % 8] = new KnightChessComponent(new ChessboardPoint(j / 8, j % 8),ChessColor.WHITE);
+                        chessComponents[a][b] = new KnightChessComponent(new ChessboardPoint(j / 8, j % 8),ChessColor.WHITE);
                     }
                     case 'b' -> {
-                        chessComponents[j / 8][j % 8] = new BishopChessComponent(new ChessboardPoint(j / 8, j % 8),ChessColor.WHITE);
+                        chessComponents[a][b] = new BishopChessComponent(new ChessboardPoint(j / 8, j % 8),ChessColor.WHITE);
                     }
                     case 'q' -> {
-                        chessComponents[j / 8][j % 8] = new QueenChessComponent(new ChessboardPoint(j / 8, j % 8),ChessColor.WHITE);
+                        chessComponents[a][b] = new QueenChessComponent(new ChessboardPoint(j / 8, j % 8),ChessColor.WHITE);
                     }
                     case 'k' -> {
-                        chessComponents[j / 8][j % 8] = new KingChessComponent(new ChessboardPoint(j / 8, j % 8),ChessColor.WHITE);
+                        chessComponents[a][b] = new KingChessComponent(new ChessboardPoint(j / 8, j % 8),ChessColor.WHITE);
                     }
                     case 'p' -> {
-                        chessComponents[j / 8][j % 8] = new PawnChessComponent(new ChessboardPoint(j / 8, j % 8),ChessColor.WHITE);
+                        chessComponents[a][b] = new PawnChessComponent(new ChessboardPoint(j / 8, j % 8),ChessColor.WHITE);
                     }
                     case 'R' -> {
-                        chessComponents[j / 8][j % 8] = new RookChessComponent(new ChessboardPoint(j / 8, j % 8),ChessColor.BLACK);
+                        chessComponents[a][b] = new RookChessComponent(new ChessboardPoint(j / 8, j % 8),ChessColor.BLACK);
                     }
                     case 'N' -> {
-                        chessComponents[j / 8][j % 8] = new KnightChessComponent(new ChessboardPoint(j / 8, j % 8),ChessColor.BLACK);
+                        chessComponents[a][b] = new KnightChessComponent(new ChessboardPoint(j / 8, j % 8),ChessColor.BLACK);
                     }
                     case 'B' -> {
-                        chessComponents[j / 8][j % 8] = new BishopChessComponent(new ChessboardPoint(j / 8, j % 8),ChessColor.BLACK);
+                        chessComponents[a][b] = new BishopChessComponent(new ChessboardPoint(j / 8, j % 8),ChessColor.BLACK);
                     }
                     case 'Q' -> {
-                        chessComponents[j / 8][j % 8] = new QueenChessComponent(new ChessboardPoint(j / 8, j % 8),ChessColor.BLACK);
+                        chessComponents[a][b] = new QueenChessComponent(new ChessboardPoint(j / 8, j % 8),ChessColor.BLACK);
                     }
                     case 'K' -> {
-                        chessComponents[j / 8][j % 8] = new KingChessComponent(new ChessboardPoint(j / 8, j % 8),ChessColor.BLACK);
+                        chessComponents[a][b] = new KingChessComponent(new ChessboardPoint(j / 8, j % 8),ChessColor.BLACK);
                     }
                     case 'P' -> {
-                        chessComponents[j / 8][j % 8] = new PawnChessComponent(new ChessboardPoint(j / 8, j % 8),ChessColor.BLACK);
+                        chessComponents[a][b] = new PawnChessComponent(new ChessboardPoint(j / 8, j % 8),ChessColor.BLACK);
                     }
                     case '_'->{
-                        chessComponents[j / 8][j % 8] = new EmptySlotComponent(new ChessboardPoint(j / 8, j % 8),ChessColor.NONE);
+                        chessComponents[a][b] = new EmptySlotComponent(new ChessboardPoint(j / 8, j % 8),ChessColor.NONE);
                     }
                 }
-                store.add(chessComponents);
-            }
+            }store.add(chessComponents);
             switch (pieces.charAt(64)) {
                 case 'w' -> currentColor.add(ChessColor.WHITE);
                 case 'b' -> currentColor.add(ChessColor.BLACK);
@@ -115,7 +116,6 @@ public class Save_Write {
     }
 
     public List<String> convertToList(ArrayList<ChessComponent[][]> store) {
-        currentColor = new ArrayList<>();
         List<String> lines = new ArrayList<>();
         int lengths = store.size();
         for (int i = 0; i < lengths; i++) {
@@ -127,6 +127,7 @@ public class Save_Write {
             }
             sb.append(currentColor.get(i).toChar());
             lines.add(sb.toString());
+            lines.add("\n");
         }
         ///  lines.add(String.valueOf(String.join("", lines).hashCode()));
         return lines;
@@ -137,8 +138,7 @@ public class Save_Write {
             FileWriter fileWriter = new FileWriter(path);
             BufferedWriter writer = new BufferedWriter(fileWriter);
             List<String> lines = this.convertToList(store);
-            for (String line : lines
-            ) {
+            for (String line : lines) {
                 writer.write(line);
             }
             writer.close();

@@ -2,6 +2,7 @@ package view;
 
 
 import controller.ClickController;
+import controller.GameController;
 import model.*;
 import save_write.Save_Write;
 
@@ -21,9 +22,9 @@ public class Chessboard extends JComponent {
      * chessboard: 表示8 * 8的棋盘<br>
      * currentColor: 当前行棋方
      */
-    private ArrayList<ChessComponent[][]> store =new ArrayList<>();
-
-    private ChessComponent[][] chessComponents = new ChessComponent[8][8];
+    private ArrayList<ChessComponent[][]> store;
+private ArrayList<ChessColor> currentColors;
+    private ChessComponent[][] chessComponents;
     private ChessColor currentColor = ChessColor.BLACK;
     //all chessComponents in this chessboard are shared only one model controller
     private final ClickController clickController = new ClickController(this);
@@ -33,51 +34,61 @@ public class Chessboard extends JComponent {
         this.CHESS_SIZE = width / 8;
     }
 
+
     /**
-     * @param width
-     * @param height
-     * @param path
+     * 该构造方法已重写，如要导入空棋盘请path导入无目标地址或“resource/save1.txt”<br>
+     * todo：错误文件识别<br>
+     * 在这个构造方法中导入了当前棋盘，全部棋盘（历史棋盘）（通过历史棋盘处理回放）<br>
+     * 初始化了：store<br>
+     *         chessComponents<br>
      */
-    public Chessboard(int width, int height,String path) {
+    public Chessboard(int width, int height, String path) {
         setLayout(null); // Use absolute layout.
         setSize(width, height);
         CHESS_SIZE = width / 8;
         System.out.printf("chessboard size = %d, chess size = %d\n", width, CHESS_SIZE);
 
-        Save_Write a=new Save_Write();
-        if(!a.convertToChessboard(a.readFileByFileReader(path))){
-            if (!a.convertToChessboard(a.readFileByFileReader("resource/save1.txt"))){
-                a.writeFileByFileWriter("resource/save1.txt", new ArrayList<String>(){{add("RNBQKBNRPPPPPPPP________________________________pppppppprnbqkbnrw");}});
+        Save_Write a = new Save_Write();
+        if (!a.convertToChessboard(a.readFileByFileReader(path))) {
+            if (!a.convertToChessboard(a.readFileByFileReader("resource/save1.txt"))) {
+                a.writeFileByFileWriter("resource/save1.txt", new ArrayList<String>() {{
+                    add("RNBQKBNRPPPPPPPP________________________________pppppppprnbqkbnrw");
+                }});
                 a.convertToChessboard(a.readFileByFileReader("resource/save1.txt"));
             }
         }
-        store=a.getStore();
-        chessComponents=store.get(store.size()-1);
+        store = a.getStore();
+        currentColors=a.getCurrentColor();
+        chessComponents = copyChessComponent(store.get(store.size() - 1));
 
         for (int row = 0; row < 8; row++) {
             for (int col = 0; col < 8; col++) {
-                initOnBoard(row,col,chessComponents[row][col]);
+                initOnBoard(row, col, chessComponents[row][col]);
             }
         }
     }
 
+    /**
+     * 获取当前棋盘
+     */
     public ChessComponent[][] getChessComponents() {
         return chessComponents;
     }
 
+    /**
+     * 获取当前执棋方颜色
+     */
     public ChessColor getCurrentColor() {
         return currentColor;
     }
 
-    public void putChessOnBoard(ChessComponent chessComponent) {
-        int row = chessComponent.getChessboardPoint().getX(), col = chessComponent.getChessboardPoint().getY();
-
-        if (chessComponents[row][col] != null) {
-            remove(chessComponents[row][col]);
-        }
-        add(chessComponents[row][col] = chessComponent);
-    }
-
+    /**
+     * 移动棋子的具体实现
+     * todo：//改变这个方法或内部引用//
+     *
+     * @param chess1
+     * @param chess2
+     */
     public void swapChessComponents(ChessComponent chess1, ChessComponent chess2) {
         // Note that chess1 has higher priority, 'destroys' chess2 if exists.
         if (!(chess2 instanceof EmptySlotComponent)) {
@@ -92,30 +103,46 @@ public class Chessboard extends JComponent {
 
         chess1.repaint();
         chess2.repaint();
+        store.add(copyChessComponent(chessComponents));
     }
 
-//换人
+    /**
+     * 换人
+     */
     public void swapColor() {
         currentColor = currentColor == ChessColor.BLACK ? ChessColor.WHITE : ChessColor.BLACK;
+        currentColors.add(currentColor);
     }
 
     /**
      * 将棋子加入棋盘
-     * @param row
-     * @param col
-     * @param chessComponent
      */
-    private void initOnBoard(int row, int col,ChessComponent chessComponent) {
-        chessComponent.MoreInformation(calculatePoint(row, col),chessComponent.getChessColor(), clickController, CHESS_SIZE);
+    private void initOnBoard(int row, int col, ChessComponent chessComponent) {
+        chessComponent.MoreInformation(calculatePoint(row, col), chessComponent.getChessColor(), clickController, CHESS_SIZE);
         chessComponent.setVisible(true);
         putChessOnBoard(chessComponent);
     }
 
+    /**
+     * 将棋子放在棋盘上的具体实现，在上一个方法中实现
+     */
+    public void putChessOnBoard(ChessComponent chessComponent) {
+        int row = chessComponent.getChessboardPoint().getX(), col = chessComponent.getChessboardPoint().getY();
+
+        if (chessComponents[row][col] != null) {
+            remove(chessComponents[row][col]);
+        }
+        add(chessComponents[row][col] = chessComponent);
+    }
+
+    /**
+     * 我也不知道是咋实现的所以不要改<br>
+     * 画图，在ChessComponent中用于画棋子底色，棋子图片<br>
+     */
     @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
-        ((Graphics2D) g).setRenderingHint(RenderingHints.KEY_ANTIALIASING,
-                RenderingHints.VALUE_ANTIALIAS_ON);
+        ((Graphics2D) g).setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
     }
 
     /**
@@ -125,7 +152,29 @@ public class Chessboard extends JComponent {
         return new Point(col * CHESS_SIZE, row * CHESS_SIZE);
     }
 
-    public void loadGame(List<String> chessData) {
-        chessData.forEach(System.out::println);
+    private ChessComponent[][] copyChessComponent(ChessComponent[][] cc) {
+        ChessComponent[][] cC = new ChessComponent[8][8];
+        for (int i = 0; i < 8; i++) {
+            for (int j = 0; j < 8; j++) {
+                cC[i][j] = cc[i][j];
+            }
+        }
+        return cC;
+    }
+
+    public ArrayList<ChessComponent[][]> getStore() {
+        return store;
+    }
+
+    public void setStore(ArrayList<ChessComponent[][]> store) {
+        this.store = store;
+    }
+
+    public ArrayList<ChessColor> getCurrentColors() {
+        return currentColors;
+    }
+
+    public void setCurrentColors(ArrayList<ChessColor> currentColors) {
+        this.currentColors = currentColors;
     }
 }

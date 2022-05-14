@@ -1,6 +1,9 @@
 package view;
 
+//import controller.GameController;
+
 import controller.GameController;
+import save_write.Save_Write;
 
 import javax.swing.*;
 import java.awt.*;
@@ -15,7 +18,7 @@ public class ChessGameFrame extends JFrame {
     private final int WIDTH;
     private final int HEIGTH;
     public final int CHESSBOARD_SIZE;
-    private GameController gameController;
+//    private GameController gameController;
 
     public ChessGameFrame(int width, int height) {
         setTitle("2022 CS102A Project Demo"); //设置标题
@@ -31,6 +34,7 @@ public class ChessGameFrame extends JFrame {
         addLabel();
         addHelloButton();
         addLoadButton();
+        addssaveButton();
     }
 
 
@@ -38,10 +42,8 @@ public class ChessGameFrame extends JFrame {
      * 在游戏面板中添加棋盘
      */
     private void addChessboard() {
-        Chessboard chessboard = new Chessboard(CHESSBOARD_SIZE, CHESSBOARD_SIZE
-                ,"resource/save1.txt"
-        );
-        gameController = new GameController(chessboard);
+        Chessboard chessboard = new Chessboard(CHESSBOARD_SIZE,CHESSBOARD_SIZE,"resource/save1.txt");
+        GameController.setChessboard(chessboard);
         chessboard.setLocation(HEIGTH / 10, HEIGTH / 10);
         add(chessboard);
     }
@@ -63,8 +65,7 @@ public class ChessGameFrame extends JFrame {
 
     private void addHelloButton() {
         JButton button = new JButton("Show Hello Here");
-        button.addActionListener((e) -> JOptionPane.showMessageDialog(
-                this, "Hello, world!"));
+        button.addActionListener((e) -> JOptionPane.showMessageDialog(this, "Hello, world!"));
         button.setLocation(HEIGTH, HEIGTH / 10 + 120);
         button.setSize(200, 60);
         button.setFont(new Font("Rockwell", Font.BOLD, 20));
@@ -81,7 +82,35 @@ public class ChessGameFrame extends JFrame {
         button.addActionListener(e -> {
             System.out.println("Click load");
             String path = JOptionPane.showInputDialog(this,"Input Path here");
-            gameController.loadGameFromFile(path);
+            remove(GameController.getChessboard());
+            GameController.setChessboard(new Chessboard(CHESSBOARD_SIZE,CHESSBOARD_SIZE,path));
+            GameController.getChessboard().setLocation(HEIGTH / 10, HEIGTH / 10);
+            add(GameController.getChessboard());
+            GameController.getChessboard().repaint();
         });
+    }
+
+    /**
+     * 增加保存按钮<br>
+     * todo:save
+     */
+    private void addssaveButton(){
+
+        JButton button = new JButton("Save");
+        button.setLocation(HEIGTH, HEIGTH / 10 + 300);
+        button.setSize(200, 60);
+        button.setFont(new Font("Rockwell", Font.BOLD, 20));
+        add(button);
+
+        button.addActionListener(e -> {
+            System.out.println("Click save");
+            String path = JOptionPane.showInputDialog(this,"Input Path here");
+            Save_Write sW=new Save_Write();
+            sW.setStore(GameController.getChessboard().getStore());
+            sW.setCurrentColor(GameController.getChessboard().getCurrentColors());
+            sW.writeFileByFileWriter(path,sW.convertToList(sW.getStore()));
+//todo
+        });
+
     }
 }
