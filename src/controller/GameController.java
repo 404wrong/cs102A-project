@@ -2,7 +2,9 @@ package controller;
 
 import view.ChessGameFrame;
 import view.Chessboard;
+import view.FunctionFrame;
 
+import java.io.FileFilter;
 import java.util.HashMap;
 //todo:输赢棋增加减少，排名
 public class GameController {
@@ -12,6 +14,24 @@ public class GameController {
     private static String user2;
     private static ChessGameFrame chessGameFrame;
     private static int error;
+    private static FunctionFrame functionFrame;
+    private static int functionFrameExist=0;
+
+    public static int getFunctionFrameExist() {
+        return functionFrameExist;
+    }
+
+    public static void setFunctionFrameExist(int functionFrameExist) {
+        GameController.functionFrameExist = functionFrameExist;
+    }
+
+    public static FunctionFrame getFunctionFrame() {
+        return functionFrame;
+    }
+
+    public static void setFunctionFrame(FunctionFrame functionFrame) {
+        GameController.functionFrame = functionFrame;
+    }
 
     public static int getError() {
         return error;

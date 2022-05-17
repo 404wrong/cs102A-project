@@ -34,6 +34,9 @@ public class ChessGameFrame extends JFrame {
         setLocationRelativeTo(null); // Center the window.
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE); //设置程序关闭按键，如果点击右上方的叉就游戏全部关闭了
         setLayout(null);
+
+
+
         addChessboard();
         addLabel();
         addHelloButton();
@@ -42,8 +45,20 @@ public class ChessGameFrame extends JFrame {
         addGamer();
         addResetButton();
         addRepentButton();
-    }
+        GameController.setChessGameFrame(this);
 
+        //加入背景图片
+        ImageIcon img = new ImageIcon("backGroundImages/MainFrame2/gameBackground2.jpg");//这是背景图片
+        img.setImage(img.getImage().getScaledInstance(width, height,Image.SCALE_DEFAULT ));
+        JLabel imgLabel = new JLabel(img);//将背景图放在标签里。
+        getLayeredPane().add(imgLabel, new Integer(Integer.MIN_VALUE));//注意这里是关键，将背景标签添加到jfram的LayeredPane面板里。
+        imgLabel.setBounds(0,0,WIDTH,HEIGTH);//设置背景标签的位置
+        Container cp=getContentPane();
+        cp.setLayout(new BorderLayout());
+        ((JPanel)cp).setOpaque(false);
+
+        setVisible(true);
+    }
 
     /**
      * 在游戏面板中添加棋盘
@@ -64,7 +79,6 @@ public class ChessGameFrame extends JFrame {
         statusLabel.setSize(200, 60);
         statusLabel.setFont(new Font("Rockwell", Font.BOLD, 20));
         add(statusLabel);
-        GameController.setChessGameFrame(this);
     }
 
     public void addGamer() {
@@ -117,7 +131,7 @@ public class ChessGameFrame extends JFrame {
                 GameController.getChessboard().setLocation(HEIGTH / 10, HEIGTH / 10);
                 add(GameController.getChessboard());
                 GameController.getChessboard().repaint();
-            }catch (Exception a){
+            } catch (Exception a) {
                 a.printStackTrace();
             }
         });
@@ -158,8 +172,8 @@ public class ChessGameFrame extends JFrame {
             System.out.println("Click repent");
             remove(GameController.getChessboard());
             GameController.getChessboard().repentChess();
-           //todo:异常处理
-            String path =  "resource/save2.txt";
+            //todo:异常处理
+            String path = "resource/save2.txt";
             Save_Write sW = new Save_Write();
             sW.setStore(GameController.getChessboard().getStore());
             sW.setCurrentColor(GameController.getChessboard().getCurrentColors());

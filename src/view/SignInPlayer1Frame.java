@@ -6,25 +6,37 @@ import javax.swing.*;
 import java.awt.*;
 
 
-public class SignInFrame extends JFrame {
+public class SignInPlayer1Frame extends JFrame {
     private int WIDTH;
     private int HEIGTH;
-    ChessGameFrame mainFrame;
+    FunctionFrame functionFrame;
 
-    public SignInFrame(int width, int height) {
+    public SignInPlayer1Frame(int width, int height) {
         setTitle("SignIn");
         this.WIDTH = width;
         this.HEIGTH = height;
         UserController uc = new UserController("resource/user.txt");
         GameController.setUserController(uc);
 
+        //加入背景图片
+        ImageIcon img = new ImageIcon("backGroundImages/MainFrame2/gameBackground2.jpg");//这是背景图片
+        img.setImage(img.getImage().getScaledInstance(width, height,Image.SCALE_DEFAULT ));
+        JLabel imgLabel = new JLabel(img);//将背景图放在标签里。
+        getLayeredPane().add(imgLabel, new Integer(Integer.MIN_VALUE));//注意这里是关键，将背景标签添加到jfram的LayeredPane面板里。
+        imgLabel.setBounds(0,0,WIDTH,HEIGTH);//设置背景标签的位置
+        Container cp=getContentPane();
+        cp.setLayout(new BorderLayout());
+        ((JPanel)cp).setOpaque(false);
+
         JLabel name = new JLabel("Name");
+        name.setForeground(new Color(255,255,255));
         name.setLocation(WIDTH / 2 - 150, 0);
         name.setSize(50, 20);
         name.setFont(new Font("Rockwell", Font.BOLD, 15));
         add(name);
 
         JLabel password = new JLabel("Password");
+        password.setForeground(new Color(255,255,255));
         password.setLocation(WIDTH / 2 - 150, HEIGTH * 2 / 5);
         password.setSize(100, 20);
         password.setFont(new Font("Rockwell", Font.BOLD, 15));
@@ -58,9 +70,9 @@ public class SignInFrame extends JFrame {
             switch (uc.hasThisUser(Name.getText(), String.valueOf(Password.getText().hashCode()))) {
                 case 1:
                     GameController.setUser1(Name.getText());
-                    mainFrame = new ChessGameFrame(1000, 760);
+                    functionFrame = new FunctionFrame(200, 300);
                     this.setVisible(false);
-                    mainFrame.setVisible(true);
+                    functionFrame.setVisible(true);
                     break;
                 case -1:
                     JOptionPane.showMessageDialog(null, "The user or the password is wrong!","error",JOptionPane.ERROR_MESSAGE);
@@ -70,9 +82,9 @@ public class SignInFrame extends JFrame {
                     if (newUser==0){
                         GameController.setUser1(Name.getText());
                         uc.addThisUser(Name.getText(),String.valueOf(Password.getText().hashCode()),"resource/user.txt");
-                        mainFrame = new ChessGameFrame(1000, 760);
+                        functionFrame = new FunctionFrame(200, 300);
                         this.setVisible(false);
-                        mainFrame.setVisible(true);
+                        functionFrame.setVisible(true);
                         break;
                     }break;
             }
