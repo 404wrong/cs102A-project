@@ -2,8 +2,10 @@ package model;
 
 import controller.ClickController;
 import view.ChessboardPoint;
+import view.TransparentButton;
 
 import javax.imageio.ImageIO;
+import javax.swing.*;
 import java.awt.*;
 import java.io.File;
 import java.io.IOException;
@@ -19,6 +21,7 @@ public class PawnChessComponent extends ChessComponent {
      */
     private static Image PAWN_WHITE;
     private static Image PAWN_BLACK;
+    private static Image white;
     /**
      * 兵棋子对象自身的图片，是上面两种中的一种
      */
@@ -35,6 +38,9 @@ public class PawnChessComponent extends ChessComponent {
 
         if (PAWN_BLACK == null) {
             PAWN_BLACK = ImageIO.read(new File("./images/Pawn-black.png"));
+        }
+        if (white == null) {
+            white = ImageIO.read(new File("purewhite/50.png"));
         }
     }
     /**
@@ -119,8 +125,7 @@ public class PawnChessComponent extends ChessComponent {
         g.drawImage(PawnImage, 0, 0, getWidth() , getHeight(), this);
         g.setColor(Color.BLACK);
         if (isSelected()) { // Highlights the model if selected.
-            g.setColor(Color.RED);
-            g.drawOval(0, 0, getWidth() , getHeight());
+            g.drawImage(white, 0, 0, getWidth() , getHeight(), this);
         }
     }
 }

@@ -19,6 +19,8 @@ public class KingChessComponent extends ChessComponent {
      */
     private static Image KING_WHITE;
     private static Image KING_BLACK;
+    private static Image white;
+
     /**
      * 王棋子对象自身的图片，是上面两种中的一种
      */
@@ -35,6 +37,9 @@ public class KingChessComponent extends ChessComponent {
 
         if (KING_BLACK == null) {
             KING_BLACK = ImageIO.read(new File("./images/King-black.png"));
+        }
+        if (white == null) {
+            white = ImageIO.read(new File("purewhite/50.png"));
         }
     }
     /**
@@ -119,8 +124,7 @@ public class KingChessComponent extends ChessComponent {
         g.drawImage(KingImage, 0, 0, getWidth() , getHeight(), this);
         g.setColor(Color.BLACK);
         if (isSelected()) { // Highlights the model if selected.
-            g.setColor(Color.RED);
-            g.drawOval(0, 0, getWidth() , getHeight());
+            g.drawImage(white, 0, 0, getWidth() , getHeight(), this);
         }
     }
 }

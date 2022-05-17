@@ -19,6 +19,8 @@ public class RookChessComponent extends ChessComponent {
      */
     private static Image ROOK_WHITE;
     private static Image ROOK_BLACK;
+    private static Image white;
+
     /**
      * 车棋子对象自身的图片，是上面两种中的一种
      */
@@ -35,6 +37,9 @@ public class RookChessComponent extends ChessComponent {
 
         if (ROOK_BLACK == null) {
             ROOK_BLACK = ImageIO.read(new File("./images/rook-black.png"));
+        }
+        if (white == null) {
+            white = ImageIO.read(new File("purewhite/50.png"));
         }
     }
     /**
@@ -119,8 +124,7 @@ public class RookChessComponent extends ChessComponent {
         g.drawImage(rookImage, 0, 0, getWidth() , getHeight(), this);
         g.setColor(Color.BLACK);
         if (isSelected()) { // Highlights the model if selected.
-            g.setColor(Color.RED);
-            g.drawOval(0, 0, getWidth() , getHeight());
+            g.drawImage(white, 0, 0, getWidth() , getHeight(), this);
         }
     }
 }

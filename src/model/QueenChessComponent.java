@@ -19,10 +19,13 @@ public class QueenChessComponent extends ChessComponent {
      */
     private static Image QUEEN_WHITE;
     private static Image QUEEN_BLACK;
+    private static Image white;
+
     /**
      * 后棋子对象自身的图片，是上面两种中的一种
      */
     private Image QueenImage;
+
     /**
      * 读取加载后棋子的图片
      *
@@ -36,7 +39,11 @@ public class QueenChessComponent extends ChessComponent {
         if (QUEEN_BLACK == null) {
             QUEEN_BLACK = ImageIO.read(new File("./images/Queen-black.png"));
         }
+        if (white == null) {
+            white = ImageIO.read(new File("purewhite/50.png"));
+        }
     }
+
     /**
      * 在构造棋子对象的时候，调用此方法以根据颜色确定QueenImage的图片是哪一种
      *
@@ -54,6 +61,7 @@ public class QueenChessComponent extends ChessComponent {
             e.printStackTrace();
         }
     }
+
     /**
      * 构造对象方法，第一行为原方法，第二行为重构方法，将原方法拆分成构造方法和get数据方法
      */
@@ -61,14 +69,17 @@ public class QueenChessComponent extends ChessComponent {
         super(chessboardPoint, location, color, listener, size);
         initiateQueenImage(color);
     }
-    public QueenChessComponent(ChessboardPoint chessboardPoint,ChessColor color){
-        super(chessboardPoint,color);
+
+    public QueenChessComponent(ChessboardPoint chessboardPoint, ChessColor color) {
+        super(chessboardPoint, color);
     }
+
     public void MoreInformation(Point location, ChessColor color, ClickController listener, int size) {
         super.MoreInformation(location, color, listener, size);
         initiateQueenImage(color);
     }
-       /**
+
+    /**
      * 后棋子的移动规则
      *
      * @param chessComponents 棋盘
@@ -99,14 +110,16 @@ public class QueenChessComponent extends ChessComponent {
         }
         return true;
     }
+
     @Override
-    public char toChar(){
-        switch (chessColor){
+    public char toChar() {
+        switch (chessColor) {
             case WHITE:
                 return 'q';
         }
         return 'Q';
     }
+
     /**
      * 注意这个方法，每当窗体受到了形状的变化，或者是通知要进行绘图的时候，就会调用这个方法进行画图。
      *
@@ -116,11 +129,10 @@ public class QueenChessComponent extends ChessComponent {
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
 //        g.drawImage(QueenImage, 0, 0, getWidth() - 13, getHeight() - 20, this);
-        g.drawImage(QueenImage, 0, 0, getWidth() , getHeight(), this);
+        g.drawImage(QueenImage, 0, 0, getWidth(), getHeight(), this);
         g.setColor(Color.BLACK);
         if (isSelected()) { // Highlights the model if selected.
-            g.setColor(Color.RED);
-            g.drawOval(0, 0, getWidth() , getHeight());
+            g.drawImage(white, 0, 0, getWidth(), getHeight(), this);
         }
     }
 }

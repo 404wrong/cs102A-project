@@ -21,6 +21,10 @@ public class Chessboard extends JComponent {
      * chessboard: 表示8 * 8的棋盘<br>
      * currentColor: 当前行棋方
      */
+    private static final Icon defaultIcon=new ImageIcon("images/white-0%.png");
+    private static final Icon pressedIcon=new ImageIcon("images/white-25%.png");
+    private static final Icon rolloverIcon=new ImageIcon("images/white-25%.png");
+
     private ArrayList<ChessComponent[][]> store;
 private ArrayList<ChessColor> currentColors;
     private ChessComponent[][] chessComponents;
@@ -31,6 +35,20 @@ private ArrayList<ChessColor> currentColors;
 
     public void setCHESS_SIZE(int width) {
         this.CHESS_SIZE = width / 8;
+    }
+
+    public void addWhiteButton(){
+        JButton a=new JButton();
+        a.setEnabled(true);
+        a.setIcon(defaultIcon);
+        a.setPressedIcon(pressedIcon);
+        a.setRolloverIcon(rolloverIcon);
+        a.setBorderPainted(false);
+        a.setContentAreaFilled(false);
+        a.setFocusPainted(false);
+        a.setMargin(new Insets(0,0,0,0));
+        a.setRolloverSelectedIcon(pressedIcon);
+        a.setSelectedIcon(defaultIcon);
     }
 
 
@@ -64,6 +82,7 @@ private ArrayList<ChessColor> currentColors;
                 initOnBoard(row, col, chessComponents[row][col]);
             }
         }
+
     }
 
     /**

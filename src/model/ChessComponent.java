@@ -2,6 +2,7 @@ package model;
 
 import view.ChessboardPoint;
 import controller.ClickController;
+import view.TransparentButton;
 
 import javax.swing.*;
 import java.awt.*;
@@ -18,22 +19,6 @@ import java.io.IOException;
  * todo:在每一个棋子中构造一个tostring方法，为棋子符号（大小写敏感）
  */
 public abstract class ChessComponent extends JComponent {
-
-    /**
-     * CHESSGRID_SIZE: 主要用于确定每个棋子在页面中显示的大小。
-     * <br>
-     * 在这个设计中，每个棋子的图案是用图片画出来的（由于国际象棋那个棋子手动画太难了）
-     * <br>
-     * 因此每个棋子占用的形状是一个正方形，大小是50*50
-     */
-
-//    private static final Dimension CHESSGRID_SIZE = new Dimension(1080 / 4 * 3 / 8, 1080 / 4 * 3 / 8);
-    private static final Color[] BACKGROUND_COLORS = {new Color(255,255,255,150), new Color(0,0,0,150)};
-    /**
-     * handle click event
-     */
-    private ClickController clickController;
-
     /**
      * chessboardPoint: 表示8*8棋盘中，当前棋子在棋格对应的位置，如(0, 0), (1, 0), (0, 7),(7, 7)等等
      * <br>
@@ -45,6 +30,24 @@ public abstract class ChessComponent extends JComponent {
     protected ChessColor chessColor;
     private boolean selected;
 
+    /**
+     * CHESSGRID_SIZE: 主要用于确定每个棋子在页面中显示的大小。
+     * <br>
+     * 在这个设计中，每个棋子的图案是用图片画出来的（由于国际象棋那个棋子手动画太难了）
+     * <br>
+     * 因此每个棋子占用的形状是一个正方形，大小是50*50
+     */
+
+//    private static final Dimension CHESSGRID_SIZE = new Dimension(1080 / 4 * 3 / 8, 1080 / 4 * 3 / 8);
+    private static final Color[] BACKGROUND_COLORS =
+            {new Color(255,255,255,200), new Color(255,192,203,200)};
+
+    /**
+     * handle click event
+     */
+    private ClickController clickController;
+
+
     protected ChessComponent(ChessboardPoint chessboardPoint, Point location,
                              ChessColor chessColor, ClickController clickController, int size) {
         enableEvents(AWTEvent.MOUSE_EVENT_MASK);
@@ -54,6 +57,14 @@ public abstract class ChessComponent extends JComponent {
         this.chessColor = chessColor;
         this.selected = false;
         this.clickController = clickController;
+        JButton jb=new TransparentButton(0,1,2,2);
+        jb.setLocation(0,0);
+        jb.setSize(size,size);
+        jb.addActionListener(e->{
+            System.out.printf("Click [%d,%d]\n", chessboardPoint.getX(), chessboardPoint.getY());
+            clickController.onClick(this);
+        });
+        add(jb);
     }
 
     protected ChessComponent(ChessboardPoint chessboardPoint,ChessColor color){
@@ -69,6 +80,14 @@ public abstract class ChessComponent extends JComponent {
         this.chessColor = chessColor;
         this.selected = false;
         this.clickController = clickController;
+        JButton jb=new TransparentButton(0,1,2,2);
+        jb.setLocation(0,0);
+        jb.setSize(size,size);
+        jb.addActionListener(e->{
+            System.out.printf("Click [%d,%d]\n", chessboardPoint.getX(), chessboardPoint.getY());
+            clickController.onClick(this);
+        });
+        add(jb);
     }
 
     public ChessboardPoint getChessboardPoint() {

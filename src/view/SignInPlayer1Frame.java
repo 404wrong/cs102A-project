@@ -59,7 +59,7 @@ public class SignInPlayer1Frame extends JFrame {
         Password.setFont(new Font("Rockwell", Font.BOLD, 20));
         add(Password);
 
-        JButton signIn = new JButton("SignIn");
+        JButton signIn =new JButton("SignIn");
         signIn.setLocation(WIDTH / 2 - 50, HEIGTH * 3 / 5);
         signIn.setSize(100, 20);
         signIn.setFont(new Font("Rockwell", Font.BOLD, 20));
