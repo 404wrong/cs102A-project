@@ -24,7 +24,7 @@ public class Chessboard extends JComponent {
     private ArrayList<ChessComponent[][]> store;
 private ArrayList<ChessColor> currentColors;
     private ChessComponent[][] chessComponents;
-    private ChessColor currentColor = ChessColor.BLACK;
+    private ChessColor currentColor;
     //all chessComponents in this chessboard are shared only one model controller
     private final ClickController clickController = new ClickController(this);
     private int CHESS_SIZE;
@@ -50,15 +50,14 @@ private ArrayList<ChessColor> currentColors;
         Save_Write a = new Save_Write();
         if (!a.convertToChessboard(a.readFileByFileReader(path))) {
             if (!a.convertToChessboard(a.readFileByFileReader("resource/save1.txt"))) {
-                a.writeFileByFileWriter("resource/save1.txt", new ArrayList<String>() {{
-                    add("RNBQKBNRPPPPPPPP________________________________pppppppprnbqkbnrw");
-                }});
+                a.writeFileByFileWriter("resource/save1.txt", new ArrayList<String>() {{add("RNBQKBNRPPPPPPPP________________________________pppppppprnbqkbnrw");}});
                 a.convertToChessboard(a.readFileByFileReader("resource/save1.txt"));
             }
         }
         store = a.getStore();
         currentColors=a.getCurrentColor();
         chessComponents = copyChessComponent(store.get(store.size() - 1));
+        currentColor=currentColors.get(currentColors.size()-1);
 
         for (int row = 0; row < 8; row++) {
             for (int col = 0; col < 8; col++) {
@@ -72,6 +71,11 @@ private ArrayList<ChessColor> currentColors;
      */
     public ChessComponent[][] getChessComponents() {
         return chessComponents;
+    }
+
+    public void repentChess(){
+        store.remove(store.size()-1);
+        currentColors.remove(currentColors.size()-1);
     }
 
     /**
@@ -111,6 +115,8 @@ private ArrayList<ChessColor> currentColors;
     public void swapColor() {
         currentColor = currentColor == ChessColor.BLACK ? ChessColor.WHITE : ChessColor.BLACK;
         currentColors.add(currentColor);
+        GameController.getChessGameFrame().removeGamer();
+        GameController.getChessGameFrame().addGamer();
     }
 
     /**

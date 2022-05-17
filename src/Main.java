@@ -1,12 +1,13 @@
 import view.ChessGameFrame;
+import view.SignInFrame;
 
 import javax.swing.*;
 
 public class Main {
     public static void main(String[] args) {
         SwingUtilities.invokeLater(() -> {
-            ChessGameFrame mainFrame = new ChessGameFrame(1000, 760);
-            mainFrame.setVisible(true);
+            SignInFrame signInFrame = new SignInFrame(300, 200);
+            signInFrame.setVisible(true);
         });
     }
 }

@@ -1,5 +1,6 @@
 package save_write;
 
+import controller.GameController;
 import model.*;
 import view.*;
 
@@ -27,6 +28,10 @@ public class Save_Write {
     ///String hashCode;
 
     public List<String> readFileByFileReader(String path) {
+        if(!path.substring(path.length()-4).equals(".txt")){
+            GameController.setError(104);
+            return null;
+        }
         try {
             FileReader fileReader = new FileReader(path);
             BufferedReader reader = new BufferedReader(fileReader);
@@ -44,19 +49,25 @@ public class Save_Write {
         return null;
     }
 
-    /**
-     * todo:在将棋子类构建后引入for循环确定棋子类型
-     */
     public boolean convertToChessboard(List<String> readlines) {
         store = new ArrayList<>();
         currentColor = new ArrayList<>();
-        if (readlines.size() == 0) {
+        if (readlines==null) {
+            GameController.setError(101);
             return false;
         }
         for (int i = 0; i < readlines.size(); i++) {
             String pieces = readlines.get(i);
-            if (pieces.length() != 65)
+            System.out.println((pieces.charAt(pieces.length()-1)));
+            if(pieces.charAt(pieces.length()-1)!='w'&&pieces.charAt(pieces.length()-1)!='b')
+            {
+                GameController.setError(103);
                 return false;
+            }
+            if (pieces.length() != 65) {
+                GameController.setError(101);
+                return false;
+            }
             ChessComponent[][] chessComponents = new ChessComponent[8][8];
             for (int j = 0; j < pieces.length() - 1; j++) {
                 int a=j/8;
@@ -101,6 +112,7 @@ public class Save_Write {
                     case '_'->{
                         chessComponents[a][b] = new EmptySlotComponent(new ChessboardPoint(j / 8, j % 8),ChessColor.NONE);
                     }
+                    default -> GameController.setError(102);
                 }
             }store.add(chessComponents);
             switch (pieces.charAt(64)) {
