@@ -37,21 +37,6 @@ private ArrayList<ChessColor> currentColors;
         this.CHESS_SIZE = width / 8;
     }
 
-    public void addWhiteButton(){
-        JButton a=new JButton();
-        a.setEnabled(true);
-        a.setIcon(defaultIcon);
-        a.setPressedIcon(pressedIcon);
-        a.setRolloverIcon(rolloverIcon);
-        a.setBorderPainted(false);
-        a.setContentAreaFilled(false);
-        a.setFocusPainted(false);
-        a.setMargin(new Insets(0,0,0,0));
-        a.setRolloverSelectedIcon(pressedIcon);
-        a.setSelectedIcon(defaultIcon);
-    }
-
-
     /**
      * 该构造方法已重写，如要导入空棋盘请path导入无目标地址或“resource/save1.txt”<br>
      * todo：错误文件识别<br>

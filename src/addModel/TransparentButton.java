@@ -1,11 +1,12 @@
-package view;
+package addModel;
 
 import javax.swing.*;
 import java.awt.*;
+import java.io.IOException;
 import java.util.concurrent.LinkedTransferQueue;
 
 public class TransparentButton extends JButton{
-    private static final Icon[] persent={
+    private static final ImageIcon[] persent={
             new ImageIcon("purewhite/0.png"),
             new ImageIcon("purewhite/25.png"),
             new ImageIcon("purewhite/50.png"),
@@ -26,19 +27,20 @@ public class TransparentButton extends JButton{
         setSelectedIcon(persent[s]);
     }
 
-    public TransparentButton(int d, int r,int p,String str){
+    public TransparentButton(int d, int r,int p,int s,String str,int width,int height){
         super();
-        setText(str);
         setEnabled(true);
-        setIcon(persent[d]);
-        setPressedIcon(persent[p]);
-        setRolloverIcon(persent[r]);
+        try {
+            setIcon(new ImageIcon(ImageAddWord.drawWord(width,height,str,persent[d].getImage())));
+            setPressedIcon(new ImageIcon(ImageAddWord.drawWord(width,height,str,persent[p].getImage())));
+            setRolloverIcon(new ImageIcon(ImageAddWord.drawWord(width,height,str,persent[r].getImage())));
+            setRolloverSelectedIcon(new ImageIcon(ImageAddWord.drawWord(width,height,str,persent[r].getImage())));
+            setSelectedIcon(new ImageIcon(ImageAddWord.drawWord(width,height,str,persent[s].getImage())));
+        }catch (IOException e){}
         setBorderPainted(false);
         setContentAreaFilled(false);
         setFocusPainted(false);
         setMargin(new Insets(0,0,0,0));
-        setRolloverSelectedIcon(persent[p]);
-        setSelectedIcon(persent[d]);
     }
     public static JButton addWhiteButton(int d, int r,int p){
         JButton a=new JButton();

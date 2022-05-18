@@ -2,6 +2,7 @@ package controller;
 
 import java.io.*;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 
@@ -15,6 +16,8 @@ import java.util.List;
  */
 public class UserController {
     private List<String> Users=new ArrayList<>();
+    private List<User> UserSites=new ArrayList<>();
+    private HashMap<String,User> userSite=new HashMap<>();
     private HashMap<String,String> users=new HashMap<>();
     private HashMap<String,Integer> win=new HashMap<>();
     private HashMap<String,Integer> lose=new HashMap<>();
@@ -30,6 +33,12 @@ public class UserController {
      *<br>-1：密码错误
      */
     public int hasThisUser(String user,String password){
+        if (user.equals("")){
+            return 2;
+        }
+        if (password.equals("0")){
+            return 3;
+        }
         if (users.isEmpty()){
             return 0;
         }
@@ -52,6 +61,7 @@ public class UserController {
         }
         Users.add(user);
         users.put(user,password);
+        userSite.put(user,new User(user));
         win.put(user,0);
         lose.put(user,0);
         draw.put(user,0);
@@ -119,9 +129,11 @@ public class UserController {
         for (int i = 0; i < readLines.size()/5; i++) {
             Users.add(readLines.get(5*i));
             users.put(readLines.get(5*i),readLines.get(5*i+1));
+            userSite.put(readLines.get(5*i),new User(readLines.get(5*i),Integer.parseInt(readLines.get(5*i+2)),Integer.parseInt(readLines.get(5*i+3)),Integer.parseInt(readLines.get(5*i+4))));
             win.put(readLines.get(5*i),Integer.parseInt(readLines.get(5*i+2)));
             lose.put(readLines.get(5*i),Integer.parseInt(readLines.get(5*i+3)));
             draw.put(readLines.get(5*i),Integer.parseInt(readLines.get(5*i+4)));
+
         }
     }
 
@@ -154,4 +166,10 @@ public class UserController {
             readLines.add(String.valueOf(draw.get(Users.get(i))));
         }
     }
+//todo:sort
+    public String toString(int i){
+
+        return null;
+    }
+
 }

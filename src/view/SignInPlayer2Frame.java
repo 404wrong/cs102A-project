@@ -55,6 +55,12 @@ public class SignInPlayer2Frame extends JFrame {
         signIn.addActionListener(e -> {
             System.out.println("Click sign in");
             switch (uc.hasThisUser(Name.getText(), String.valueOf(Password.getText().hashCode()))) {
+                case 2:
+                    JOptionPane.showMessageDialog(null, "Please input your name!","error",JOptionPane.ERROR_MESSAGE);
+                    break;
+                case 3:
+                    JOptionPane.showMessageDialog(null, "Please input your password!","error",JOptionPane.ERROR_MESSAGE);
+                    break;
                 case 1:
                     GameController.setUser2(Name.getText());
                     mainFrame = new ChessGameFrame(1000, 760);

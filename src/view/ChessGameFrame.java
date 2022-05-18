@@ -35,11 +35,9 @@ public class ChessGameFrame extends JFrame {
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE); //设置程序关闭按键，如果点击右上方的叉就游戏全部关闭了
         setLayout(null);
 
-
-
         addChessboard();
         addLabel();
-        addHelloButton();
+        addRankingButton();
         addLoadButton();
         addSaveButton();
         addGamer();
@@ -82,12 +80,22 @@ public class ChessGameFrame extends JFrame {
     }
 
     public void addGamer() {
-        gamer = new JLabel(GameController.getChessboard().getCurrentColors().get(GameController.getChessboard().getCurrentColors().size() - 1).toString());
+        gamer = new JLabel("Current  "+GameController.getChessboard().getCurrentColors().get(GameController.getChessboard().getCurrentColors().size() - 1).toString());
         gamer.setLocation(HEIGTH, HEIGTH / 10);
         gamer.setSize(200, 60);
         gamer.setFont(new Font("Rockwell", Font.BOLD, 20));
         add(gamer);
         gamer.repaint();
+        JLabel gamer1=new JLabel("WHITE  "+GameController.getUser1());
+        gamer1.setLocation(HEIGTH, HEIGTH / 10+40);
+        gamer1.setSize(200, 60);
+        gamer1.setFont(new Font("Rockwell", Font.BOLD, 20));
+        add(gamer1);
+        JLabel gamer2=new JLabel("BLACK  "+GameController.getUser2());
+        gamer2.setLocation(HEIGTH, HEIGTH / 10+80);
+        gamer2.setSize(200, 60);
+        gamer2.setFont(new Font("Rockwell", Font.BOLD, 20));
+        add(gamer2);
     }
 
     public void removeGamer() {
@@ -95,17 +103,21 @@ public class ChessGameFrame extends JFrame {
     }
 
     /**
-     * 在游戏面板中增加一个按钮，如果按下的话就会显示Hello, world!
+     * 添加排行榜
      */
-    private void addHelloButton() {
-        JButton button = new JButton("Show Hello Here");
-        button.addActionListener((e) -> JOptionPane.showMessageDialog(this, "Hello, world!"));
+    private void addRankingButton() {
+        JButton button = new JButton("Ranking List");
         button.setLocation(HEIGTH, HEIGTH / 10 + 120);
         button.setSize(200, 60);
         button.setFont(new Font("Rockwell", Font.BOLD, 20));
         add(button);
-    }
 
+//        button.addActionListener(e -> {
+//            System.out.println("Click ranking list");
+//            JFrame Rank=new JFrame("Ranking List");
+//            GameController.getUserController().
+//        });
+    }
     private void addLoadButton() {
         JButton button = new JButton("Load");
         button.setLocation(HEIGTH, HEIGTH / 10 + 240);

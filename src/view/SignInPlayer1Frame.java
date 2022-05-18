@@ -1,6 +1,7 @@
 package view;
 
 import controller.*;
+import addModel.TransparentButton;
 
 import javax.swing.*;
 import java.awt.*;
@@ -59,7 +60,7 @@ public class SignInPlayer1Frame extends JFrame {
         Password.setFont(new Font("Rockwell", Font.BOLD, 20));
         add(Password);
 
-        JButton signIn =new JButton("SignIn");
+        JButton signIn =new TransparentButton(1,3,4,3,"SignIn",100,20);
         signIn.setLocation(WIDTH / 2 - 50, HEIGTH * 3 / 5);
         signIn.setSize(100, 20);
         signIn.setFont(new Font("Rockwell", Font.BOLD, 20));
@@ -67,7 +68,16 @@ public class SignInPlayer1Frame extends JFrame {
 
         signIn.addActionListener(e -> {
             System.out.println("Click sign in");
+//            if(Name.getText()==null){
+//                JOptionPane.showMessageDialog(null, "The user or the password is wrong!","error",JOptionPane.ERROR_MESSAGE);
+//            }
             switch (uc.hasThisUser(Name.getText(), String.valueOf(Password.getText().hashCode()))) {
+                case 2:
+                    JOptionPane.showMessageDialog(null, "Please input your name!","error",JOptionPane.ERROR_MESSAGE);
+                    break;
+                case 3:
+                    JOptionPane.showMessageDialog(null, "Please input your password!","error",JOptionPane.ERROR_MESSAGE);
+                    break;
                 case 1:
                     GameController.setUser1(Name.getText());
                     functionFrame = new FunctionFrame(200, 300);

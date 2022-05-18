@@ -2,10 +2,8 @@ package model;
 
 import controller.ClickController;
 import view.ChessboardPoint;
-import view.TransparentButton;
 
 import javax.imageio.ImageIO;
-import javax.swing.*;
 import java.awt.*;
 import java.io.File;
 import java.io.IOException;

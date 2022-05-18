@@ -1,8 +1,8 @@
 package model;
 
+import addModel.TransparentButton;
 import view.ChessboardPoint;
 import controller.ClickController;
-import view.TransparentButton;
 
 import javax.swing.*;
 import java.awt.*;
