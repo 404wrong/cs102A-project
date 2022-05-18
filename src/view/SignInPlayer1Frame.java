@@ -68,9 +68,6 @@ public class SignInPlayer1Frame extends JFrame {
 
         signIn.addActionListener(e -> {
             System.out.println("Click sign in");
-//            if(Name.getText()==null){
-//                JOptionPane.showMessageDialog(null, "The user or the password is wrong!","error",JOptionPane.ERROR_MESSAGE);
-//            }
             switch (uc.hasThisUser(Name.getText(), String.valueOf(Password.getText().hashCode()))) {
                 case 2:
                     JOptionPane.showMessageDialog(null, "Please input your name!","error",JOptionPane.ERROR_MESSAGE);

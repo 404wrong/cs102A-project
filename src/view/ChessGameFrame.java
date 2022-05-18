@@ -47,13 +47,13 @@ public class ChessGameFrame extends JFrame {
 
         //加入背景图片
         ImageIcon img = new ImageIcon("backGroundImages/MainFrame2/gameBackground2.jpg");//这是背景图片
-        img.setImage(img.getImage().getScaledInstance(width, height,Image.SCALE_DEFAULT ));
+        img.setImage(img.getImage().getScaledInstance(width, height, Image.SCALE_DEFAULT));
         JLabel imgLabel = new JLabel(img);//将背景图放在标签里。
         getLayeredPane().add(imgLabel, new Integer(Integer.MIN_VALUE));//注意这里是关键，将背景标签添加到jfram的LayeredPane面板里。
-        imgLabel.setBounds(0,0,WIDTH,HEIGTH);//设置背景标签的位置
-        Container cp=getContentPane();
+        imgLabel.setBounds(0, 0, WIDTH, HEIGTH);//设置背景标签的位置
+        Container cp = getContentPane();
         cp.setLayout(new BorderLayout());
-        ((JPanel)cp).setOpaque(false);
+        ((JPanel) cp).setOpaque(false);
 
         setVisible(true);
     }
@@ -80,19 +80,19 @@ public class ChessGameFrame extends JFrame {
     }
 
     public void addGamer() {
-        gamer = new JLabel("Current  "+GameController.getChessboard().getCurrentColors().get(GameController.getChessboard().getCurrentColors().size() - 1).toString());
+        gamer = new JLabel("Current  " + GameController.getChessboard().getCurrentColors().get(GameController.getChessboard().getCurrentColors().size() - 1).toString());
         gamer.setLocation(HEIGTH, HEIGTH / 10);
         gamer.setSize(200, 60);
         gamer.setFont(new Font("Rockwell", Font.BOLD, 20));
         add(gamer);
         gamer.repaint();
-        JLabel gamer1=new JLabel("WHITE  "+GameController.getUser1());
-        gamer1.setLocation(HEIGTH, HEIGTH / 10+40);
+        JLabel gamer1 = new JLabel("WHITE  " + GameController.getUser1());
+        gamer1.setLocation(HEIGTH, HEIGTH / 10 + 40);
         gamer1.setSize(200, 60);
         gamer1.setFont(new Font("Rockwell", Font.BOLD, 20));
         add(gamer1);
-        JLabel gamer2=new JLabel("BLACK  "+GameController.getUser2());
-        gamer2.setLocation(HEIGTH, HEIGTH / 10+80);
+        JLabel gamer2 = new JLabel("BLACK  " + GameController.getUser2());
+        gamer2.setLocation(HEIGTH, HEIGTH / 10 + 80);
         gamer2.setSize(200, 60);
         gamer2.setFont(new Font("Rockwell", Font.BOLD, 20));
         add(gamer2);
@@ -112,12 +112,33 @@ public class ChessGameFrame extends JFrame {
         button.setFont(new Font("Rockwell", Font.BOLD, 20));
         add(button);
 
-//        button.addActionListener(e -> {
-//            System.out.println("Click ranking list");
-//            JFrame Rank=new JFrame("Ranking List");
-//            GameController.getUserController().
-//        });
+        button.addActionListener(e -> {
+            System.out.println("Click ranking list");
+
+            JFrame frame = new JFrame("Ranking List"); //这里要用到import javax.swing.JFrame;
+            frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+            final ImageIcon imageIcon = new ImageIcon("backGroundImages/MainFrame2/gameBackground2_50.png");//这里要用到import javax.swing.ImageIcon;
+            JTextArea textArea = new JTextArea() { //这里要用到import javax.swing.JTextArea;
+                Image image = imageIcon.getImage();
+
+                {
+                    setOpaque(false);
+                } // instance initializer
+
+                public void paint(Graphics g) {
+                    g.drawImage(image, 0, 0, 400, 300, null);
+                    super.paint(g);
+                }
+            };
+            JScrollPane scrollPane = new JScrollPane(textArea);//这里要用到import javax.swing.JScrollPane;
+            Container content = frame.getContentPane();
+            content.add(scrollPane, BorderLayout.CENTER);
+            textArea.append(GameController.getUserController().toString());
+            frame.setSize(400, 300);
+            frame.setVisible(true);
+        });
     }
+
     private void addLoadButton() {
         JButton button = new JButton("Load");
         button.setLocation(HEIGTH, HEIGTH / 10 + 240);
