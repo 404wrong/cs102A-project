@@ -1,5 +1,6 @@
 package model;
 
+import controller.GameController;
 import view.ChessboardPoint;
 import controller.ClickController;
 
@@ -84,8 +85,12 @@ public class RookChessComponent extends ChessComponent {
      */
     @Override
     public boolean canMoveTo(ChessComponent[][] chessComponents, ChessboardPoint destination) {
-
-        return true;
+        for (ChessboardPoint p:GameController.getChessboard().getChess(getChessboardPoint().getX(),getChessboardPoint().getY()).canMoveTo()) {
+            if(p.getX() == destination.getX() && p.getY() == destination.getY()){
+                return true;
+            }
+        }
+        return false;
     }
 
     @Override
@@ -95,12 +100,12 @@ public class RookChessComponent extends ChessComponent {
         Directions directions=new Directions();
         for (ChessboardPoint direct: directions.cross()) {
             for (int i = 1; i <= MAS; i++) {
-                ChessboardPoint nextPosition = new ChessboardPoint(this.getSource().getX() + direct.getX() * i, this.getSource().getY() + direct.getY() * i);
+                ChessboardPoint nextPosition = new ChessboardPoint(this.getChessboardPoint().getX() + direct.getX() * i, this.getChessboardPoint().getY() + direct.getY() * i);
                 if (!nextPosition.offset()) {
-                    if (this.getGame().getChess(nextPosition.getX(), nextPosition.getY()).getChessColor().equals(this.getChessColor())) {
+                    if (GameController.getChessboard().getChess(nextPosition.getX(), nextPosition.getY()).getChessColor().equals(this.getChessColor())) {
                         break;
                     }
-                    if(this.getGame().getChess(nextPosition.getX(), nextPosition.getY()).getChessColor().equals(ChessColor.NONE)) {
+                    if(GameController.getChessboard().getChess(nextPosition.getX(), nextPosition.getY()).getChessColor().equals(ChessColor.NONE)) {
                         list.add(nextPosition);
                     } else {
                         list.add(nextPosition);
@@ -139,33 +144,4 @@ public class RookChessComponent extends ChessComponent {
         }
     }
 
-    @Override
-    public void loadChessGame(List<String> chessboard) {
-
-    }
-
-    @Override
-    public ChessColor getCurrentPlayer() {
-        return null;
-    }
-
-    @Override
-    public ChessComponent getChess(int x, int y) {
-        return null;
-    }
-
-    @Override
-    public String getChessboardGraph() {
-        return null;
-    }
-
-    @Override
-    public String getCapturedChess(ChessColor player) {
-        return null;
-    }
-
-    @Override
-    public boolean moveChess(int sourceX, int sourceY, int targetX, int targetY) {
-        return false;
-    }
 }

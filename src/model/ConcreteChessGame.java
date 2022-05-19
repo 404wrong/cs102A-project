@@ -266,7 +266,7 @@ public class ConcreteChessGame implements ChessGame{
         }
         if (flag2 && flag1) {
             this.chessComponents[targetX][targetY] = this.getChess(sourceX, sourceY);
-            this.chessComponents[targetX][targetY].setSource(targetPoint);
+            this.chessComponents[targetX][targetY].setChessboardPoint(targetPoint);
             this.chessComponents[sourceX][sourceY] = new EmptySlotComponent(sourcePoint,this.currentPlayer);
             switchPlayer();
             return true;

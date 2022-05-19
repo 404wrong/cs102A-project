@@ -3,6 +3,7 @@ package model;
 import addModel.TransparentButton;
 import view.ChessboardPoint;
 import controller.ClickController;
+import controller.GameController;
 
 import javax.swing.*;
 import java.awt.*;
@@ -30,15 +31,6 @@ public abstract class ChessComponent extends JComponent {
      * selected: 表示这个棋子是否被选中
      */
     private ChessboardPoint chessboardPoint;
-    private ChessboardPoint source;
-
-    public ChessboardPoint getSource() {
-        return source;
-    }
-
-    public void setSource(ChessboardPoint source) {
-        this.source = source;
-    }
 
     private ConcreteChessGame game;
 
@@ -192,7 +184,7 @@ public abstract class ChessComponent extends JComponent {
     @Override
     protected void paintComponent(Graphics g) {
         super.paintComponents(g);
-        System.out.printf("repaint chess [%d,%d]\n", chessboardPoint.getX(), chessboardPoint.getY());
+//        System.out.printf("repaint chess [%d,%d]\n", chessboardPoint.getX(), chessboardPoint.getY());
         Color squareColor = BACKGROUND_COLORS[(chessboardPoint.getX() + chessboardPoint.getY()) % 2];
         g.setColor(squareColor);
         g.fillRect(0, 0, this.getWidth(), this.getHeight());

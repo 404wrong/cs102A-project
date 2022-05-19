@@ -1,6 +1,7 @@
 package model;
 
 import controller.ClickController;
+import controller.GameController;
 import view.ChessboardPoint;
 
 import javax.imageio.ImageIO;
@@ -83,27 +84,12 @@ public class PawnChessComponent extends ChessComponent {
      */
     @Override
     public boolean canMoveTo(ChessComponent[][] chessComponents, ChessboardPoint destination) {
-        ChessboardPoint source = getChessboardPoint();
-        if (source.getX() == destination.getX()) {
-            int row = source.getX();
-            for (int col = Math.min(source.getY(), destination.getY()) + 1;
-                 col < Math.max(source.getY(), destination.getY()); col++) {
-                if (!(chessComponents[row][col] instanceof EmptySlotComponent)) {
-                    return false;
-                }
+        for (ChessboardPoint p:GameController.getChessboard().getChess(getChessboardPoint().getX(),getChessboardPoint().getY()).canMoveTo()) {
+            if(p.getX() == destination.getX() && p.getY() == destination.getY()){
+                return true;
             }
-        } else if (source.getY() == destination.getY()) {
-            int col = source.getY();
-            for (int row = Math.min(source.getX(), destination.getX()) + 1;
-                 row < Math.max(source.getX(), destination.getX()); row++) {
-                if (!(chessComponents[row][col] instanceof EmptySlotComponent)) {
-                    return false;
-                }
-            }
-        } else { // Not on the same row or the same column.
-            return false;
         }
-        return true;
+        return false;
     }
 
     @Override
@@ -124,13 +110,13 @@ public class PawnChessComponent extends ChessComponent {
         if (firstMove) {
             MAS= 2;
             for (int i = 1; i <= MAS; i++) {
-                ChessboardPoint nextPosition = new ChessboardPoint(this.getSource().getX() + direct.getX() * i, this.getSource().getY());
+                ChessboardPoint nextPosition = new ChessboardPoint(this.getChessboardPoint().getX() + direct.getX() * i, this.getChessboardPoint().getY());
 
                 if (!nextPosition.offset()) {
-                    if (this.getGame().getChess(nextPosition.getX(), nextPosition.getY()).getChessColor().equals(this.getChessColor())) {
+                    if (GameController.getChessboard().getChess(nextPosition.getX(), nextPosition.getY()).getChessColor().equals(this.getChessColor())) {
                         break;
                     }
-                    if(this.getGame().getChess(nextPosition.getX(), nextPosition.getY()).getChessColor().equals(ChessColor.NONE)) {
+                    if(GameController.getChessboard().getChess(nextPosition.getX(), nextPosition.getY()).getChessColor().equals(ChessColor.NONE)) {
                         list.add(nextPosition);
                     } else {
                         break;
@@ -144,12 +130,12 @@ public class PawnChessComponent extends ChessComponent {
         } else {
             MAS = 1;
             for (int i = 1; i <= MAS; i++) {
-                ChessboardPoint nextPosition = new ChessboardPoint(this.getSource().getX() + direct.getX() * i, this.getSource().getY());
+                ChessboardPoint nextPosition = new ChessboardPoint(this.getChessboardPoint().getX() + direct.getX() * i, this.getChessboardPoint().getY());
                 if (!nextPosition.offset()) {
-                    if (this.getGame().getChess(nextPosition.getX(), nextPosition.getY()).getChessColor().equals(this.getChessColor())) {
+                    if (GameController.getChessboard().getChess(nextPosition.getX(), nextPosition.getY()).getChessColor().equals(this.getChessColor())) {
                         break;
                     }
-                    if(this.getGame().getChess(nextPosition.getX(), nextPosition.getY()).getChessColor().equals(ChessColor.NONE)) {
+                    if(GameController.getChessboard().getChess(nextPosition.getX(), nextPosition.getY()).getChessColor().equals(ChessColor.NONE)) {
                         list.add(nextPosition);
                     } else {
                         break;
@@ -164,9 +150,9 @@ public class PawnChessComponent extends ChessComponent {
         MAS = 1;
         for (ChessboardPoint dire : eatAble) {
             for (int i = 1; i <= MAS; i++) {
-                ChessboardPoint nextPosition = new ChessboardPoint(this.getSource().getX() + dire.getX() * i, this.getSource().getY() + dire.getY() * i);
+                ChessboardPoint nextPosition = new ChessboardPoint(this.getChessboardPoint().getX() + dire.getX() * i, this.getChessboardPoint().getY() + dire.getY() * i);
                 if (!nextPosition.offset()) {
-                    if (!this.getGame().getChess(nextPosition.getX(), nextPosition.getY()).getChessColor().equals(this.getChessColor()) && !this.getGame().getChess(nextPosition.getX(), nextPosition.getY()).getChessColor().equals(ChessColor.NONE)) {
+                    if (!GameController.getChessboard().getChess(nextPosition.getX(), nextPosition.getY()).getChessColor().equals(this.getChessColor()) && !GameController.getChessboard().getChess(nextPosition.getX(), nextPosition.getY()).getChessColor().equals(ChessColor.NONE)) {
                         list.add(nextPosition);
                         break;
                     }
@@ -204,34 +190,7 @@ public class PawnChessComponent extends ChessComponent {
         }
     }
 
-    @Override
-    public void loadChessGame(List<String> chessboard) {
 
-    }
 
-    @Override
-    public ChessColor getCurrentPlayer() {
-        return null;
-    }
-
-    @Override
-    public ChessComponent getChess(int x, int y) {
-        return null;
-    }
-
-    @Override
-    public String getChessboardGraph() {
-        return null;
-    }
-
-    @Override
-    public String getCapturedChess(ChessColor player) {
-        return null;
-    }
-
-    @Override
-    public boolean moveChess(int sourceX, int sourceY, int targetX, int targetY) {
-        return false;
-    }
 }
 

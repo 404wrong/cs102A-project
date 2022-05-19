@@ -1,6 +1,7 @@
 package model;
 
 import controller.ClickController;
+import controller.GameController;
 import view.ChessboardPoint;
 
 import javax.imageio.ImageIO;
@@ -114,12 +115,12 @@ public class BishopChessComponent extends ChessComponent {
         Directions directions=new Directions();
         for (ChessboardPoint direct: directions.fork()) {
             for (int i = 1; i <= MAS; i++) {
-                ChessboardPoint nextPosition = new ChessboardPoint(this.getSource().getX() + direct.getX() * i, this.getSource().getY() + direct.getY() * i);
+                ChessboardPoint nextPosition = new ChessboardPoint(this.getChessboardPoint().getX() + direct.getX() * i, this.getChessboardPoint().getY() + direct.getY() * i);
                 if (!nextPosition.offset()) {
-                    if (this.getGame().getChess(nextPosition.getX(), nextPosition.getY()).getChessColor().equals(this.getChessColor())) {
+                    if (GameController.getChessboard().getChess(nextPosition.getX(), nextPosition.getY()).getChessColor().equals(this.getChessColor())) {
                         break;
                     }
-                    if(this.getGame().getChess(nextPosition.getX(), nextPosition.getY()).getChessColor().equals(ChessColor.NONE)) {
+                    if(GameController.getChessboard().getChess(nextPosition.getX(), nextPosition.getY()).getChessColor().equals(ChessColor.NONE)) {
                         list.add(nextPosition);
                     } else {
                         list.add(nextPosition);
@@ -157,34 +158,5 @@ public class BishopChessComponent extends ChessComponent {
             g.drawImage(white, 0, 0, getWidth() , getHeight(), this);
         }
     }
-
-    @Override
-    public void loadChessGame(List<String> chessboard) {
-
-    }
-
-    @Override
-    public ChessColor getCurrentPlayer() {
-        return null;
-    }
-
-    @Override
-    public ChessComponent getChess(int x, int y) {
-        return null;
-    }
-
-    @Override
-    public String getChessboardGraph() {
-        return null;
-    }
-
-    @Override
-    public String getCapturedChess(ChessColor player) {
-        return null;
-    }
-
-    @Override
-    public boolean moveChess(int sourceX, int sourceY, int targetX, int targetY) {
-        return false;
-    }
 }
+
