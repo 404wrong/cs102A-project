@@ -25,11 +25,14 @@ import java.util.List;
 public class Save_Write {
     ArrayList<ChessComponent[][]> store;
     ArrayList<ChessColor> currentColor = new ArrayList<>();
+    int a=0;
     ///String hashCode;
 
     public List<String> readFileByFileReader(String path) {
+        a=0;
         if(!path.substring(path.length()-4).equals(".txt")){
             GameController.setError(104);
+            a=1;
             return null;
         }
         try {
@@ -50,6 +53,9 @@ public class Save_Write {
     }
 
     public boolean convertToChessboard(List<String> readlines) {
+        if (a==1){
+            return false;
+        }
         store = new ArrayList<>();
         currentColor = new ArrayList<>();
         if (readlines==null) {

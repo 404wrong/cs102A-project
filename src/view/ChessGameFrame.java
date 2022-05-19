@@ -135,6 +135,8 @@ public class ChessGameFrame extends JFrame {
             content.add(scrollPane, BorderLayout.CENTER);
             textArea.append(GameController.getUserController().toString());
             frame.setSize(400, 300);
+            frame.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+            frame.setLocationRelativeTo(null);
             frame.setVisible(true);
         });
     }
@@ -148,6 +150,7 @@ public class ChessGameFrame extends JFrame {
 
         button.addActionListener(e -> {
             System.out.println("Click load");
+            GameController.setError(100);
             JFileChooser fileChooser = new JFileChooser(); // 创建一个文件选择器
             fileChooser.setDialogTitle("选择要打开的文件"); // 给它一个标题
             File currentDirectory = new File("resource"); // 默认目录。TODO：改成你电脑上的目录
@@ -166,6 +169,13 @@ public class ChessGameFrame extends JFrame {
                 GameController.getChessboard().repaint();
             } catch (Exception a) {
                 a.printStackTrace();
+            }
+            switch (GameController.getError()){
+                case 100:
+                    break;
+                default:
+                    JOptionPane.showMessageDialog(null, String.format("ERROR<%d>",GameController.getError()),"error",JOptionPane.ERROR_MESSAGE);
+                    break;
             }
         });
     }
