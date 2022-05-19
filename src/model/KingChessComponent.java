@@ -7,6 +7,8 @@ import javax.imageio.ImageIO;
 import java.awt.*;
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * 这个类表示国际象棋里面的王
@@ -104,6 +106,34 @@ public class KingChessComponent extends ChessComponent {
         }
         return true;
     }
+
+    @Override
+    public List<ChessboardPoint> canMoveTo() {
+        int MAS = 1;
+        ArrayList<ChessboardPoint> list = new ArrayList<>();
+        Directions directions=new Directions();
+        for (ChessboardPoint direct: directions.all()) {
+            for (int i = 1; i <= MAS; i++) {
+                ChessboardPoint nextPosition = new ChessboardPoint(this.getSource().getX() + direct.getX() * i, this.getSource().getY() + direct.getY() * i);
+                if (!nextPosition.offset()) {
+                    if (this.getGame().getChess(nextPosition.getX(), nextPosition.getY()).getChessColor().equals(this.getChessColor())) {
+                        break;
+                    }
+                    if(this.getGame().getChess(nextPosition.getX(), nextPosition.getY()).getChessColor().equals(ChessColor.NONE)) {
+                        list.add(nextPosition);
+                    } else {
+                        list.add(nextPosition);
+                        break;
+                    }
+                }
+                else {
+                    break;
+                }
+            }
+        }
+        return list;
+    }
+
     @Override
     public char toChar(){
         switch (chessColor){
