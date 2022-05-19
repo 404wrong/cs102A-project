@@ -248,6 +248,13 @@ public class Chessboard extends JComponent {
         timerLabel.setText(String.format("Time left: %d", a));
     }
 
+    public ChessComponent getChess(ChessboardPoint point) {
+        return chessComponents[point.getX()][point.getY()];
+    }
+    public ChessComponent getChess(int x, int y){
+        return getChess(new ChessboardPoint(x,y));
+    }
+
     public void setCurrentColor(ChessColor currentColor) {
         this.currentColor = currentColor;
     }

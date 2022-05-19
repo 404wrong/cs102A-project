@@ -1,12 +1,15 @@
 package model;
 
 import controller.ClickController;
+import controller.GameController;
 import view.ChessboardPoint;
 
 import javax.imageio.ImageIO;
 import java.awt.*;
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * 这个类表示国际象棋里面的兵
@@ -81,28 +84,88 @@ public class PawnChessComponent extends ChessComponent {
      */
     @Override
     public boolean canMoveTo(ChessComponent[][] chessComponents, ChessboardPoint destination) {
-        ChessboardPoint source = getChessboardPoint();
-        if (source.getX() == destination.getX()) {
-            int row = source.getX();
-            for (int col = Math.min(source.getY(), destination.getY()) + 1;
-                 col < Math.max(source.getY(), destination.getY()); col++) {
-                if (!(chessComponents[row][col] instanceof EmptySlotComponent)) {
-                    return false;
-                }
+        for (ChessboardPoint p:GameController.getChessboard().getChess(getChessboardPoint().getX(),getChessboardPoint().getY()).canMoveTo()) {
+            if(p.getX() == destination.getX() && p.getY() == destination.getY()){
+                return true;
             }
-        } else if (source.getY() == destination.getY()) {
-            int col = source.getY();
-            for (int row = Math.min(source.getX(), destination.getX()) + 1;
-                 row < Math.max(source.getX(), destination.getX()); row++) {
-                if (!(chessComponents[row][col] instanceof EmptySlotComponent)) {
-                    return false;
-                }
-            }
-        } else { // Not on the same row or the same column.
-            return false;
         }
-        return true;
+        return false;
     }
+
+    @Override
+    public List<ChessboardPoint> canMoveTo() {
+        int MAS;
+        boolean firstMove = true;
+        ArrayList<ChessboardPoint> list  = new ArrayList<>();
+        ChessboardPoint direct;
+        Directions directions=new Directions();
+        if (this.getChessColor().equals(ChessColor.WHITE)) {
+            direct = directions.up();
+        } else {
+            direct = directions.down();
+        }
+        ArrayList<ChessboardPoint> eatAble = new ArrayList<>();
+        eatAble.add(new ChessboardPoint(direct.getX(),direct.getY()+1));
+        eatAble.add(new ChessboardPoint(direct.getX(),direct.getY()-1));
+        if (firstMove) {
+            MAS= 2;
+            for (int i = 1; i <= MAS; i++) {
+                ChessboardPoint nextPosition = new ChessboardPoint(this.getChessboardPoint().getX() + direct.getX() * i, this.getChessboardPoint().getY());
+
+                if (!nextPosition.offset()) {
+                    if (GameController.getChessboard().getChess(nextPosition.getX(), nextPosition.getY()).getChessColor().equals(this.getChessColor())) {
+                        break;
+                    }
+                    if(GameController.getChessboard().getChess(nextPosition.getX(), nextPosition.getY()).getChessColor().equals(ChessColor.NONE)) {
+                        list.add(nextPosition);
+                    } else {
+                        break;
+                    }
+                }
+                else {
+                    break;
+                }
+            }
+            firstMove = false;
+        } else {
+            MAS = 1;
+            for (int i = 1; i <= MAS; i++) {
+                ChessboardPoint nextPosition = new ChessboardPoint(this.getChessboardPoint().getX() + direct.getX() * i, this.getChessboardPoint().getY());
+                if (!nextPosition.offset()) {
+                    if (GameController.getChessboard().getChess(nextPosition.getX(), nextPosition.getY()).getChessColor().equals(this.getChessColor())) {
+                        break;
+                    }
+                    if(GameController.getChessboard().getChess(nextPosition.getX(), nextPosition.getY()).getChessColor().equals(ChessColor.NONE)) {
+                        list.add(nextPosition);
+                    } else {
+                        break;
+                    }
+                }
+                else {
+                    break;
+                }
+            }
+
+        }
+        MAS = 1;
+        for (ChessboardPoint dire : eatAble) {
+            for (int i = 1; i <= MAS; i++) {
+                ChessboardPoint nextPosition = new ChessboardPoint(this.getChessboardPoint().getX() + dire.getX() * i, this.getChessboardPoint().getY() + dire.getY() * i);
+                if (!nextPosition.offset()) {
+                    if (!GameController.getChessboard().getChess(nextPosition.getX(), nextPosition.getY()).getChessColor().equals(this.getChessColor()) && !GameController.getChessboard().getChess(nextPosition.getX(), nextPosition.getY()).getChessColor().equals(ChessColor.NONE)) {
+                        list.add(nextPosition);
+                        break;
+                    }
+                    else {
+                        break;
+                    }
+                }
+            }
+        }
+
+        return list;
+    }
+
     @Override
     public char toChar(){
         switch (chessColor){
@@ -126,5 +189,8 @@ public class PawnChessComponent extends ChessComponent {
             g.drawImage(white, 0, 0, getWidth() , getHeight(), this);
         }
     }
+
+
+
 }
 

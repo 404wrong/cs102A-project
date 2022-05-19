@@ -3,11 +3,15 @@ package model;
 import addModel.TransparentButton;
 import view.ChessboardPoint;
 import controller.ClickController;
+import controller.GameController;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.List;
 
 /**
  * 这个类是一个抽象类，主要表示8*8棋盘上每个格子的棋子情况
@@ -27,6 +31,17 @@ public abstract class ChessComponent extends JComponent {
      * selected: 表示这个棋子是否被选中
      */
     private ChessboardPoint chessboardPoint;
+
+    private ConcreteChessGame game;
+
+    public ConcreteChessGame getGame() {
+        return game;
+    }
+
+    public void setGame(ConcreteChessGame game) {
+        this.game = game;
+    }
+
     protected ChessColor chessColor;
     private boolean selected;
 
@@ -153,6 +168,7 @@ public abstract class ChessComponent extends JComponent {
      * 这个方法主要是检查移动的合法性，如果合法就返回true，反之是false
      */
     public abstract boolean canMoveTo(ChessComponent[][] chessboard, ChessboardPoint destination);
+    public abstract List<ChessboardPoint> canMoveTo();
 
     /**
      * 这个方法主要用于加载一些特定资源，如棋子图片等等。
@@ -168,7 +184,7 @@ public abstract class ChessComponent extends JComponent {
     @Override
     protected void paintComponent(Graphics g) {
         super.paintComponents(g);
-        System.out.printf("repaint chess [%d,%d]\n", chessboardPoint.getX(), chessboardPoint.getY());
+//        System.out.printf("repaint chess [%d,%d]\n", chessboardPoint.getX(), chessboardPoint.getY());
         Color squareColor = BACKGROUND_COLORS[(chessboardPoint.getX() + chessboardPoint.getY()) % 2];
         g.setColor(squareColor);
         g.fillRect(0, 0, this.getWidth(), this.getHeight());

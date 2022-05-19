@@ -24,4 +24,20 @@ public class ChessboardPoint {
     public String toString() {
         return "("+x + ","+y+") " + "on the chessboard is clicked!";
     }
+
+    public ChessboardPoint offset(int dx,int dy){
+        if(x+dx>=8||x+dx<0){
+            return null;
+        }
+        if(y+dy>=8||y+dy<0){
+            return null;
+        }
+        return new ChessboardPoint(x+dx,y+dy);
+    }
+    public boolean offset(){
+        if(this.getX()>=8 || this.getX()<0){
+            return true;
+        }
+        return this.getY() >= 8 || this.getY() < 0;
+    }
 }

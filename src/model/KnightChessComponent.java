@@ -1,12 +1,16 @@
 package model;
 
 import controller.ClickController;
+import controller.GameController;
 import view.ChessboardPoint;
 
 import javax.imageio.ImageIO;
 import java.awt.*;
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.List;
 
 /**
  * 这个类表示国际象棋里面的马
@@ -73,37 +77,49 @@ public class KnightChessComponent extends ChessComponent {
         super.MoreInformation(location, color, listener, size);
         initiateKnightImage(color);
     }
-    /**
-     * 马棋子的移动规则
-     *
-     * @param chessComponents 棋盘
-     * @param destination     目标位置，如(0, 0), (0, 7)等等
-     * @return 马棋子移动的合法性
-     */
+
+
     @Override
     public boolean canMoveTo(ChessComponent[][] chessComponents, ChessboardPoint destination) {
-        ChessboardPoint source = getChessboardPoint();
-        if (source.getX() == destination.getX()) {
-            int row = source.getX();
-            for (int col = Math.min(source.getY(), destination.getY()) + 1;
-                 col < Math.max(source.getY(), destination.getY()); col++) {
-                if (!(chessComponents[row][col] instanceof EmptySlotComponent)) {
-                    return false;
-                }
+        for (ChessboardPoint p:GameController.getChessboard().getChess(getChessboardPoint().getX(),getChessboardPoint().getY()).canMoveTo()) {
+            if(p.getX() == destination.getX() && p.getY() == destination.getY()){
+                return true;
             }
-        } else if (source.getY() == destination.getY()) {
-            int col = source.getY();
-            for (int row = Math.min(source.getX(), destination.getX()) + 1;
-                 row < Math.max(source.getX(), destination.getX()); row++) {
-                if (!(chessComponents[row][col] instanceof EmptySlotComponent)) {
-                    return false;
-                }
-            }
-        } else { // Not on the same row or the same column.
-            return false;
         }
-        return true;
+        return false;
     }
+
+
+    @Override
+    public List<ChessboardPoint> canMoveTo() {
+        int MAS = 1;
+        ArrayList<ChessboardPoint> list = new ArrayList<>();
+        Directions directions=new Directions();
+        for (ChessboardPoint direct: directions.knight()) {
+            for (int i = 1; i <= MAS; i++) {
+                ChessboardPoint nextPosition = new ChessboardPoint(this.getChessboardPoint().getX() + direct.getX() * i, this.getChessboardPoint().getY() + direct.getY() * i);
+                if (!nextPosition.offset()) {
+                    if (GameController.getChessboard().getChess(nextPosition.getX(), nextPosition.getY()).getChessColor().equals(this.getChessColor())) {
+                        break;
+                    }
+                    if(GameController.getChessboard().getChess(nextPosition.getX(), nextPosition.getY()).getChessColor().equals(ChessColor.NONE)) {
+                        list.add(nextPosition);
+                    } else {
+                        list.add(nextPosition);
+                        break;
+                    }
+                }
+                else {
+                    break;
+                }
+            }
+        }
+        for (ChessboardPoint i : list) {
+            System.out.println(i);
+        }
+        return list;
+    }
+
     @Override
     public char toChar(){
         switch (chessColor){
@@ -112,7 +128,7 @@ public class KnightChessComponent extends ChessComponent {
         }
         return 'N';
     }
-    /**
+    /*
      * 注意这个方法，每当窗体受到了形状的变化，或者是通知要进行绘图的时候，就会调用这个方法进行画图。
      *
      * @param g 可以类比于画笔
@@ -128,4 +144,8 @@ public class KnightChessComponent extends ChessComponent {
         }
     }
 }
+
+
+
+
 
