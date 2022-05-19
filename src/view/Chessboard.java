@@ -51,13 +51,6 @@ public class Chessboard extends JComponent {
      *         chessComponents<br>
      */
     public Chessboard(int width, int height, String path) {
-        if (GameController.playback == 1) {
-            JButton jb = new TransparentButton(0, 0, 0, 0);
-            jb.setLocation(0, 0);
-            jb.setSize(width, width);
-            add(jb);
-            GameController.playback = 0;
-        }
         setLayout(null); // Use absolute layout.
         CHESS_SIZE = width / 8;
         setLocation(0, 0);
@@ -93,6 +86,7 @@ public class Chessboard extends JComponent {
             jb.setSize(width, width);
             add(jb);
             GameController.playback = 0;
+
         }
         setLayout(null); // Use absolute layout.
         CHESS_SIZE = width / 8;
@@ -109,6 +103,8 @@ public class Chessboard extends JComponent {
                 initOnBoard(row, col, chessComponents[row][col]);
             }
         }
+        GameController.getChessGameFrame().gamer.setText("Current  " + GameController.getChessboard().getCurrentColor().toString());
+        GameController.getChessGameFrame().gamer.repaint();
     }
 
     /**

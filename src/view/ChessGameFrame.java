@@ -152,6 +152,7 @@ public class ChessGameFrame extends JFrame {
 
                 }
             } catch (Exception a) {
+                q=0;
                 a.printStackTrace();
             }
             switch (GameController.getError()) {
