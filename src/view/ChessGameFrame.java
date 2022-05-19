@@ -2,6 +2,7 @@ package view;
 
 //import controller.GameController;
 
+import addModel.TransparentButton;
 import controller.GameController;
 import save_write.Save_Write;
 
@@ -44,6 +45,7 @@ public class ChessGameFrame extends JFrame {
         addResetButton();
         addRepentButton();
         addTimeController();
+        addPlaybackButton();
         GameController.setChessGameFrame(this);
 
         //加入背景图片
@@ -94,10 +96,6 @@ public class ChessGameFrame extends JFrame {
         gamer.repaint();
     }
 
-    public void removeGamer() {
-        remove(gamer);
-    }
-
     public void addTimeController() {
         timerLable = new JLabel();
         timerLable.setSize(200, 60);
@@ -107,6 +105,47 @@ public class ChessGameFrame extends JFrame {
         GameController.timeController.resetTimeController();
     }
 
+    private void addPlaybackButton() {
+        JButton button = new JButton("Playback");
+        button.setLocation(HEIGTH, HEIGTH / 10 + 250);
+        button.setSize(200, 60);
+        button.setFont(new Font("Rockwell", Font.BOLD, 20));
+        add(button);
+
+        button.addActionListener(e -> {
+            System.out.println("Click Playback");
+            JButton jb=new TransparentButton(0,0,0,0);
+            jb.setLocation(HEIGTH / 10, HEIGTH / 10);
+            jb.setSize(CHESSBOARD_SIZE,CHESSBOARD_SIZE);
+            add(jb);GameController.setError(100);
+            JFileChooser fileChooser = new JFileChooser(); // 创建一个文件选择器
+            fileChooser.setDialogTitle("选择要打开的文件"); // 给它一个标题
+            File currentDirectory = new File("resource"); // 默认目录。TODO：改成你电脑上的目录
+            fileChooser.setCurrentDirectory(currentDirectory); // 设置文件选择器起始目录为默认目录
+            int result = fileChooser.showOpenDialog(button); // 打开文件选择器
+            File chosenFile = null;
+            if (result == JFileChooser.APPROVE_OPTION) { // 如果最终确认选择而不是推出
+                chosenFile = fileChooser.getSelectedFile(); // 获取选中的文件
+            }
+            try {
+                String path = chosenFile.getAbsolutePath();
+                remove(GameController.getChessboard());
+                GameController.setChessboard(new Chessboard(CHESSBOARD_SIZE, CHESSBOARD_SIZE, path));
+                GameController.getChessboard().setLocation(HEIGTH / 10, HEIGTH / 10);
+                add(GameController.getChessboard());
+                GameController.getChessboard().repaint();
+            } catch (Exception a) {
+                a.printStackTrace();
+            }
+            switch (GameController.getError()) {
+                case 100:
+                    break;
+                default:
+                    JOptionPane.showMessageDialog(null, String.format("ERROR<%d>", GameController.getError()), "error", JOptionPane.ERROR_MESSAGE);
+                    break;
+            }
+        });
+    }
     /**
      * 添加排行榜
      */
