@@ -6,7 +6,6 @@ import controller.GameController;
 import save_write.Save_Write;
 
 import javax.swing.*;
-import javax.swing.filechooser.FileNameExtensionFilter;
 import java.awt.*;
 import java.io.File;
 import java.util.ArrayList;
@@ -22,6 +21,7 @@ public class ChessGameFrame extends JFrame {
     private final int HEIGTH;
     public final int CHESSBOARD_SIZE;
     public JLabel gamer;
+    public JLabel timerLable;
 //    private GameController gameController;
 
     public ChessGameFrame(int width, int height) {
@@ -43,6 +43,7 @@ public class ChessGameFrame extends JFrame {
         addGamer();
         addResetButton();
         addRepentButton();
+        addTimeController();
         GameController.setChessGameFrame(this);
 
         //加入背景图片
@@ -72,20 +73,6 @@ public class ChessGameFrame extends JFrame {
      * 在游戏面板中添加标签
      */
     private void addLabel() {
-        JLabel statusLabel = new JLabel("");
-        statusLabel.setLocation(HEIGTH, HEIGTH / 10);
-        statusLabel.setSize(200, 60);
-        statusLabel.setFont(new Font("Rockwell", Font.BOLD, 20));
-        add(statusLabel);
-    }
-
-    public void addGamer() {
-        gamer = new JLabel("Current  " + GameController.getChessboard().getCurrentColors().get(GameController.getChessboard().getCurrentColors().size() - 1).toString());
-        gamer.setLocation(HEIGTH, HEIGTH / 10);
-        gamer.setSize(200, 60);
-        gamer.setFont(new Font("Rockwell", Font.BOLD, 20));
-        add(gamer);
-        gamer.repaint();
         JLabel gamer1 = new JLabel("WHITE  " + GameController.getUser1());
         gamer1.setLocation(HEIGTH, HEIGTH / 10 + 40);
         gamer1.setSize(200, 60);
@@ -98,15 +85,34 @@ public class ChessGameFrame extends JFrame {
         add(gamer2);
     }
 
+    public void addGamer() {
+        gamer = new JLabel("Current  " + GameController.getChessboard().getCurrentColors().get(GameController.getChessboard().getCurrentColors().size() - 1).toString());
+        gamer.setLocation(HEIGTH, HEIGTH / 10);
+        gamer.setSize(200, 60);
+        gamer.setFont(new Font("Rockwell", Font.BOLD, 20));
+        add(gamer);
+        gamer.repaint();
+    }
+
     public void removeGamer() {
         remove(gamer);
     }
+
+    public void addTimeController() {
+        timerLable = new JLabel();
+        timerLable.setSize(200, 60);
+        timerLable.setLocation(HEIGTH, HEIGTH / 10 + 120);
+        timerLable.setFont(new Font("Rockwell", Font.BOLD, 20));
+        add(timerLable);
+        GameController.timeController.resetTimeController();
+    }
+
     /**
      * 添加排行榜
      */
     private void addRankingButton() {
         JButton button = new JButton("Ranking List");
-        button.setLocation(HEIGTH, HEIGTH / 10 + 120);
+        button.setLocation(HEIGTH, HEIGTH / 10 + 310);
         button.setSize(200, 60);
         button.setFont(new Font("Rockwell", Font.BOLD, 20));
         add(button);
@@ -142,7 +148,7 @@ public class ChessGameFrame extends JFrame {
 
     private void addLoadButton() {
         JButton button = new JButton("Load");
-        button.setLocation(HEIGTH, HEIGTH / 10 + 240);
+        button.setLocation(HEIGTH, HEIGTH / 10 + 370);
         button.setSize(200, 60);
         button.setFont(new Font("Rockwell", Font.BOLD, 20));
         add(button);
@@ -169,11 +175,11 @@ public class ChessGameFrame extends JFrame {
             } catch (Exception a) {
                 a.printStackTrace();
             }
-            switch (GameController.getError()){
+            switch (GameController.getError()) {
                 case 100:
                     break;
                 default:
-                    JOptionPane.showMessageDialog(null, String.format("ERROR<%d>",GameController.getError()),"error",JOptionPane.ERROR_MESSAGE);
+                    JOptionPane.showMessageDialog(null, String.format("ERROR<%d>", GameController.getError()), "error", JOptionPane.ERROR_MESSAGE);
                     break;
             }
         });
@@ -181,7 +187,7 @@ public class ChessGameFrame extends JFrame {
 
     private void addResetButton() {
         JButton button = new JButton("Reset");
-        button.setLocation(HEIGTH, HEIGTH / 10 + 390);
+        button.setLocation(HEIGTH, HEIGTH / 10 + 490);
         button.setSize(200, 60);
         button.setFont(new Font("Rockwell", Font.BOLD, 20));
         add(button);
@@ -205,7 +211,7 @@ public class ChessGameFrame extends JFrame {
 
     public void addRepentButton() {
         JButton button = new JButton("Repent");
-        button.setLocation(HEIGTH, HEIGTH / 10 + 450);
+        button.setLocation(HEIGTH, HEIGTH / 10 + 550);
         button.setSize(200, 60);
         button.setFont(new Font("Rockwell", Font.BOLD, 20));
         add(button);
@@ -232,7 +238,7 @@ public class ChessGameFrame extends JFrame {
      */
     private void addSaveButton() {
         JButton button = new JButton("Save");
-        button.setLocation(HEIGTH, HEIGTH / 10 + 300);
+        button.setLocation(HEIGTH, HEIGTH / 10 + 430);
         button.setSize(200, 60);
         button.setFont(new Font("Rockwell", Font.BOLD, 20));
         add(button);

@@ -119,8 +119,8 @@ private ArrayList<ChessColor> currentColors;
     public void swapColor() {
         currentColor = currentColor == ChessColor.BLACK ? ChessColor.WHITE : ChessColor.BLACK;
         currentColors.add(currentColor);
-        GameController.getChessGameFrame().removeGamer();
-        GameController.getChessGameFrame().addGamer();
+        GameController.getChessGameFrame().gamer.setText("Current  " + GameController.getChessboard().getCurrentColors().get(GameController.getChessboard().getCurrentColors().size() - 1).toString());
+        GameController.getChessGameFrame().gamer.repaint();
     }
 
     /**
