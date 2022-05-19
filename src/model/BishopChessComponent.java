@@ -84,28 +84,28 @@ public class BishopChessComponent extends ChessComponent {
      */
     @Override
     public boolean canMoveTo(ChessComponent[][] chessComponents, ChessboardPoint destination) {
-        ChessboardPoint source = getChessboardPoint();
-        if (source.getX() == destination.getX()) {
-            int row = source.getX();
-            for (int col = Math.min(source.getY(), destination.getY()) + 1;
-                 col < Math.max(source.getY(), destination.getY()); col++) {
-                if (!(chessComponents[row][col] instanceof EmptySlotComponent)) {
-                    return false;
-                }
-            }
-        } else if (source.getY() == destination.getY()) {
-            int col = source.getY();
-            for (int row = Math.min(source.getX(), destination.getX()) + 1;
-                 row < Math.max(source.getX(), destination.getX()); row++) {
-                if (!(chessComponents[row][col] instanceof EmptySlotComponent)) {
-                    return false;
-                }
-            }
-        } else { // Not on the same row or the same column.
-            return false;
-        }
-        return true;
-    }
+//        ChessboardPoint source = getChessboardPoint();
+//        if (source.getX() == destination.getX()) {
+//            int row = source.getX();
+//            for (int col = Math.min(source.getY(), destination.getY()) + 1;
+//                 col < Math.max(source.getY(), destination.getY()); col++) {
+//                if (!(chessComponents[row][col] instanceof EmptySlotComponent)) {
+//                    return false;
+//                }
+//            }
+//        } else if (source.getY() == destination.getY()) {
+//            int col = source.getY();
+//            for (int row = Math.min(source.getX(), destination.getX()) + 1;
+//                 row < Math.max(source.getX(), destination.getX()); row++) {
+//                if (!(chessComponents[row][col] instanceof EmptySlotComponent)) {
+//                    return false;
+//                }
+//            }
+//        } else { // Not on the same row or the same column.
+//            return false;
+//        }
+     return true;
+  }
 
     @Override
     public List<ChessboardPoint> canMoveTo() {
@@ -156,5 +156,35 @@ public class BishopChessComponent extends ChessComponent {
         if (isSelected()) { // Highlights the model if selected.
             g.drawImage(white, 0, 0, getWidth() , getHeight(), this);
         }
+    }
+
+    @Override
+    public void loadChessGame(List<String> chessboard) {
+
+    }
+
+    @Override
+    public ChessColor getCurrentPlayer() {
+        return null;
+    }
+
+    @Override
+    public ChessComponent getChess(int x, int y) {
+        return null;
+    }
+
+    @Override
+    public String getChessboardGraph() {
+        return null;
+    }
+
+    @Override
+    public String getCapturedChess(ChessColor player) {
+        return null;
+    }
+
+    @Override
+    public boolean moveChess(int sourceX, int sourceY, int targetX, int targetY) {
+        return false;
     }
 }

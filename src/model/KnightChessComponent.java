@@ -8,6 +8,7 @@ import java.awt.*;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 
 /**
@@ -75,18 +76,17 @@ public class KnightChessComponent extends ChessComponent {
         super.MoreInformation(location, color, listener, size);
         initiateKnightImage(color);
     }
-    /**
-     * 马棋子的移动规则
-     *
-     * @param chessComponents 棋盘
-     * @param destination     目标位置，如(0, 0), (0, 7)等等
-     * @return 马棋子移动的合法性
-     */
+
+
     @Override
     public boolean canMoveTo(ChessComponent[][] chessComponents, ChessboardPoint destination) {
-        ChessboardPoint source=getChessboardPoint();
-        return true;
+        for (ChessboardPoint p:getChess(getSource().getX(),getSource().getY()).canMoveTo()) {
+            if(p.getX() ==destination.getX() && p.getY()==destination.getY()){
+                return true;
+            }
+        }return false;
     }
+
 
     @Override
     public List<ChessboardPoint> canMoveTo() {
@@ -137,6 +137,36 @@ public class KnightChessComponent extends ChessComponent {
         if (isSelected()) { // Highlights the model if selected.
             g.drawImage(white, 0, 0, getWidth() , getHeight(), this);
         }
+    }
+
+    @Override
+    public void loadChessGame(List<String> chessboard) {
+
+    }
+
+    @Override
+    public ChessColor getCurrentPlayer() {
+        return null;
+    }
+
+    @Override
+    public ChessComponent getChess(int x, int y) {
+        return null;
+    }
+
+    @Override
+    public String getChessboardGraph() {
+        return null;
+    }
+
+    @Override
+    public String getCapturedChess(ChessColor player) {
+        return null;
+    }
+
+    @Override
+    public boolean moveChess(int sourceX, int sourceY, int targetX, int targetY) {
+        return false;
     }
 }
 

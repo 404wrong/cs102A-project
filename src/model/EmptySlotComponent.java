@@ -41,4 +41,33 @@ public class EmptySlotComponent extends ChessComponent {
         return '_';
     }
 
+    @Override
+    public void loadChessGame(List<String> chessboard) {
+
+    }
+
+    @Override
+    public ChessColor getCurrentPlayer() {
+        return null;
+    }
+
+    @Override
+    public ChessComponent getChess(int x, int y) {
+        return null;
+    }
+
+    @Override
+    public String getChessboardGraph() {
+        return null;
+    }
+
+    @Override
+    public String getCapturedChess(ChessColor player) {
+        return null;
+    }
+
+    @Override
+    public boolean moveChess(int sourceX, int sourceY, int targetX, int targetY) {
+        return false;
+    }
 }
