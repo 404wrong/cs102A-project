@@ -76,6 +76,8 @@ public class Chessboard extends JComponent {
                 initOnBoard(row, col, chessComponents[row][col]);
             }
         }
+        GameController.getChessGameFrame().gamer.setText("Current  " + getCurrentColor().toString());
+        GameController.getChessGameFrame().gamer.repaint();
         addTimerLabel();
     }
 

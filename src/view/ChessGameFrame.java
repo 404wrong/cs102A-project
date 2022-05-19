@@ -27,10 +27,12 @@ public class ChessGameFrame extends JFrame {
     public final int CHESSBOARD_SIZE;
     public JLabel gamer;
     int q=0;
+    int p=0;
     public void qAdd(){q++;}
 //    private GameController gameController;
 
     public ChessGameFrame(int width, int height) {
+        GameController.setChessGameFrame(this);
         setTitle("2022 CS102A Project Demo"); //设置标题
         this.WIDTH = width;
         this.HEIGTH = height;
@@ -41,16 +43,15 @@ public class ChessGameFrame extends JFrame {
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE); //设置程序关闭按键，如果点击右上方的叉就游戏全部关闭了
         setLayout(null);
 
+        addGamer();
         addChessboard();
         addLabel();
         addRankingButton();
         addLoadButton();
         addSaveButton();
-        addGamer();
         addResetButton();
         addRepentButton();
         addPlaybackButton();
-        GameController.setChessGameFrame(this);
 
         //加入背景图片
         ImageIcon img = new ImageIcon("backGroundImages/MainFrame2/gameBackground2.jpg");//这是背景图片
@@ -92,7 +93,7 @@ public class ChessGameFrame extends JFrame {
     }
 
     public void addGamer() {
-        gamer = new JLabel("Current  " + GameController.getChessboard().getCurrentColor().toString());
+        gamer = new JLabel();
         gamer.setLocation(HEIGTH, HEIGTH / 10);
         gamer.setSize(200, 60);
         gamer.setFont(new Font("Rockwell", Font.BOLD, 20));
@@ -135,9 +136,13 @@ public class ChessGameFrame extends JFrame {
                 }
                 //todo:错误处理
                 int d=a.getStore().size();
-                javax.swing.Timer timer = new javax.swing.Timer(1000, b -> {
+                q=0;
+                javax.swing.Timer timer = new javax.swing.Timer(5000, b -> {
                     remove(GameController.getChessboard());
-                    GameController.setChessboard(new Chessboard(CHESSBOARD_SIZE, CHESSBOARD_SIZE,a.getStore().get(q),a.getCurrentColor().get(q)));
+                    if (q!=0){
+                    GameController.setChessboard(new Chessboard(CHESSBOARD_SIZE, CHESSBOARD_SIZE,a.getStore().get(q),a.getCurrentColor().get(q-1)));}else {
+                        GameController.setChessboard(new Chessboard(CHESSBOARD_SIZE, CHESSBOARD_SIZE,a.getStore().get(q),a.getCurrentColor().get(q+1)));
+                    }
                     GameController.getChessboard().setLocation(0,0);
                     add(GameController.getChessboard());
                     GameController.getChessboard().repaint();
