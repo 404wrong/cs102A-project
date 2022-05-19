@@ -4,12 +4,16 @@ package view;
 
 import addModel.TransparentButton;
 import controller.GameController;
+import model.ChessColor;
+import model.ChessComponent;
 import save_write.Save_Write;
 
 import javax.swing.*;
 import java.awt.*;
 import java.io.File;
 import java.util.ArrayList;
+
+import static jdk.jfr.internal.consumer.EventLog.stop;
 
 /**
  * 这个类表示游戏过程中的整个游戏界面，是一切的载体
@@ -22,16 +26,17 @@ public class ChessGameFrame extends JFrame {
     private final int HEIGTH;
     public final int CHESSBOARD_SIZE;
     public JLabel gamer;
-    public JLabel timerLable;
+    int q=0;
+    public void qAdd(){q++;}
 //    private GameController gameController;
 
     public ChessGameFrame(int width, int height) {
         setTitle("2022 CS102A Project Demo"); //设置标题
         this.WIDTH = width;
         this.HEIGTH = height;
-        this.CHESSBOARD_SIZE = HEIGTH * 4 / 5;
+        this.CHESSBOARD_SIZE = HEIGTH ;
 
-        setSize(WIDTH, HEIGTH);
+        setSize(WIDTH, HEIGTH+30);
         setLocationRelativeTo(null); // Center the window.
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE); //设置程序关闭按键，如果点击右上方的叉就游戏全部关闭了
         setLayout(null);
@@ -44,7 +49,6 @@ public class ChessGameFrame extends JFrame {
         addGamer();
         addResetButton();
         addRepentButton();
-        addTimeController();
         addPlaybackButton();
         GameController.setChessGameFrame(this);
 
@@ -67,7 +71,7 @@ public class ChessGameFrame extends JFrame {
     private void addChessboard() {
         Chessboard chessboard = new Chessboard(CHESSBOARD_SIZE, CHESSBOARD_SIZE, "resource/save1.txt");
         GameController.setChessboard(chessboard);
-        chessboard.setLocation(HEIGTH / 10, HEIGTH / 10);
+        chessboard.setLocation(0,0);
         add(chessboard);
     }
 
@@ -88,21 +92,12 @@ public class ChessGameFrame extends JFrame {
     }
 
     public void addGamer() {
-        gamer = new JLabel("Current  " + GameController.getChessboard().getCurrentColors().get(GameController.getChessboard().getCurrentColors().size() - 1).toString());
+        gamer = new JLabel("Current  " + GameController.getChessboard().getCurrentColor().toString());
         gamer.setLocation(HEIGTH, HEIGTH / 10);
         gamer.setSize(200, 60);
         gamer.setFont(new Font("Rockwell", Font.BOLD, 20));
         add(gamer);
         gamer.repaint();
-    }
-
-    public void addTimeController() {
-        timerLable = new JLabel();
-        timerLable.setSize(200, 60);
-        timerLable.setLocation(HEIGTH, HEIGTH / 10 + 120);
-        timerLable.setFont(new Font("Rockwell", Font.BOLD, 20));
-        add(timerLable);
-        GameController.timeController.resetTimeController();
     }
 
     private void addPlaybackButton() {
@@ -111,13 +106,11 @@ public class ChessGameFrame extends JFrame {
         button.setSize(200, 60);
         button.setFont(new Font("Rockwell", Font.BOLD, 20));
         add(button);
+        GameController.playback=1;
 
         button.addActionListener(e -> {
             System.out.println("Click Playback");
-            JButton jb=new TransparentButton(0,0,0,0);
-            jb.setLocation(HEIGTH / 10, HEIGTH / 10);
-            jb.setSize(CHESSBOARD_SIZE,CHESSBOARD_SIZE);
-            add(jb);GameController.setError(100);
+            GameController.setError(100);
             JFileChooser fileChooser = new JFileChooser(); // 创建一个文件选择器
             fileChooser.setDialogTitle("选择要打开的文件"); // 给它一个标题
             File currentDirectory = new File("resource"); // 默认目录。TODO：改成你电脑上的目录
@@ -126,14 +119,38 @@ public class ChessGameFrame extends JFrame {
             File chosenFile = null;
             if (result == JFileChooser.APPROVE_OPTION) { // 如果最终确认选择而不是推出
                 chosenFile = fileChooser.getSelectedFile(); // 获取选中的文件
+            }else {
+                chosenFile=new File("save1.txt");
+                GameController.setError(104);
             }
             try {
                 String path = chosenFile.getAbsolutePath();
-                remove(GameController.getChessboard());
-                GameController.setChessboard(new Chessboard(CHESSBOARD_SIZE, CHESSBOARD_SIZE, path));
-                GameController.getChessboard().setLocation(HEIGTH / 10, HEIGTH / 10);
-                add(GameController.getChessboard());
-                GameController.getChessboard().repaint();
+
+                Save_Write a = new Save_Write();
+                if (!a.convertToChessboard(a.readFileByFileReader(path))) {
+                    if (!a.convertToChessboard(a.readFileByFileReader("resource/save1.txt"))) {
+                        a.writeFileByFileWriter("resource/save1.txt", new ArrayList<String>() {{add("RNBQKBNRPPPPPPPP________________________________pppppppprnbqkbnrw");}});
+                        a.convertToChessboard(a.readFileByFileReader("resource/save1.txt"));
+                    }
+                }
+                //todo:错误处理
+                int d=a.getStore().size();
+                javax.swing.Timer timer = new javax.swing.Timer(1000, b -> {
+                    remove(GameController.getChessboard());
+                    GameController.setChessboard(new Chessboard(CHESSBOARD_SIZE, CHESSBOARD_SIZE,a.getStore().get(q),a.getCurrentColor().get(q)));
+                    GameController.getChessboard().setLocation(0,0);
+                    add(GameController.getChessboard());
+                    GameController.getChessboard().repaint();
+                    qAdd();
+                    System.out.println("q");
+                    if(q==a.getStore().size()){
+                    }
+                });
+                timer.start();
+
+                for (int i = 0; i < a.getStore().size(); i++) {
+
+                }
             } catch (Exception a) {
                 a.printStackTrace();
             }
@@ -145,7 +162,9 @@ public class ChessGameFrame extends JFrame {
                     break;
             }
         });
+
     }
+
     /**
      * 添加排行榜
      */
@@ -208,7 +227,7 @@ public class ChessGameFrame extends JFrame {
                 String path = chosenFile.getAbsolutePath();
                 remove(GameController.getChessboard());
                 GameController.setChessboard(new Chessboard(CHESSBOARD_SIZE, CHESSBOARD_SIZE, path));
-                GameController.getChessboard().setLocation(HEIGTH / 10, HEIGTH / 10);
+                GameController.getChessboard().setLocation(0,0);
                 add(GameController.getChessboard());
                 GameController.getChessboard().repaint();
             } catch (Exception a) {
@@ -242,7 +261,7 @@ public class ChessGameFrame extends JFrame {
 
 
             GameController.setChessboard(new Chessboard(CHESSBOARD_SIZE, CHESSBOARD_SIZE, "resource/save1.txt"));
-            GameController.getChessboard().setLocation(HEIGTH / 10, HEIGTH / 10);
+            GameController.getChessboard().setLocation(0,0);
             add(GameController.getChessboard());
             GameController.getChessboard().repaint();
         });
@@ -266,7 +285,7 @@ public class ChessGameFrame extends JFrame {
             sW.setCurrentColor(GameController.getChessboard().getCurrentColors());
             sW.writeFileByFileWriter(path, sW.convertToList(sW.getStore()));
             GameController.setChessboard(new Chessboard(CHESSBOARD_SIZE, CHESSBOARD_SIZE, "resource/save2.txt"));
-            GameController.getChessboard().setLocation(HEIGTH / 10, HEIGTH / 10);
+            GameController.getChessboard().setLocation(0,0);
             add(GameController.getChessboard());
             GameController.getChessboard().repaint();
         });
