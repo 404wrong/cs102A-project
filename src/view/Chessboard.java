@@ -1,5 +1,6 @@
 package view;
 
+import addModel.TransparentButton;
 import controller.ClickController;
 import controller.GameController;
 import model.*;
@@ -9,6 +10,8 @@ import javax.swing.*;
 import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Timer;
+import java.util.TimerTask;
 
 /**
  * 这个类表示面板上的棋盘组件对象
@@ -21,17 +24,20 @@ public class Chessboard extends JComponent {
      * chessboard: 表示8 * 8的棋盘<br>
      * currentColor: 当前行棋方
      */
-    private static final Icon defaultIcon=new ImageIcon("images/white-0%.png");
-    private static final Icon pressedIcon=new ImageIcon("images/white-25%.png");
-    private static final Icon rolloverIcon=new ImageIcon("images/white-25%.png");
+    private static final Icon defaultIcon = new ImageIcon("images/white-0%.png");
+    private static final Icon pressedIcon = new ImageIcon("images/white-25%.png");
+    private static final Icon rolloverIcon = new ImageIcon("images/white-25%.png");
 
-    private ArrayList<ChessComponent[][]> store;
-private ArrayList<ChessColor> currentColors;
+    long midTime;
+    private ArrayList<ChessComponent[][]> store=new ArrayList<>();
+    private ArrayList<ChessColor> currentColors=new ArrayList<>();
     private ChessComponent[][] chessComponents;
     private ChessColor currentColor;
     //all chessComponents in this chessboard are shared only one model controller
     private final ClickController clickController = new ClickController(this);
     private int CHESS_SIZE;
+    public JLabel timerLabel;
+    int a;
 
     public void setCHESS_SIZE(int width) {
         this.CHESS_SIZE = width / 8;
@@ -46,28 +52,61 @@ private ArrayList<ChessColor> currentColors;
      */
     public Chessboard(int width, int height, String path) {
         setLayout(null); // Use absolute layout.
-        setSize(width, height);
         CHESS_SIZE = width / 8;
+        setLocation(0, 0);
+        setSize(width + CHESS_SIZE * 2, height);
         System.out.printf("chessboard size = %d, chess size = %d\n", width, CHESS_SIZE);
 
         Save_Write a = new Save_Write();
         if (!a.convertToChessboard(a.readFileByFileReader(path))) {
             if (!a.convertToChessboard(a.readFileByFileReader("resource/save1.txt"))) {
-                a.writeFileByFileWriter("resource/save1.txt", new ArrayList<String>() {{add("RNBQKBNRPPPPPPPP________________________________pppppppprnbqkbnrw");}});
+                a.writeFileByFileWriter("resource/save1.txt", new ArrayList<String>() {{
+                    add("RNBQKBNRPPPPPPPP________________________________pppppppprnbqkbnrw");
+                }});
                 a.convertToChessboard(a.readFileByFileReader("resource/save1.txt"));
             }
         }
         store = a.getStore();
-        currentColors=a.getCurrentColor();
+        currentColors = a.getCurrentColor();
         chessComponents = copyChessComponent(store.get(store.size() - 1));
-        currentColor=currentColors.get(currentColors.size()-1);
+        currentColor = currentColors.get(currentColors.size() - 1);
 
         for (int row = 0; row < 8; row++) {
             for (int col = 0; col < 8; col++) {
                 initOnBoard(row, col, chessComponents[row][col]);
             }
         }
+        GameController.getChessGameFrame().gamer.setText("Current  " + getCurrentColor().toString());
+        GameController.getChessGameFrame().gamer.repaint();
+        addTimerLabel();
+    }
 
+    public Chessboard(int width, int height,ChessComponent[][] chessComponent, ChessColor currentColor) {
+        if (GameController.playback == 1) {
+            JButton jb = new TransparentButton(0, 0, 0, 0);
+            jb.setLocation(0, 0);
+            jb.setSize(width, width);
+            add(jb);
+            GameController.playback = 0;
+
+        }
+        setLayout(null); // Use absolute layout.
+        CHESS_SIZE = width / 8;
+        setLocation(0, 0);
+        setSize(width + CHESS_SIZE * 2, height);
+        System.out.printf("chessboard size = %d, chess size = %d\n", width, CHESS_SIZE);
+
+        this.currentColor = currentColor;
+        this.chessComponents = chessComponent;
+        store.add(chessComponents);
+        currentColors.add(currentColor);
+        for (int row = 0; row < 8; row++) {
+            for (int col = 0; col < 8; col++) {
+                initOnBoard(row, col, chessComponents[row][col]);
+            }
+        }
+        GameController.getChessGameFrame().gamer.setText("Current  " + GameController.getChessboard().getCurrentColor().toString());
+        GameController.getChessGameFrame().gamer.repaint();
     }
 
     /**
@@ -77,9 +116,9 @@ private ArrayList<ChessColor> currentColors;
         return chessComponents;
     }
 
-    public void repentChess(){
-        store.remove(store.size()-1);
-        currentColors.remove(currentColors.size()-1);
+    public void repentChess() {
+        store.remove(store.size() - 1);
+        currentColors.remove(currentColors.size() - 1);
     }
 
     /**
@@ -121,6 +160,7 @@ private ArrayList<ChessColor> currentColors;
         currentColors.add(currentColor);
         GameController.getChessGameFrame().gamer.setText("Current  " + GameController.getChessboard().getCurrentColors().get(GameController.getChessboard().getCurrentColors().size() - 1).toString());
         GameController.getChessGameFrame().gamer.repaint();
+        a = 20;
     }
 
     /**
@@ -185,5 +225,30 @@ private ArrayList<ChessColor> currentColors;
 
     public void setCurrentColors(ArrayList<ChessColor> currentColors) {
         this.currentColors = currentColors;
+    }
+
+    public void addTimerLabel() {
+        a = 20;
+        timerLabel = new JLabel(String.format("Time left: %d", a));
+        timerLabel.setLocation(CHESS_SIZE * 8, CHESS_SIZE * 2);
+        timerLabel.setSize(CHESS_SIZE * 2, CHESS_SIZE);
+        timerLabel.setFont(new Font("Rockwell", Font.BOLD, 20));
+        add(timerLabel);
+        javax.swing.Timer timer = new javax.swing.Timer(1000, e -> {
+            changeTimerLabel();
+            if (a == 0) {
+                swapColor();
+            }
+        });
+        timer.start();
+    }
+
+    public void changeTimerLabel() {
+        a--;
+        timerLabel.setText(String.format("Time left: %d", a));
+    }
+
+    public void setCurrentColor(ChessColor currentColor) {
+        this.currentColor = currentColor;
     }
 }

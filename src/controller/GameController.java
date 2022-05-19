@@ -16,7 +16,8 @@ public class GameController {
     private static int error;
     private static FunctionFrame functionFrame;
     private static int functionFrameExist=0;
-    public static TimeController timeController=new TimeController();
+    public static int playback=0;
+//    public static TimeController timeController=new TimeController();
 
     public static int getFunctionFrameExist() {
         return functionFrameExist;
