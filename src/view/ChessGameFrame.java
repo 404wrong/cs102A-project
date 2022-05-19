@@ -101,7 +101,6 @@ public class ChessGameFrame extends JFrame {
     public void removeGamer() {
         remove(gamer);
     }
-
     /**
      * 添加排行榜
      */
