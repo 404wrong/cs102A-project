@@ -137,7 +137,7 @@ public class ChessGameFrame extends JFrame {
                 //todo:错误处理
                 int d=a.getStore().size();
                 q=0;
-                javax.swing.Timer timer = new javax.swing.Timer(5000, b -> {
+                javax.swing.Timer timer = new javax.swing.Timer(1000, b -> {
                     remove(GameController.getChessboard());
                     if (q!=0){
                     GameController.setChessboard(new Chessboard(CHESSBOARD_SIZE, CHESSBOARD_SIZE,a.getStore().get(q),a.getCurrentColor().get(q-1)));}else {
@@ -158,7 +158,6 @@ public class ChessGameFrame extends JFrame {
                 }
             } catch (Exception a) {
                 q=0;
-                a.printStackTrace();
             }
             switch (GameController.getError()) {
                 case 100:
