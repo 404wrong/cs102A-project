@@ -102,7 +102,8 @@ public class ChessGameFrame extends JFrame {
     }
 
     private void addPlaybackButton() {
-        JButton button = new JButton("Playback");
+        JButton button = new TransparentButton(2,3,4,3,"Playback",200,60,20);
+
         button.setLocation(HEIGTH, HEIGTH / 10 + 250);
         button.setSize(200, 60);
         button.setFont(new Font("Rockwell", Font.BOLD, 20));
@@ -149,6 +150,7 @@ public class ChessGameFrame extends JFrame {
                     qAdd();
                     System.out.println("q");
                     if(q==a.getStore().size()){
+                        Thread.currentThread().stop();
                     }
                 });
                 timer.start();
@@ -174,8 +176,8 @@ public class ChessGameFrame extends JFrame {
      * 添加排行榜
      */
     private void addRankingButton() {
-        JButton button = new JButton("Ranking List");
-        button.setLocation(HEIGTH, HEIGTH / 10 + 310);
+        JButton button = new TransparentButton(2,3,4,3,"Ranking List",200,60,20);
+        button.setLocation(HEIGTH, HEIGTH / 10 + 320);
         button.setSize(200, 60);
         button.setFont(new Font("Rockwell", Font.BOLD, 20));
         add(button);
@@ -210,8 +212,8 @@ public class ChessGameFrame extends JFrame {
     }
 
     private void addLoadButton() {
-        JButton button = new JButton("Load");
-        button.setLocation(HEIGTH, HEIGTH / 10 + 370);
+        JButton button = new TransparentButton(2,3,4,3,"    Load",200,60,20);
+        button.setLocation(HEIGTH, HEIGTH / 10 + 390);
         button.setSize(200, 60);
         button.setFont(new Font("Rockwell", Font.BOLD, 20));
         add(button);
@@ -248,9 +250,31 @@ public class ChessGameFrame extends JFrame {
         });
     }
 
+    /**
+     * 增加保存按钮<br>
+     */
+    private void addSaveButton() {
+        JButton button = new  TransparentButton(2,3,4,3,"    Save",200,60,20);
+
+        button.setLocation(HEIGTH, HEIGTH / 10 + 460);
+        button.setSize(200, 60);
+        button.setFont(new Font("Rockwell", Font.BOLD, 20));
+        add(button);
+
+        button.addActionListener(e -> {
+            System.out.println("Click save");
+            String path = JOptionPane.showInputDialog(this, "Input Path here");
+            Save_Write sW = new Save_Write();
+            sW.setStore(GameController.getChessboard().getStore());
+            sW.setCurrentColor(GameController.getChessboard().getCurrentColors());
+            sW.writeFileByFileWriter(path, sW.convertToList(sW.getStore()));
+//todo：故障处理
+        });
+    }
+
     private void addResetButton() {
-        JButton button = new JButton("Reset");
-        button.setLocation(HEIGTH, HEIGTH / 10 + 490);
+        JButton button = new TransparentButton(2,3,4,3,"   Reset",200,60,20);
+        button.setLocation(HEIGTH, HEIGTH / 10 + 530);
         button.setSize(200, 60);
         button.setFont(new Font("Rockwell", Font.BOLD, 20));
         add(button);
@@ -273,8 +297,9 @@ public class ChessGameFrame extends JFrame {
     }
 
     public void addRepentButton() {
-        JButton button = new JButton("Repent");
-        button.setLocation(HEIGTH, HEIGTH / 10 + 550);
+        JButton button = new TransparentButton(2,3,4,3,"  Repent",200,60,20);
+
+        button.setLocation(HEIGTH, HEIGTH / 10 + 600);
         button.setSize(200, 60);
         button.setFont(new Font("Rockwell", Font.BOLD, 20));
         add(button);
@@ -293,27 +318,6 @@ public class ChessGameFrame extends JFrame {
             GameController.getChessboard().setLocation(0,0);
             add(GameController.getChessboard());
             GameController.getChessboard().repaint();
-        });
-    }
-
-    /**
-     * 增加保存按钮<br>
-     */
-    private void addSaveButton() {
-        JButton button = new JButton("Save");
-        button.setLocation(HEIGTH, HEIGTH / 10 + 430);
-        button.setSize(200, 60);
-        button.setFont(new Font("Rockwell", Font.BOLD, 20));
-        add(button);
-
-        button.addActionListener(e -> {
-            System.out.println("Click save");
-            String path = JOptionPane.showInputDialog(this, "Input Path here");
-            Save_Write sW = new Save_Write();
-            sW.setStore(GameController.getChessboard().getStore());
-            sW.setCurrentColor(GameController.getChessboard().getCurrentColors());
-            sW.writeFileByFileWriter(path, sW.convertToList(sW.getStore()));
-//todo：故障处理
         });
     }
 }

@@ -29,8 +29,8 @@ public class Chessboard extends JComponent {
     private static final Icon rolloverIcon = new ImageIcon("images/white-25%.png");
 
     long midTime;
-    private ArrayList<ChessComponent[][]> store=new ArrayList<>();
-    private ArrayList<ChessColor> currentColors=new ArrayList<>();
+    private ArrayList<ChessComponent[][]> store = new ArrayList<>();
+    private ArrayList<ChessColor> currentColors = new ArrayList<>();
     private ChessComponent[][] chessComponents;
     private ChessColor currentColor;
     //all chessComponents in this chessboard are shared only one model controller
@@ -81,15 +81,12 @@ public class Chessboard extends JComponent {
         addTimerLabel();
     }
 
-    public Chessboard(int width, int height,ChessComponent[][] chessComponent, ChessColor currentColor) {
-        if (GameController.playback == 1) {
-            JButton jb = new TransparentButton(0, 0, 0, 0);
-            jb.setLocation(0, 0);
-            jb.setSize(width, width);
-            add(jb);
-            GameController.playback = 0;
+    public Chessboard(int width, int height, ChessComponent[][] chessComponent, ChessColor currentColor) {
+        JButton jb = new TransparentButton(0, 0, 0, 0);
+        jb.setLocation(0, 0);
+        jb.setSize(width, width);
+        add(jb);
 
-        }
         setLayout(null); // Use absolute layout.
         CHESS_SIZE = width / 8;
         setLocation(0, 0);
@@ -251,8 +248,9 @@ public class Chessboard extends JComponent {
     public ChessComponent getChess(ChessboardPoint point) {
         return chessComponents[point.getX()][point.getY()];
     }
-    public ChessComponent getChess(int x, int y){
-        return getChess(new ChessboardPoint(x,y));
+
+    public ChessComponent getChess(int x, int y) {
+        return getChess(new ChessboardPoint(x, y));
     }
 
     public void setCurrentColor(ChessColor currentColor) {
