@@ -11,7 +11,7 @@ public class GameController {
     private static Chessboard chessboard;
     private static UserController userController;
     private static String user1;
-    private static String user2="AI";
+    private static String user2="AIController";
     private static ChessGameFrame chessGameFrame;
     private static int error;
     private static FunctionFrame functionFrame;

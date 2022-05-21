@@ -238,7 +238,6 @@ public class ChessGameFrame extends JFrame {
                 add(GameController.getChessboard());
                 GameController.getChessboard().repaint();
             } catch (Exception a) {
-                a.printStackTrace();
             }
             switch (GameController.getError()) {
                 case 100:
@@ -306,6 +305,7 @@ public class ChessGameFrame extends JFrame {
 
         button.addActionListener(e -> {
             System.out.println("Click repent");
+            if(GameController.getChessboard().getStore().size()!=1){
             remove(GameController.getChessboard());
             GameController.getChessboard().repentChess();
             //todo:异常处理
@@ -318,6 +318,6 @@ public class ChessGameFrame extends JFrame {
             GameController.getChessboard().setLocation(0,0);
             add(GameController.getChessboard());
             GameController.getChessboard().repaint();
-        });
+        }});
     }
 }

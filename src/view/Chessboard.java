@@ -256,4 +256,5 @@ public class Chessboard extends JComponent {
     public void setCurrentColor(ChessColor currentColor) {
         this.currentColor = currentColor;
     }
+
 }

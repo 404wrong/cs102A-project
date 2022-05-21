@@ -39,14 +39,14 @@ public class FunctionFrame extends JFrame {
     }
 
     public void addAIButton() {
-        JButton jButton = new JButton("AI");
+        JButton jButton = new JButton("AIController");
         jButton.setLocation(10, 10);
         jButton.setSize(WIDTH - 20, HEIGTH / 2 - 20);
         jButton.setFont(new Font("Rockwell", Font.BOLD, 20));
         add(jButton);
 //todo
         jButton.addActionListener(e -> {
-            System.out.println("Click AI");
+            System.out.println("Click AIController");
             mainFrame = new ChessGameFrame(1000, 760);
             this.setVisible(false);
             mainFrame.setVisible(true);
