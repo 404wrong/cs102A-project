@@ -11,6 +11,7 @@ import save_write.Save_Write;
 import javax.swing.*;
 import java.awt.*;
 import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 
 import static jdk.jfr.internal.consumer.EventLog.stop;
@@ -142,7 +143,7 @@ public class ChessGameFrame extends JFrame {
                     remove(GameController.getChessboard());
                     if (q!=0){
                     GameController.setChessboard(new Chessboard(CHESSBOARD_SIZE, CHESSBOARD_SIZE,a.getStore().get(q),a.getCurrentColor().get(q-1)));}else {
-                        GameController.setChessboard(new Chessboard(CHESSBOARD_SIZE, CHESSBOARD_SIZE,a.getStore().get(q),a.getCurrentColor().get(q+1)));
+                        GameController.setChessboard(new Chessboard(CHESSBOARD_SIZE, CHESSBOARD_SIZE,"WHITE"));
                     }
                     GameController.getChessboard().setLocation(0,0);
                     add(GameController.getChessboard());
@@ -261,12 +262,14 @@ public class ChessGameFrame extends JFrame {
         add(button);
 
         button.addActionListener(e -> {
-            System.out.println("Click save");
-            String path = JOptionPane.showInputDialog(this, "Input Path here");
-            Save_Write sW = new Save_Write();
-            sW.setStore(GameController.getChessboard().getStore());
-            sW.setCurrentColor(GameController.getChessboard().getCurrentColors());
-            sW.writeFileByFileWriter(path, sW.convertToList(sW.getStore()));
+            try {
+                System.out.println("Click save");
+                String path = JOptionPane.showInputDialog(this, "Input Path here");
+                Save_Write sW = new Save_Write();
+                sW.setStore(GameController.getChessboard().getStore());
+                sW.setCurrentColor(GameController.getChessboard().getCurrentColors());
+                sW.writeFileByFileWriter(path, sW.convertToList(sW.getStore()));
+            }catch (Exception f){}
 //todo：故障处理
         });
     }

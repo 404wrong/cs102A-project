@@ -47,7 +47,6 @@ public class Save_Write {
             fileReader.close();
             return readLines;
         } catch (IOException e) {
-            e.printStackTrace();
         }
         return null;
     }
@@ -177,7 +176,6 @@ public class Save_Write {
             writer.close();
             fileWriter.close();
         } catch (IOException e) {
-            e.printStackTrace();
         }
     }
 
