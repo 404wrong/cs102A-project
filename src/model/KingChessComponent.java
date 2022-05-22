@@ -79,12 +79,19 @@ public class KingChessComponent extends ChessComponent {
         super.MoreInformation(location, color, listener, size);
         initiateKingImage(color);
     }
+
+    public static void Win(){
+        if(GameController.getChessboard().getSpecificChess(ChessColor.WHITE,ChessType.King)==null||GameController.getChessboard().getSpecificChess(ChessColor.BLACK,ChessType.King)==null){
+            //stop game
+        }
+    }
     /**
      * 王棋子的移动规则
      *
      * @param destination     目标位置，如(0, 0), (0, 7)等等
      * @return 王棋子移动的合法性
      */
+
     @Override
     public boolean canMoveTo( ChessboardPoint destination) {
         for (ChessboardPoint p:GameController.getChessboard().getChess(getChessboardPoint().getX(),getChessboardPoint().getY()).canMoveTo()) {
