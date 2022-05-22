@@ -15,9 +15,12 @@ public class EmptySlotComponent extends ChessComponent {
 
     public EmptySlotComponent(ChessboardPoint chessboardPoint, Point location, ClickController listener, int size) {
         super(chessboardPoint, location, ChessColor.NONE, listener, size);
+        this.Type = ChessType.Empty;
     }
     public EmptySlotComponent(ChessboardPoint chessboardPoint,ChessColor color){
         super(chessboardPoint,color);
+        this.Type = ChessType.Empty;
+
     }
     public void MoreInformation(Point location, ChessColor color, ClickController listener, int size) {
         super.MoreInformation(location, color, listener, size);

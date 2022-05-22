@@ -68,9 +68,12 @@ public class BishopChessComponent extends ChessComponent {
     public BishopChessComponent(ChessboardPoint chessboardPoint, Point location, ChessColor color, ClickController listener, int size) {
         super(chessboardPoint, location, color, listener, size);
         initiateBishopImage(color);
+        this.Type = ChessType.Bishop;
     }
     public BishopChessComponent(ChessboardPoint chessboardPoint,ChessColor color){
         super(chessboardPoint,color);
+        this.Type = ChessType.Bishop;
+
     }
     public void MoreInformation(Point location, ChessColor color, ClickController listener, int size) {
         super.MoreInformation(location, color, listener, size);
@@ -79,7 +82,6 @@ public class BishopChessComponent extends ChessComponent {
     /**
      * 象棋子的移动规则
      *
-     * @param chessComponents 棋盘
      * @param destination     目标位置，如(0, 0), (0, 7)等等
      * @return 象棋子移动的合法性
      */

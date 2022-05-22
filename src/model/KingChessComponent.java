@@ -68,9 +68,12 @@ public class KingChessComponent extends ChessComponent {
     public KingChessComponent(ChessboardPoint chessboardPoint, Point location, ChessColor color, ClickController listener, int size) {
         super(chessboardPoint, location, color, listener, size);
         initiateKingImage(color);
+        this.Type = ChessType.King;
     }
     public KingChessComponent(ChessboardPoint chessboardPoint,ChessColor color){
         super(chessboardPoint,color);
+        this.Type = ChessType.King;
+
     }
     public void MoreInformation(Point location, ChessColor color, ClickController listener, int size) {
         super.MoreInformation(location, color, listener, size);
@@ -79,7 +82,6 @@ public class KingChessComponent extends ChessComponent {
     /**
      * 王棋子的移动规则
      *
-     * @param chessComponents 棋盘
      * @param destination     目标位置，如(0, 0), (0, 7)等等
      * @return 王棋子移动的合法性
      */
@@ -116,6 +118,13 @@ public class KingChessComponent extends ChessComponent {
                     break;
                 }
             }
+        }
+
+        if (GameController.getChessboard().canSwitchKR(1)) {
+            list.add(new ChessboardPoint(this.getChessboardPoint().getX(), this.getChessboardPoint().getY()-2));
+        }
+        if (GameController.getChessboard().canSwitchKR(0)) {
+            list.add(new ChessboardPoint(this.getChessboardPoint().getX(), this.getChessboardPoint().getY()+2));
         }
         return list;
     }

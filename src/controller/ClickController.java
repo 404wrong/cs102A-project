@@ -25,13 +25,19 @@ public class ClickController {
                 ChessComponent recordFirst = first;
                 first = null;
                 recordFirst.repaint();
-            } else if (handleSecond(chessComponent)) {
-                //repaint in swap chess method.
-                chessboard.swapChessComponents(first, chessComponent);
-                chessboard.swapColor();
-
-                first.setSelected(false);
-                first = null;
+            } else {
+                if (handleSecond(chessComponent)) {
+                    //repaint in swap chess method.
+                    chessboard.swapChessComponents(first, chessComponent);
+                    chessboard.swapColor();
+                    first.setSelected(false);
+                    first = null;
+                } else {
+                    first.setSelected(false);
+                    ChessComponent recordFirst = first;
+                    first = null;
+                    recordFirst.repaint();
+                }
             }
         }
     }

@@ -2,6 +2,7 @@ package model;
 
 import controller.ClickController;
 import controller.GameController;
+import view.Chessboard;
 import view.ChessboardPoint;
 
 import javax.imageio.ImageIO;
@@ -23,6 +24,12 @@ public class PawnChessComponent extends ChessComponent {
     private static Image PAWN_WHITE;
     private static Image PAWN_BLACK;
     private static Image white;
+    private boolean canChuang;
+
+    private ChessboardPoint direct;
+
+    Directions directions=new Directions();
+
     /**
      * 兵棋子对象自身的图片，是上面两种中的一种
      */
@@ -67,9 +74,25 @@ public class PawnChessComponent extends ChessComponent {
     public PawnChessComponent(ChessboardPoint chessboardPoint, Point location, ChessColor color, ClickController listener, int size) {
         super(chessboardPoint, location, color, listener, size);
         initiatePawnImage(color);
+        this.Type = ChessType.Pawn;
+        this.canChuang = false;
+        this.firstMove = true;
+        if (this.getChessColor().equals(ChessColor.WHITE)) {
+            this.direct = directions.up();
+        } else {
+            this.direct = directions.down();
+        }
     }
     public PawnChessComponent(ChessboardPoint chessboardPoint,ChessColor color){
         super(chessboardPoint,color);
+        this.canChuang = false;
+        this.firstMove = true;
+        this.Type = ChessType.Pawn;
+        if (this.getChessColor().equals(ChessColor.WHITE)) {
+            this.direct = directions.up();
+        } else {
+            this.direct = directions.down();
+        }
     }
     public void MoreInformation(Point location, ChessColor color, ClickController listener, int size) {
         super.MoreInformation(location, color, listener, size);
@@ -78,7 +101,6 @@ public class PawnChessComponent extends ChessComponent {
     /**
      * 兵棋子的移动规则
      *
-     * @param chessComponents 棋盘
      * @param destination     目标位置，如(0, 0), (0, 7)等等
      * @return 兵棋子移动的合法性
      */
@@ -95,15 +117,8 @@ public class PawnChessComponent extends ChessComponent {
     @Override
     public List<ChessboardPoint> canMoveTo() {
         int MAS;
-        boolean firstMove = true;
         ArrayList<ChessboardPoint> list  = new ArrayList<>();
-        ChessboardPoint direct;
-        Directions directions=new Directions();
-        if (this.getChessColor().equals(ChessColor.WHITE)) {
-            direct = directions.up();
-        } else {
-            direct = directions.down();
-        }
+
         ArrayList<ChessboardPoint> eatAble = new ArrayList<>();
         eatAble.add(new ChessboardPoint(direct.getX(),direct.getY()+1));
         eatAble.add(new ChessboardPoint(direct.getX(),direct.getY()-1));
@@ -126,7 +141,6 @@ public class PawnChessComponent extends ChessComponent {
                     break;
                 }
             }
-            firstMove = false;
         } else {
             MAS = 1;
             for (int i = 1; i <= MAS; i++) {
@@ -162,9 +176,40 @@ public class PawnChessComponent extends ChessComponent {
                 }
             }
         }
-
+        ChessboardPoint leftP = new ChessboardPoint(this.getChessboardPoint().getX(),this.getChessboardPoint().getY()-1);
+        if (!leftP.offset()) {
+            ChessComponent left = GameController.getChessboard().getChess(leftP);
+            if (left.getType().equals(ChessComponent.ChessType.Pawn)) {
+                PawnChessComponent bastard = (PawnChessComponent) left;
+                if (bastard.getChuang()) {
+                    list.add(new ChessboardPoint(left.getChessboardPoint().getX()+this.getDirect().getX(),left.getChessboardPoint().getY()));
+                }
+            }
+        }
+        ChessboardPoint rightP = new ChessboardPoint(this.getChessboardPoint().getX(),this.getChessboardPoint().getY()+1);
+        if (!rightP.offset()) {
+            ChessComponent right = GameController.getChessboard().getChess(rightP);
+            if (right.getType().equals(ChessComponent.ChessType.Pawn)) {
+                PawnChessComponent bastard = (PawnChessComponent) right;
+                if (bastard.getChuang()) {
+                    list.add(new ChessboardPoint(right.getChessboardPoint().getX() + this.getDirect().getX(), right.getChessboardPoint().getY()));
+                    System.out.println(bastard.getChuang());
+                }
+            }
+        }
         return list;
     }
+
+    public void setChuang(boolean flag){
+        this.canChuang = flag;
+    }
+    public boolean getChuang() {
+        return this.canChuang;
+    }
+
+
+
+
 
     @Override
     public char toChar(){
@@ -190,7 +235,42 @@ public class PawnChessComponent extends ChessComponent {
         }
     }
 
+    public ChessboardPoint getDirect() {
+        return this.direct;
+    }
 
+    //兵变
+    public void balalaPawn(int i) {
+        ChessComponent newChess;
+        GameController.getChessboard().remove(this);
+        switch (i){
+            case 0: //车
+                newChess = new RookChessComponent(this.getChessboardPoint(),this.getChessColor());
+                newChess.repaint();
+                GameController.getChessboard().initOnBoard(this.getChessboardPoint().getX(),this.getChessboardPoint().getY(),newChess);
+                newChess.setLocation(this.getLocation());
+                break;
+            case 1: //马
+                newChess = new KnightChessComponent(this.getChessboardPoint(),this.getChessColor());
+                newChess.repaint();
+                GameController.getChessboard().initOnBoard(this.getChessboardPoint().getX(),this.getChessboardPoint().getY(),newChess);
+                newChess.setLocation(this.getLocation());
+                break;
+            case 2: //象
+                newChess = new BishopChessComponent(this.getChessboardPoint(),this.getChessColor());
+                newChess.repaint();
+                GameController.getChessboard().initOnBoard(this.getChessboardPoint().getX(),this.getChessboardPoint().getY(),newChess);
+                newChess.setLocation(this.getLocation());
+                break;
+            case 3: //后
+                newChess = new QueenChessComponent(this.getChessboardPoint(),this.getChessColor());
+                newChess.repaint();
+                GameController.getChessboard().initOnBoard(this.getChessboardPoint().getX(),this.getChessboardPoint().getY(),newChess);
+                newChess.setLocation(this.getLocation());
+
+                break;
+        }
+    }
 
 }
 

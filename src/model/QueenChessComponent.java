@@ -71,10 +71,13 @@ public class QueenChessComponent extends ChessComponent {
     public QueenChessComponent(ChessboardPoint chessboardPoint, Point location, ChessColor color, ClickController listener, int size) {
         super(chessboardPoint, location, color, listener, size);
         initiateQueenImage(color);
+        this.Type = ChessType.Queen;
     }
 
     public QueenChessComponent(ChessboardPoint chessboardPoint, ChessColor color) {
         super(chessboardPoint, color);
+        this.Type = ChessType.Queen;
+
     }
 
     public void MoreInformation(Point location, ChessColor color, ClickController listener, int size) {
@@ -85,7 +88,6 @@ public class QueenChessComponent extends ChessComponent {
     /**
      * 后棋子的移动规则
      *
-     * @param chessComponents 棋盘
      * @param destination     目标位置，如(0, 0), (0, 7)等等
      * @return 后棋子移动的合法性
      */
