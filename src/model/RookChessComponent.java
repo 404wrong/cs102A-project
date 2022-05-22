@@ -79,7 +79,6 @@ public class RookChessComponent extends ChessComponent {
     /**
      * 车棋子的移动规则
      *
-     * @param chessComponents 棋盘
      * @param destination     目标位置，如(0, 0), (0, 7)等等
      * @return 车棋子移动的合法性
      */

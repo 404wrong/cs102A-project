@@ -85,7 +85,6 @@ public class QueenChessComponent extends ChessComponent {
     /**
      * 后棋子的移动规则
      *
-     * @param chessComponents 棋盘
      * @param destination     目标位置，如(0, 0), (0, 7)等等
      * @return 后棋子移动的合法性
      */

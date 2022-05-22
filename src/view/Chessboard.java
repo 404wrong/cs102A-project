@@ -9,9 +9,6 @@ import save_write.Save_Write;
 import javax.swing.*;
 import java.awt.*;
 import java.util.ArrayList;
-import java.util.List;
-import java.util.Timer;
-import java.util.TimerTask;
 
 /**
  * 这个类表示面板上的棋盘组件对象
@@ -28,7 +25,6 @@ public class Chessboard extends JComponent {
     private static final Icon pressedIcon = new ImageIcon("images/white-25%.png");
     private static final Icon rolloverIcon = new ImageIcon("images/white-25%.png");
 
-    long midTime;
     private ArrayList<ChessComponent[][]> store = new ArrayList<>();
     private ArrayList<ChessColor> currentColors = new ArrayList<>();
     private ChessComponent[][] chessComponents;
@@ -158,6 +154,9 @@ public class Chessboard extends JComponent {
         GameController.getChessGameFrame().gamer.setText("Current  " + GameController.getChessboard().getCurrentColors().get(GameController.getChessboard().getCurrentColors().size() - 1).toString());
         GameController.getChessGameFrame().gamer.repaint();
         a = 20;
+        if(currentColor==ChessColor.BLACK&&GameController.getUser2().equals("AI")){
+            //todo:调用AIController里的方法
+        }
     }
 
     /**

@@ -1,6 +1,7 @@
 package controller;
 
 
+import addModel.Play0;
 import model.ChessComponent;
 import view.Chessboard;
 
@@ -13,6 +14,7 @@ public class ClickController {
     }
 
     public void onClick(ChessComponent chessComponent) {
+        new Play0("resource/落子.mp3").start();
         if (first == null) {
             if (handleFirst(chessComponent)) {
                 chessComponent.setSelected(true);

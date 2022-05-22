@@ -161,7 +161,6 @@ public abstract class ChessComponent extends JComponent {
     }
 
     /**
-     * @param chessboard  棋盘
      * @param destination 目标位置，如(0, 0), (0, 7)等等
      * @return this棋子对象的移动规则和当前位置(chessboardPoint)能否到达目标位置
      * <br>
