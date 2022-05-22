@@ -167,7 +167,7 @@ public abstract class ChessComponent extends JComponent {
      * <br>
      * 这个方法主要是检查移动的合法性，如果合法就返回true，反之是false
      */
-    public abstract boolean canMoveTo(ChessComponent[][] chessboard, ChessboardPoint destination);
+    public abstract boolean canMoveTo( ChessboardPoint destination);
     public abstract List<ChessboardPoint> canMoveTo();
 
     /**

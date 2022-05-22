@@ -84,28 +84,13 @@ public class BishopChessComponent extends ChessComponent {
      * @return 象棋子移动的合法性
      */
     @Override
-    public boolean canMoveTo(ChessComponent[][] chessComponents, ChessboardPoint destination) {
-//        ChessboardPoint source = getChessboardPoint();
-//        if (source.getX() == destination.getX()) {
-//            int row = source.getX();
-//            for (int col = Math.min(source.getY(), destination.getY()) + 1;
-//                 col < Math.max(source.getY(), destination.getY()); col++) {
-//                if (!(chessComponents[row][col] instanceof EmptySlotComponent)) {
-//                    return false;
-//                }
-//            }
-//        } else if (source.getY() == destination.getY()) {
-//            int col = source.getY();
-//            for (int row = Math.min(source.getX(), destination.getX()) + 1;
-//                 row < Math.max(source.getX(), destination.getX()); row++) {
-//                if (!(chessComponents[row][col] instanceof EmptySlotComponent)) {
-//                    return false;
-//                }
-//            }
-//        } else { // Not on the same row or the same column.
-//            return false;
-//        }
-     return true;
+    public boolean canMoveTo( ChessboardPoint destination) {
+        for (ChessboardPoint p:GameController.getChessboard().getChess(getChessboardPoint().getX(),getChessboardPoint().getY()).canMoveTo()) {
+            if(p.getX() == destination.getX() && p.getY() == destination.getY()){
+                return true;
+            }
+        }
+        return false;
   }
 
     @Override

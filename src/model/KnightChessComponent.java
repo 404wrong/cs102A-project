@@ -80,7 +80,7 @@ public class KnightChessComponent extends ChessComponent {
 
 
     @Override
-    public boolean canMoveTo(ChessComponent[][] chessComponents, ChessboardPoint destination) {
+    public boolean canMoveTo(ChessboardPoint destination) {
         for (ChessboardPoint p:GameController.getChessboard().getChess(getChessboardPoint().getX(),getChessboardPoint().getY()).canMoveTo()) {
             if(p.getX() == destination.getX() && p.getY() == destination.getY()){
                 return true;

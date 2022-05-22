@@ -23,7 +23,7 @@ public class EmptySlotComponent extends ChessComponent {
         super.MoreInformation(location, color, listener, size);
     }
     @Override
-    public boolean canMoveTo(ChessComponent[][] chessboard, ChessboardPoint destination) {
+    public boolean canMoveTo( ChessboardPoint destination) {
             return false;
     }
 
