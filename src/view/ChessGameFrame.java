@@ -14,8 +14,6 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 
-import static jdk.jfr.internal.consumer.EventLog.stop;
-
 /**
  * 这个类表示游戏过程中的整个游戏界面，是一切的载体
  * 调用了chessboard。java文件

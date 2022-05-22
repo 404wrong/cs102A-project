@@ -68,9 +68,12 @@ public class BishopChessComponent extends ChessComponent {
     public BishopChessComponent(ChessboardPoint chessboardPoint, Point location, ChessColor color, ClickController listener, int size) {
         super(chessboardPoint, location, color, listener, size);
         initiateBishopImage(color);
+        this.Type = ChessType.Bishop;
     }
     public BishopChessComponent(ChessboardPoint chessboardPoint,ChessColor color){
         super(chessboardPoint,color);
+        this.Type = ChessType.Bishop;
+
     }
     public void MoreInformation(Point location, ChessColor color, ClickController listener, int size) {
         super.MoreInformation(location, color, listener, size);

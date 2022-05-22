@@ -23,6 +23,9 @@ public class RookChessComponent extends ChessComponent {
     private static Image ROOK_WHITE;
     private static Image ROOK_BLACK;
     private static Image white;
+    private static int WhiteCnt=0;
+    private static int BlackCnt=0;
+    private int id;
 
     /**
      * 车棋子对象自身的图片，是上面两种中的一种
@@ -68,13 +71,18 @@ public class RookChessComponent extends ChessComponent {
     public RookChessComponent(ChessboardPoint chessboardPoint, Point location, ChessColor color, ClickController listener, int size) {
         super(chessboardPoint, location, color, listener, size);
         initiateRookImage(color);
+        this.Type = ChessType.Rook;
+
     }
     public RookChessComponent(ChessboardPoint chessboardPoint,ChessColor color){
         super(chessboardPoint,color);
+        this.Type = ChessType.Rook;
+        initID();
     }
     public void MoreInformation(Point location, ChessColor color, ClickController listener, int size) {
         super.MoreInformation(location, color, listener, size);
         initiateRookImage(color);
+        initID();
     }
     /**
      * 车棋子的移动规则
@@ -141,6 +149,21 @@ public class RookChessComponent extends ChessComponent {
         if (isSelected()) { // Highlights the model if selected.
             g.drawImage(white, 0, 0, getWidth() , getHeight(), this);
         }
+    }
+
+    public void initID(){
+        if (this.getChessColor().equals(ChessColor.WHITE)){
+            this.id = WhiteCnt;
+            WhiteCnt++;
+        }
+        if (this.getChessColor().equals(ChessColor.BLACK)){
+            this.id = BlackCnt;
+            BlackCnt++;
+        }
+    }
+
+    public int getID(){
+        return this.id;
     }
 
 }

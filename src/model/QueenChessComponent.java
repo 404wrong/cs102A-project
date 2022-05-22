@@ -71,10 +71,13 @@ public class QueenChessComponent extends ChessComponent {
     public QueenChessComponent(ChessboardPoint chessboardPoint, Point location, ChessColor color, ClickController listener, int size) {
         super(chessboardPoint, location, color, listener, size);
         initiateQueenImage(color);
+        this.Type = ChessType.Queen;
     }
 
     public QueenChessComponent(ChessboardPoint chessboardPoint, ChessColor color) {
         super(chessboardPoint, color);
+        this.Type = ChessType.Queen;
+
     }
 
     public void MoreInformation(Point location, ChessColor color, ClickController listener, int size) {

@@ -1,14 +1,20 @@
 package model;
 
+import controller.GameController;
 import view.ChessboardPoint;
 
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 
+import static controller.GameController.getChessboard;
+
 public class ConcreteChessGame implements ChessGame{
     private ChessComponent[][] chessComponents;
     private ChessColor currentPlayer;
+
+
+
 
     public ConcreteChessGame(ChessComponent[][] chessComponents) {
         this.chessComponents = new ChessComponent[8][8];
@@ -274,6 +280,7 @@ public class ConcreteChessGame implements ChessGame{
             return false;
         }
     }
+
     public void switchPlayer() {
         if (this.currentPlayer.equals(ChessColor.WHITE)) {
             this.currentPlayer = ChessColor.BLACK;
@@ -281,4 +288,11 @@ public class ConcreteChessGame implements ChessGame{
             this.currentPlayer = ChessColor.WHITE;
         }
     }
+
+
+
+
+
+
+
 }
