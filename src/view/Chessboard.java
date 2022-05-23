@@ -39,6 +39,7 @@ public class Chessboard extends JComponent {
     private int CHESS_SIZE;
     public JLabel timerLabel;
     int a;
+    javax.swing.Timer timer;
 
     public void setCHESS_SIZE(int width) {
         this.CHESS_SIZE = width / 8;
@@ -52,6 +53,7 @@ public class Chessboard extends JComponent {
      *         chessComponents<br>
      */
     public Chessboard(int width, int height, String path) {
+        GameController.nullClick=0;
         setLayout(null); // Use absolute layout.
         CHESS_SIZE = width / 8;
         setLocation(0, 0);
@@ -82,12 +84,16 @@ public class Chessboard extends JComponent {
         addTimerLabel();
     }
 
+    /**
+     * 回放专用方法
+     *
+     * @param width
+     * @param height
+     * @param chessComponent
+     * @param currentColor
+     */
     public Chessboard(int width, int height, ChessComponent[][] chessComponent, ChessColor currentColor) {
-        JButton jb = new TransparentButton(0, 0, 0, 0);
-        jb.setLocation(0, 0);
-        jb.setSize(width, width);
-        add(jb);
-
+        GameController.nullClick=1;
         setLayout(null); // Use absolute layout.
         CHESS_SIZE = width / 8;
         setLocation(0, 0);
@@ -106,6 +112,7 @@ public class Chessboard extends JComponent {
         GameController.getChessGameFrame().gamer.setText("Current  " + GameController.getChessboard().getCurrentColor().toString());
         GameController.getChessGameFrame().gamer.repaint();
     }
+
 
     /**
      * 获取当前棋盘
@@ -158,7 +165,7 @@ public class Chessboard extends JComponent {
 
             }
             //创死过路的
-            ChessComponent back = getChess(pawn.getChessboardPoint().getX()+(-1* pawn.getDirect().getX()),pawn.getChessboardPoint().getY());
+            ChessComponent back = getChess(pawn.getChessboardPoint().getX() + (-1 * pawn.getDirect().getX()), pawn.getChessboardPoint().getY());
             if (back.getType().equals(ChessComponent.ChessType.Pawn)) {
                 PawnChessComponent bastard = (PawnChessComponent) back;
                 if (bastard.getChuang()) {
@@ -181,8 +188,7 @@ public class Chessboard extends JComponent {
         if (chess1.getType().equals(ChessComponent.ChessType.King)) {
             if (col1 - col2 == 2) {
                 switchRookToKing(0);
-            }
-            else if (col1 - col2 == -2) {
+            } else if (col1 - col2 == -2) {
                 switchRookToKing(1);
             }
         }
@@ -202,7 +208,7 @@ public class Chessboard extends JComponent {
         GameController.getChessGameFrame().gamer.setText("Current  " + GameController.getChessboard().getCurrentColors().get(GameController.getChessboard().getCurrentColors().size() - 1).toString());
         GameController.getChessGameFrame().gamer.repaint();
         a = 20;
-        if(currentColor==ChessColor.BLACK&&GameController.getUser2().equals("AI")){
+        if (currentColor == ChessColor.BLACK && GameController.getUser2().equals("AI")) {
             //todo:调用AIController里的方法
         }
         eventCheckAfter();
@@ -279,7 +285,7 @@ public class Chessboard extends JComponent {
         timerLabel.setSize(CHESS_SIZE * 2, CHESS_SIZE);
         timerLabel.setFont(new Font("Rockwell", Font.BOLD, 20));
         add(timerLabel);
-        javax.swing.Timer timer = new javax.swing.Timer(1000, e -> {
+        timer = new javax.swing.Timer(1000, e -> {
             changeTimerLabel();
             if (a == 0) {
                 swapColor();
@@ -310,13 +316,13 @@ public class Chessboard extends JComponent {
         blackChess = new ArrayList<>();
         allChess = new ArrayList<>();
         Pawns = new ArrayList<>();
-        for (int c = 0; c < chessComponents.length; c++ ) {
-            for (int r = 0; r < chessComponents[0].length; r++ ) {
-                ChessComponent chess = getChess(c,r);
+        for (int c = 0; c < chessComponents.length; c++) {
+            for (int r = 0; r < chessComponents[0].length; r++) {
+                ChessComponent chess = getChess(c, r);
                 if (chess.getChessColor().equals(ChessColor.BLACK)) {
                     blackChess.add(chess);
                     allChess.add(chess);
-                } else if (chess.getChessColor().equals(ChessColor.WHITE)){
+                } else if (chess.getChessColor().equals(ChessColor.WHITE)) {
                     whiteChess.add(chess);
                     allChess.add(chess);
                 }
@@ -352,6 +358,7 @@ public class Chessboard extends JComponent {
     public void eventCheckBefore() {
         updateLists();
         checkAwesomePawn();
+        checkWinner();
     }
 
     public void eventCheckAfter() {
@@ -365,7 +372,7 @@ public class Chessboard extends JComponent {
             for (ChessComponent p : blackChess) {
                 if (p.getType().equals(ChessComponent.ChessType.Rook)) {
                     RookChessComponent r = (RookChessComponent) p;
-                    if (r.getID()==i) {
+                    if (r.getID() == i) {
                         rook = r;
                     }
                 }
@@ -373,7 +380,7 @@ public class Chessboard extends JComponent {
                     king = (KingChessComponent) p;
                 }
             }
-            if (rook!=null&& king != null) {
+            if (rook != null && king != null) {
                 if (!rook.isFirstMove() || !king.isFirstMove()) {
                     return false;
                 }
@@ -383,7 +390,7 @@ public class Chessboard extends JComponent {
             for (ChessComponent p : whiteChess) {
                 if (p.getType().equals(ChessComponent.ChessType.Rook)) {
                     RookChessComponent r = (RookChessComponent) p;
-                    if (r.getID()==i) {
+                    if (r.getID() == i) {
                         rook = r;
                     }
                 }
@@ -391,7 +398,7 @@ public class Chessboard extends JComponent {
                     king = (KingChessComponent) p;
                 }
             }
-            if (rook!=null&& king != null) {
+            if (rook != null && king != null) {
                 if (!rook.isFirstMove() || !king.isFirstMove()) {
                     return false;
                 }
@@ -400,15 +407,15 @@ public class Chessboard extends JComponent {
         //换左车
         if (i == 1) {
             for (int index = 1; index < 4; index++) {
-                if (!getChess(king.getChessboardPoint().getX(), king.getChessboardPoint().getY()- index).getType().equals(ChessComponent.ChessType.Empty)) {
+                if (!getChess(king.getChessboardPoint().getX(), king.getChessboardPoint().getY() - index).getType().equals(ChessComponent.ChessType.Empty)) {
                     return false;
                 }
             }
         }
         //换右车
-        else if (i == 0){
+        else if (i == 0) {
             for (int index = 1; index < 3; index++) {
-                if (!getChess(king.getChessboardPoint().getX(),king.getChessboardPoint().getY()+index).getType().equals(ChessComponent.ChessType.Empty)){
+                if (!getChess(king.getChessboardPoint().getX(), king.getChessboardPoint().getY() + index).getType().equals(ChessComponent.ChessType.Empty)) {
                     return false;
                 }
             }
@@ -437,13 +444,13 @@ public class Chessboard extends JComponent {
         //换左车
         RookChessComponent rook = null;
         if (i == 1) {
-            rook = (RookChessComponent) getChess(king.getChessboardPoint().getX(), king.getChessboardPoint().getY()-2);
-            swapChessComponents(rook,getChess(king.getChessboardPoint().getX(), king.getChessboardPoint().getY()+1));
+            rook = (RookChessComponent) getChess(king.getChessboardPoint().getX(), king.getChessboardPoint().getY() - 2);
+            swapChessComponents(rook, getChess(king.getChessboardPoint().getX(), king.getChessboardPoint().getY() + 1));
         }
         //换右车
-        else if (i == 0){
-            rook = (RookChessComponent) getChess(king.getChessboardPoint().getX(), king.getChessboardPoint().getY()+1);
-            swapChessComponents(rook,getChess(king.getChessboardPoint().getX(), king.getChessboardPoint().getY()-1));
+        else if (i == 0) {
+            rook = (RookChessComponent) getChess(king.getChessboardPoint().getX(), king.getChessboardPoint().getY() + 1);
+            swapChessComponents(rook, getChess(king.getChessboardPoint().getX(), king.getChessboardPoint().getY() - 1));
         }
         rook.repaint();
     }
@@ -465,7 +472,23 @@ public class Chessboard extends JComponent {
         }
     }
 
-
+    public void checkWinner() {
+        if (GameController.getChessboard().getSpecificChess(ChessColor.WHITE, ChessComponent.ChessType.King) == null) {
+            GameController.nullClick=1;
+            timer.stop();
+            GameController.getUserController().userSite.get(GameController.getUser1()).addWin();
+            GameController.getUserController().userSite.get(GameController.getUser2()).addLose();
+            GameController.getUserController().writeFileByFileWriter(GameController.getUserController().path);
+            JOptionPane.showMessageDialog(null, String.format("%s win",GameController.getUser1()),"Game finished!",JOptionPane.PLAIN_MESSAGE);
+        } else if (GameController.getChessboard().getSpecificChess(ChessColor.BLACK, ChessComponent.ChessType.King) == null) {
+            GameController.nullClick=1;
+            timer.stop();
+            GameController.getUserController().userSite.get(GameController.getUser2()).addWin();
+            GameController.getUserController().userSite.get(GameController.getUser1()).addLose();
+            GameController.getUserController().writeFileByFileWriter(GameController.getUserController().path);
+            JOptionPane.showMessageDialog(null, String.format("%s win",GameController.getUser2()),"Game finished!",JOptionPane.PLAIN_MESSAGE);
+        }
+    }
 
 
 }

@@ -14,6 +14,9 @@ public class ClickController {
     }
 
     public void onClick(ChessComponent chessComponent) {
+        if (GameController.nullClick==1){
+            return;
+        }
         new Play0("resource/落子.mp3").start();
         if (first == null) {
             if (handleFirst(chessComponent)) {

@@ -17,15 +17,17 @@ import java.util.List;
 public class UserController {
     private List<String> Users = new ArrayList<>();
     private List<User> UserSites = new ArrayList<>();
-    private HashMap<String, User> userSite = new HashMap<>();
-    private HashMap<String, String> users = new HashMap<>();
+    public HashMap<String, User> userSite = new HashMap<>();
+    private HashMap<String, String> users = new HashMap<>();//比较账号密码，无需存入Users
     private HashMap<String, Integer> win = new HashMap<>();
     private HashMap<String, Integer> lose = new HashMap<>();
     private HashMap<String, Integer> draw = new HashMap<>();
     private List<String> readLines = new ArrayList<>();
+    public String path;
 
 
     public UserController(String path) {
+        this.path=path;
         getUserInformation(path);
     }
 
@@ -65,9 +67,6 @@ public class UserController {
         users.put(user, password);
         userSite.put(user, new User(user));
         UserSites.add(userSite.get(user));
-        win.put(user, 0);
-        lose.put(user, 0);
-        draw.put(user, 0);
         writeFileByFileWriter(path);
         return true;
     }
@@ -134,9 +133,6 @@ public class UserController {
             users.put(readLines.get(5 * i), readLines.get(5 * i + 1));
             userSite.put(readLines.get(5 * i), new User(readLines.get(5 * i), Integer.parseInt(readLines.get(5 * i + 2)), Integer.parseInt(readLines.get(5 * i + 3)), Integer.parseInt(readLines.get(5 * i + 4))));
             UserSites.add(userSite.get(readLines.get(5 * i)));
-            win.put(readLines.get(5 * i), Integer.parseInt(readLines.get(5 * i + 2)));
-            lose.put(readLines.get(5 * i), Integer.parseInt(readLines.get(5 * i + 3)));
-            draw.put(readLines.get(5 * i), Integer.parseInt(readLines.get(5 * i + 4)));
         }
     }
 
@@ -164,9 +160,9 @@ public class UserController {
         for (int i = 0; i < users.size(); i++) {
             readLines.add(Users.get(i));
             readLines.add(users.get(Users.get(i)));
-            readLines.add(String.valueOf(win.get(Users.get(i))));
-            readLines.add(String.valueOf(lose.get(Users.get(i))));
-            readLines.add(String.valueOf(draw.get(Users.get(i))));
+            readLines.add(String.valueOf(userSite.get(Users.get(i)).getWin()));
+            readLines.add(String.valueOf(userSite.get(Users.get(i)).getLose()));
+            readLines.add(String.valueOf(userSite.get(Users.get(i)).getDraw()));
         }
     }
 

@@ -29,19 +29,19 @@ public class User {
     public int getWin() {
         return win;
     }
-    public void setWin() {
+    public void addWin() {
         win++;
     }
     public int getLose() {
         return lose;
     }
-    public void setLose() {
+    public void addLose() {
         lose++;
     }
     public int getDraw() {
         return draw;
     }
-    public void setDraw() {
+    public void addDraw() {
         draw++;
     }
 }
