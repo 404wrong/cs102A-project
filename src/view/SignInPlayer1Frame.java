@@ -77,7 +77,7 @@ public class SignInPlayer1Frame extends JFrame {
                     break;
                 case 1:
                     GameController.setUser1(Name.getText());
-                    functionFrame = new FunctionFrame(200, 300);
+                    functionFrame = new FunctionFrame(500, 400);
                     this.setVisible(false);
                     functionFrame.setVisible(true);
                     break;
@@ -89,7 +89,7 @@ public class SignInPlayer1Frame extends JFrame {
                     if (newUser==0){
                         GameController.setUser1(Name.getText());
                         uc.addThisUser(Name.getText(),String.valueOf(Password.getText().hashCode()),"resource/user.txt");
-                        functionFrame = new FunctionFrame(200, 300);
+                        functionFrame = new FunctionFrame(500, 400);
                         this.setVisible(false);
                         functionFrame.setVisible(true);
                         break;

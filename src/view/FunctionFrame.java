@@ -1,5 +1,6 @@
 package view;
 
+import addModel.TransparentButton;
 import controller.GameController;
 import controller.UserController;
 
@@ -21,8 +22,9 @@ public class FunctionFrame extends JFrame {
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         setLayout(null);
         UserController uc = GameController.getUserController();
-        addAIButton();
+//        addAIButton();
         add1V1Button();
+        addRankingButton();
 
         //加入背景图片
         ImageIcon img = new ImageIcon("backGroundImages/MainFrame2/gameBackground2.jpg");//这是背景图片
@@ -38,25 +40,25 @@ public class FunctionFrame extends JFrame {
         GameController.setFunctionFrameExist(GameController.getFunctionFrameExist()+1);
     }
 
-    public void addAIButton() {
-        JButton jButton = new JButton("AIController");
-        jButton.setLocation(10, 10);
-        jButton.setSize(WIDTH - 20, HEIGTH / 2 - 20);
-        jButton.setFont(new Font("Rockwell", Font.BOLD, 20));
-        add(jButton);
-//todo
-        jButton.addActionListener(e -> {
-            System.out.println("Click AIController");
-            mainFrame = new ChessGameFrame(1000, 760);
-            this.setVisible(false);
-            mainFrame.setVisible(true);
-        });
-    }
+//    public void addAIButton() {
+//        JButton jButton = new JButton("AIController");
+//        jButton.setLocation(10, 10);
+//        jButton.setSize(WIDTH - 20, HEIGTH / 2 - 20);
+//        jButton.setFont(new Font("Rockwell", Font.BOLD, 20));
+//        add(jButton);
+////todo
+//        jButton.addActionListener(e -> {
+//            System.out.println("Click AIController");
+//            mainFrame = new ChessGameFrame(1000, 760);
+//            this.setVisible(false);
+//            mainFrame.setVisible(true);
+//        });
+//    }
 
     public void add1V1Button() {
-        JButton jButton = new JButton("Two Player Battle");
-        jButton.setLocation(10, HEIGTH / 2 + 10);
-        jButton.setSize(WIDTH - 20, HEIGTH / 2 - 20);
+        JButton jButton = new TransparentButton(2,3,4,3,"Two Player Battle",200,60,15);
+        jButton.setLocation(130, 100);
+        jButton.setSize(200,60);
         jButton.setFont(new Font("Rockwell", Font.BOLD, 20));
         add(jButton);
 //todo
@@ -67,4 +69,41 @@ public class FunctionFrame extends JFrame {
             signInPlayer2Frame.setVisible(true);
         });
     }
+
+    private void addRankingButton() {
+        JButton button = new TransparentButton(2,3,4,3,"Ranking List",200,60,15);
+        button.setLocation(130,200);
+        button.setSize(200, 60);
+        button.setFont(new Font("Rockwell", Font.BOLD, 20));
+        add(button);
+
+        button.addActionListener(e -> {
+            System.out.println("Click ranking list");
+
+            JFrame frame = new JFrame("Ranking List"); //这里要用到import javax.swing.JFrame;
+            frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+            final ImageIcon imageIcon = new ImageIcon("backGroundImages/MainFrame2/gameBackground2_50.png");//这里要用到import javax.swing.ImageIcon;
+            JTextArea textArea = new JTextArea() { //这里要用到import javax.swing.JTextArea;
+                Image image = imageIcon.getImage();
+
+                {
+                    setOpaque(false);
+                } // instance initializer
+
+                public void paint(Graphics g) {
+                    g.drawImage(image, 0, 0, 400, 300, null);
+                    super.paint(g);
+                }
+            };
+            JScrollPane scrollPane = new JScrollPane(textArea);//这里要用到import javax.swing.JScrollPane;
+            Container content = frame.getContentPane();
+            content.add(scrollPane, BorderLayout.CENTER);
+            textArea.append(GameController.getUserController().toString());
+            frame.setSize(400, 300);
+            frame.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+            frame.setLocationRelativeTo(null);
+            frame.setVisible(true);
+        });
+    }
+
 }

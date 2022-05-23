@@ -202,13 +202,10 @@ public class Chessboard extends JComponent {
         GameController.getChessGameFrame().gamer.setText("Current  " + GameController.getChessboard().getCurrentColors().get(GameController.getChessboard().getCurrentColors().size() - 1).toString());
         GameController.getChessGameFrame().gamer.repaint();
         a = 20;
-//<<<<<<< HEAD
         if(currentColor==ChessColor.BLACK&&GameController.getUser2().equals("AI")){
             //todo:调用AIController里的方法
         }
-//=======
         eventCheckAfter();
-//>>>>>>> 33e9a9e786bf1e794736e53b65027cd5b962dff4
     }
 
     /**

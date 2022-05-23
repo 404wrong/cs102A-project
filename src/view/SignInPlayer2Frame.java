@@ -1,5 +1,6 @@
 package view;
 
+import addModel.TransparentButton;
 import controller.*;
 
 import javax.swing.*;
@@ -15,15 +16,28 @@ public class SignInPlayer2Frame extends JFrame {
         setTitle("SignInUser2");
         this.WIDTH = width;
         this.HEIGTH = height;
-        UserController uc = GameController.getUserController();
+        UserController uc = new UserController("resource/user.txt");
+        GameController.setUserController(uc);
+
+        //加入背景图片
+        ImageIcon img = new ImageIcon("backGroundImages/MainFrame2/gameBackground2.jpg");//这是背景图片
+        img.setImage(img.getImage().getScaledInstance(width, height,Image.SCALE_DEFAULT ));
+        JLabel imgLabel = new JLabel(img);//将背景图放在标签里。
+        getLayeredPane().add(imgLabel, new Integer(Integer.MIN_VALUE));//注意这里是关键，将背景标签添加到jfram的LayeredPane面板里。
+        imgLabel.setBounds(0,0,WIDTH,HEIGTH);//设置背景标签的位置
+        Container cp=getContentPane();
+        cp.setLayout(new BorderLayout());
+        ((JPanel)cp).setOpaque(false);
 
         JLabel name = new JLabel("Name");
+        name.setForeground(new Color(255,255,255));
         name.setLocation(WIDTH / 2 - 150, 0);
         name.setSize(50, 20);
         name.setFont(new Font("Rockwell", Font.BOLD, 15));
         add(name);
 
         JLabel password = new JLabel("Password");
+        password.setForeground(new Color(255,255,255));
         password.setLocation(WIDTH / 2 - 150, HEIGTH * 2 / 5);
         password.setSize(100, 20);
         password.setFont(new Font("Rockwell", Font.BOLD, 15));
@@ -46,7 +60,7 @@ public class SignInPlayer2Frame extends JFrame {
         Password.setFont(new Font("Rockwell", Font.BOLD, 20));
         add(Password);
 
-        JButton signIn = new JButton("SignIn");
+        JButton signIn =new TransparentButton(1,3,4,3,"SignIn",100,20,15);
         signIn.setLocation(WIDTH / 2 - 50, HEIGTH * 3 / 5);
         signIn.setSize(100, 20);
         signIn.setFont(new Font("Rockwell", Font.BOLD, 20));
