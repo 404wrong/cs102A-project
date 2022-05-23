@@ -23,16 +23,20 @@ public class UP extends JFrame {
         add(bishop);
         setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
         queen.addActionListener(e ->{
-
+            // TODO: 2022/5/23  
+            this.dispose();
         });
         rook.addActionListener(e ->{
-
+            // TODO: 2022/5/23  
+            this.dispose();
         });
         knight.addActionListener(e ->{
-
+            // TODO: 2022/5/23  
+            this.dispose();
         });
         bishop.addActionListener(e ->{
-
+            // TODO: 2022/5/23  
+            this.dispose();
         });
     }
 }
