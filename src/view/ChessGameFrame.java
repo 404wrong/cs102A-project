@@ -2,6 +2,7 @@ package view;
 
 //import controller.GameController;
 
+import addModel.Play0;
 import addModel.TransparentButton;
 import controller.GameController;
 import model.ChessColor;
@@ -146,6 +147,7 @@ public class ChessGameFrame extends JFrame {
                     GameController.getChessboard().setLocation(0,0);
                     add(GameController.getChessboard());
                     GameController.getChessboard().repaint();
+                    new Play0("resource/落子.mp3").start();
                     qAdd();
                     System.out.println("q");
                     if(q==a.getStore().size()){
