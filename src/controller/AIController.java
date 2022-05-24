@@ -255,6 +255,10 @@ public class AIController {
         GameController.clickController.onClick(blackChess.get(0));
         //起点
         GameController.clickController.onClick(GameController.getChessboard().getChess(blackChess.get(0).chessboardPointTo));
+        for (int i = 0; i < blackChess.size(); i++) {
+            blackChess.get(i).count=-1;
+            blackChess.get(i).chessboardPointTo=blackChess.get(i).canMoveTo().get(0);
+        }
         //终点
         return;
     }

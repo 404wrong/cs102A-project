@@ -93,6 +93,7 @@ public abstract class ChessComponent extends JComponent {
     protected ChessComponent(ChessboardPoint chessboardPoint,ChessColor color){
         this.chessboardPoint = chessboardPoint;
         this.chessColor=color;
+        try {chessboardPointTo=canMoveTo().get(0);}catch (Exception s){}
     }
 
     public void MoreInformation(Point location,
