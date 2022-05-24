@@ -48,6 +48,14 @@ public class ClickController {
         }
     }
 
+
+    public void setClick(){
+        first.setSelected(false);
+        ChessComponent recordFirst = first;
+        first = null;
+        recordFirst.repaint();
+    }
+
     /**
      * @param chessComponent 目标选取的棋子
      * @return 目标选取的棋子是否与棋盘记录的当前行棋方颜色相同

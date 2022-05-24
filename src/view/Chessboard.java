@@ -291,6 +291,7 @@ public class Chessboard extends JComponent {
             changeTimerLabel();
             if (a == 0) {
                 swapColor();
+                GameController.clickController.setClick();
             }
         });
         timer.start();
