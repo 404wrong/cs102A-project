@@ -189,40 +189,56 @@ public class AIController {
                 }
             }
         }
-        //除了兵之外的棋子
+        for (int i = 0; i < blackChess.size(); i++) {
+            List<ChessboardPoint> canMoveTo = blackChess.get(i).canMoveTo();
+            for (int j = 0; j < canMoveTo.size(); j++) {
+                if((GameController.getChessboard().getChess(canMoveTo.get(j)).toChar()=='p')){
+                    GameController.clickController.onClick(blackChess.get(i));
+                    //起点
+                    GameController.clickController.onClick(GameController.getChessboard().getChess(canMoveTo.get(j)));
+                    //终点
+                    return;
+                }
+            }
+        }
+
         for (int i = 0; i < blackChess.size(); i++) {
             List<ChessboardPoint> canMoveTo=blackChess.get(i).canMoveTo();
-            for (int j = 0; j < canMoveTo.size(); j++) {
-                ChessComponent chessComponent=new KingChessComponent(canMoveTo.get(j),ChessColor.BLACK);//干掉报错
-                switch (blackChess.get(i).toChar()){
-                    case 'K':
-                       chessComponent=new KingChessComponent(canMoveTo.get(j),ChessColor.BLACK);
-                        return;
-                    case 'Q':
-                        chessComponent=new QueenChessComponent(canMoveTo.get(j),ChessColor.BLACK);
-                        return;
-                    case 'B':
-                         chessComponent=new BishopChessComponent(canMoveTo.get(j),ChessColor.BLACK);
-                        return;
-                    case 'N':
-                         chessComponent=new KnightChessComponent(canMoveTo.get(j),ChessColor.BLACK);
-                        return;
-                    case 'R':
-                         chessComponent=new RookChessComponent(canMoveTo.get(j),ChessColor.BLACK);
-                        return;
-                    case 'P':
-                        chessComponent=new PawnChessComponent(canMoveTo.get(j),ChessColor.BLACK);
-                        return;
-                }
-
-                ChessColor chessColor=chessComponent.getChessColor();
-                if(EatenController.beLookedBy(chessComponent,chessColor)-EatenController.beEatenBy(chessComponent,chessColor)>=0){
-                    if(EatenController.eatOpponent(chessComponent,chessColor)>chessComponent.count) {
-                        blackChess.get(i).count = EatenController.eatOpponent(chessComponent, chessColor);
-                        blackChess.get(i).chessboardPointTo=chessComponent.getChessboardPoint();
+            if (canMoveTo.size()==0){
+                blackChess.remove(i);
+            }else {
+                for (int j = 0; j < canMoveTo.size(); j++) {
+                    ChessComponent chessComponent = new KingChessComponent(canMoveTo.get(j), ChessColor.BLACK);//干掉报错
+                    switch (blackChess.get(i).toChar()) {
+                        case 'K':
+                            chessComponent = new KingChessComponent(canMoveTo.get(j), ChessColor.BLACK);
+                            break;
+                        case 'Q':
+                            chessComponent = new QueenChessComponent(canMoveTo.get(j), ChessColor.BLACK);
+                            break;
+                        case 'B':
+                            chessComponent = new BishopChessComponent(canMoveTo.get(j), ChessColor.BLACK);
+                            break;
+                        case 'N':
+                            chessComponent = new KnightChessComponent(canMoveTo.get(j), ChessColor.BLACK);
+                            break;
+                        case 'R':
+                            chessComponent = new RookChessComponent(canMoveTo.get(j), ChessColor.BLACK);
+                            break;
+                        case 'P':
+                            chessComponent = new PawnChessComponent(canMoveTo.get(j), ChessColor.BLACK);
+                            break;
                     }
-                }else if( blackChess.get(i).count<0){
-                    chessComponent.count=-1000;
+
+                    ChessColor chessColor = chessComponent.getChessColor();
+                    if (EatenController.beLookedBy(chessComponent, chessColor) - EatenController.beEatenBy(chessComponent, chessColor) >= 0) {
+                        if (EatenController.eatOpponent(chessComponent, chessColor) > chessComponent.count) {
+                            blackChess.get(i).count = EatenController.eatOpponent(chessComponent, chessColor);
+                            blackChess.get(i).chessboardPointTo = chessComponent.getChessboardPoint();
+                        }
+                    } else if (blackChess.get(i).count < 0) {
+                        chessComponent.count = -1000;
+                    }
                 }
             }
         }

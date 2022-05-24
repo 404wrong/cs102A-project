@@ -28,7 +28,7 @@ public class EatenController {
                         a = a + 1;
                         break;
                     case 'K':
-                        a=a+100;
+                        a = a + 100;
                         break;
                 }
             }
@@ -51,7 +51,7 @@ public class EatenController {
                         a = a + 1;
                         break;
                     case 'k':
-                        a=a+100;
+                        a = a + 100;
                         break;
                 }
             }
@@ -135,19 +135,27 @@ public class EatenController {
                 }
             }
         }
-        if (chessColor == ChessColor.WHITE) {
-            if (GameController.getChessboard().getChess(chessboardPoint.getX() - 1, chessboardPoint.getY() + 1).toChar() == 'P') {
-                a = a + 10;
+        if (chessColor == ChessColor.BLACK) {
+            if (chessboardPoint.getX() + 1 >= 0 && chessboardPoint.getX() + 1 < 8 && chessboardPoint.getY() + 1 >= 0 && chessboardPoint.getY() + 1 < 8) {
+                if (GameController.getChessboard().getChess(chessboardPoint.getX() + 1, chessboardPoint.getY() + 1).toChar() == 'p') {
+                    a = a + 10;
+                }
             }
-            if (GameController.getChessboard().getChess(chessboardPoint.getX() - 1, chessboardPoint.getY() - 1).toChar() == 'P') {
-                a = a + 10;
+            if (chessboardPoint.getX() + 1 >= 0 && chessboardPoint.getX() + 1 < 8 && chessboardPoint.getY() - 1 >= 0 && chessboardPoint.getY() - 1 < 8) {
+                if (GameController.getChessboard().getChess(chessboardPoint.getX() + 1, chessboardPoint.getY() - 1).toChar() == 'p') {
+                    a = a + 10;
+                }
             }
         } else {
-            if (GameController.getChessboard().getChess(chessboardPoint.getX() - 1, chessboardPoint.getY() + 1).toChar() == 'p') {
-                a = a + 10;
+            if (chessboardPoint.getX() - 1 >= 0 && chessboardPoint.getX() - 1 < 8 && chessboardPoint.getY() + 1 >= 0 && chessboardPoint.getY() + 1 < 8) {
+                if (GameController.getChessboard().getChess(chessboardPoint.getX() - 1, chessboardPoint.getY() + 1).toChar() == 'P') {
+                    a = a + 10;
+                }
             }
-            if (GameController.getChessboard().getChess(chessboardPoint.getX() - 1, chessboardPoint.getY() - 1).toChar() == 'p') {
-                a = a + 10;
+            if (chessboardPoint.getX() - 1 >= 0 && chessboardPoint.getX() - 1 < 8 && chessboardPoint.getY() - 1 >= 0 && chessboardPoint.getY() - 1 < 8) {
+                if (GameController.getChessboard().getChess(chessboardPoint.getX() - 1, chessboardPoint.getY() - 1).toChar() == 'P') {
+                    a = a + 10;
+                }
             }
         }
         return a;
@@ -229,19 +237,27 @@ public class EatenController {
                 }
             }
         }
-        if (chessColor == ChessColor.BLACK) {
-            if (GameController.getChessboard().getChess(chessboardPoint.getX() - 1, chessboardPoint.getY() + 1).toChar() == 'P') {
-                a = a + 10;
+        if (chessColor == ChessColor.WHITE) {
+            if (chessboardPoint.getX() + 1 >= 0 && chessboardPoint.getX() + 1 < 8 && chessboardPoint.getY() + 1 >= 0 && chessboardPoint.getY() + 1 < 8) {
+                if (GameController.getChessboard().getChess(chessboardPoint.getX() + 1, chessboardPoint.getY() + 1).toChar() == 'p') {
+                    a = a + 10;
+                }
             }
-            if (GameController.getChessboard().getChess(chessboardPoint.getX() - 1, chessboardPoint.getY() - 1).toChar() == 'P') {
-                a = a + 10;
+            if (chessboardPoint.getX() + 1 >= 0 && chessboardPoint.getX() + 1 < 8 && chessboardPoint.getY() - 1 >= 0 && chessboardPoint.getY() - 1 < 8) {
+                if (GameController.getChessboard().getChess(chessboardPoint.getX() + 1, chessboardPoint.getY() - 1).toChar() == 'p') {
+                    a = a + 10;
+                }
             }
         } else {
-            if (GameController.getChessboard().getChess(chessboardPoint.getX() - 1, chessboardPoint.getY() + 1).toChar() == 'p') {
-                a = a + 10;
+            if (chessboardPoint.getX() - 1 >= 0 && chessboardPoint.getX() - 1 < 8 && chessboardPoint.getY() + 1 >= 0 && chessboardPoint.getY() + 1 < 8) {
+                if (GameController.getChessboard().getChess(chessboardPoint.getX() - 1, chessboardPoint.getY() + 1).toChar() == 'P') {
+                    a = a + 10;
+                }
             }
-            if (GameController.getChessboard().getChess(chessboardPoint.getX() - 1, chessboardPoint.getY() - 1).toChar() == 'p') {
-                a = a + 10;
+            if (chessboardPoint.getX() - 1 >= 0 && chessboardPoint.getX() - 1 < 8 && chessboardPoint.getY() - 1 >= 0 && chessboardPoint.getY() - 1 < 8) {
+                if (GameController.getChessboard().getChess(chessboardPoint.getX() - 1, chessboardPoint.getY() - 1).toChar() == 'P') {
+                    a = a + 10;
+                }
             }
         }
         return a;
