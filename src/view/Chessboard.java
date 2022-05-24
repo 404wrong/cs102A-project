@@ -37,7 +37,6 @@ public class Chessboard extends JComponent {
     private ChessColor currentColor;
     //all chessComponents in this chessboard are shared only one model controller
     private final ClickController clickController = new ClickController(this);
-    private final AIController aiController=new AIController(1);
     private int CHESS_SIZE;
     public JLabel timerLabel;
     int a;
@@ -210,10 +209,10 @@ public class Chessboard extends JComponent {
         GameController.getChessGameFrame().gamer.setText("Current  " + GameController.getChessboard().getCurrentColors().get(GameController.getChessboard().getCurrentColors().size() - 1).toString());
         GameController.getChessGameFrame().gamer.repaint();
         a = 20;
-        if (currentColor == ChessColor.BLACK && GameController.getUser2().equals("AI")) {
-            GameController.aiController.randomGo();
-        }
         eventCheckAfter();
+        if (currentColor == ChessColor.BLACK && GameController.getUser2().equals("AIController")) {
+            GameController.aiController.AIDifficulties();
+        }
     }
 
     /**
@@ -361,11 +360,12 @@ public class Chessboard extends JComponent {
     public void eventCheckBefore() {
         updateLists();
         checkAwesomePawn();
-        checkWinner();
+
     }
 
     public void eventCheckAfter() {
         cantChuang();
+        checkWinner();
     }
 
     public boolean canSwitchKR(int i) {
@@ -476,17 +476,21 @@ public class Chessboard extends JComponent {
     }
 
     public void checkWinner() {
-        if (GameController.getChessboard().getSpecificChess(ChessColor.WHITE, ChessComponent.ChessType.King) == null) {
+        if (GameController.getChessboard().getSpecificChess(ChessColor.BLACK, ChessComponent.ChessType.King) == null) {
             GameController.nullClick=1;
             timer.stop();
             GameController.getUserController().userSite.get(GameController.getUser1()).addWin();
-            GameController.getUserController().userSite.get(GameController.getUser2()).addLose();
+            if(!GameController.getUser2().equals("AIController")) {
+                GameController.getUserController().userSite.get(GameController.getUser2()).addLose();
+            }
             GameController.getUserController().writeFileByFileWriter(GameController.getUserController().path);
             JOptionPane.showMessageDialog(null, String.format("%s win",GameController.getUser1()),"Game finished!",JOptionPane.PLAIN_MESSAGE);
-        } else if (GameController.getChessboard().getSpecificChess(ChessColor.BLACK, ChessComponent.ChessType.King) == null) {
+        } else if (GameController.getChessboard().getSpecificChess(ChessColor.WHITE, ChessComponent.ChessType.King) == null) {
             GameController.nullClick=1;
             timer.stop();
-            GameController.getUserController().userSite.get(GameController.getUser2()).addWin();
+            if(!GameController.getUser2().equals("AIController")) {
+                GameController.getUserController().userSite.get(GameController.getUser2()).addWin();
+            }
             GameController.getUserController().userSite.get(GameController.getUser1()).addLose();
             GameController.getUserController().writeFileByFileWriter(GameController.getUserController().path);
             JOptionPane.showMessageDialog(null, String.format("%s win",GameController.getUser2()),"Game finished!",JOptionPane.PLAIN_MESSAGE);

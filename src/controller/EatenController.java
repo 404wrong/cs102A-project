@@ -27,6 +27,9 @@ public class EatenController {
                     case 'P':
                         a = a + 1;
                         break;
+                    case 'K':
+                        a=a+100;
+                        break;
                 }
             }
         } else {
@@ -47,12 +50,18 @@ public class EatenController {
                     case 'p':
                         a = a + 1;
                         break;
+                    case 'k':
+                        a=a+100;
+                        break;
                 }
             }
         }
         return a;
     }
 
+    /**
+     * 被对方的棋子吃
+     */
     public static int beEatenBy(ChessComponent chessComponent, ChessColor chessColor) {
         int a = 0;
         ChessboardPoint chessboardPoint = chessComponent.getChessboardPoint();
@@ -65,10 +74,10 @@ public class EatenController {
             for (int i = 0; i < canMoveTo.size(); i++) {
                 switch (GameController.getChessboard().getChess(canMoveTo.get(i)).toChar()) {
                     case 'Q':
-                        a = a + 9;
+                        a = a + 10;
                         break;
                     case 'R':
-                        a = a + 5;
+                        a = a + 10;
                         break;
                 }
             }
@@ -76,10 +85,10 @@ public class EatenController {
             for (int i = 0; i < canMoveTo.size(); i++) {
                 switch (GameController.getChessboard().getChess(canMoveTo.get(i)).toChar()) {
                     case 'q':
-                        a = a + 9;
+                        a = a + 10;
                         break;
                     case 'r':
-                        a = a + 5;
+                        a = a + 10;
                         break;
                 }
             }
@@ -89,7 +98,7 @@ public class EatenController {
             for (int i = 0; i < canMoveTo.size(); i++) {
                 switch (GameController.getChessboard().getChess(canMoveTo.get(i)).toChar()) {
                     case 'N':
-                        a = a + 4;
+                        a = a + 10;
                         break;
                 }
             }
@@ -97,7 +106,7 @@ public class EatenController {
             for (int i = 0; i < canMoveTo.size(); i++) {
                 switch (GameController.getChessboard().getChess(canMoveTo.get(i)).toChar()) {
                     case 'n':
-                        a = a + 4;
+                        a = a + 10;
                         break;
                 }
             }
@@ -107,10 +116,10 @@ public class EatenController {
             for (int i = 0; i < canMoveTo.size(); i++) {
                 switch (GameController.getChessboard().getChess(canMoveTo.get(i)).toChar()) {
                     case 'Q':
-                        a = a + 9;
+                        a = a + 10;
                         break;
                     case 'B':
-                        a = a + 3;
+                        a = a + 10;
                         break;
                 }
             }
@@ -118,27 +127,121 @@ public class EatenController {
             for (int i = 0; i < canMoveTo.size(); i++) {
                 switch (GameController.getChessboard().getChess(canMoveTo.get(i)).toChar()) {
                     case 'q':
-                        a = a + 9;
+                        a = a + 10;
                         break;
                     case 'b':
-                        a = a + 3;
+                        a = a + 10;
                         break;
                 }
             }
         }
         if (chessColor == ChessColor.WHITE) {
             if (GameController.getChessboard().getChess(chessboardPoint.getX() - 1, chessboardPoint.getY() + 1).toChar() == 'P') {
-                a = a + 1;
+                a = a + 10;
             }
             if (GameController.getChessboard().getChess(chessboardPoint.getX() - 1, chessboardPoint.getY() - 1).toChar() == 'P') {
-                a = a + 1;
+                a = a + 10;
             }
         } else {
             if (GameController.getChessboard().getChess(chessboardPoint.getX() - 1, chessboardPoint.getY() + 1).toChar() == 'p') {
-                a = a + 1;
+                a = a + 10;
             }
             if (GameController.getChessboard().getChess(chessboardPoint.getX() - 1, chessboardPoint.getY() - 1).toChar() == 'p') {
-                a = a + 1;
+                a = a + 10;
+            }
+        }
+        return a;
+    }
+
+    /**
+     * 被自己的棋子保护
+     */
+    public static int beLookedBy(ChessComponent chessComponent, ChessColor chessColor) {
+        int a = 0;
+        ChessboardPoint chessboardPoint = chessComponent.getChessboardPoint();
+        ChessComponent rookChessComponent = new RookChessComponent(chessboardPoint, chessColor);
+        ChessComponent knightChessComponent = new KnightChessComponent(chessboardPoint, chessColor);
+        ChessComponent bishopChessComponent = new BishopChessComponent(chessboardPoint, chessColor);
+
+        List<ChessboardPoint> canMoveTo = rookChessComponent.canMoveTo();
+        if (chessColor == ChessColor.BLACK) {
+            for (int i = 0; i < canMoveTo.size(); i++) {
+                switch (GameController.getChessboard().getChess(canMoveTo.get(i)).toChar()) {
+                    case 'Q':
+                        a = a + 10;
+                        break;
+                    case 'R':
+                        a = a + 10;
+                        break;
+                }
+            }
+        } else {
+            for (int i = 0; i < canMoveTo.size(); i++) {
+                switch (GameController.getChessboard().getChess(canMoveTo.get(i)).toChar()) {
+                    case 'q':
+                        a = a + 10;
+                        break;
+                    case 'r':
+                        a = a + 10;
+                        break;
+                }
+            }
+        }
+        canMoveTo = knightChessComponent.canMoveTo();
+        if (chessColor == ChessColor.BLACK) {
+            for (int i = 0; i < canMoveTo.size(); i++) {
+                switch (GameController.getChessboard().getChess(canMoveTo.get(i)).toChar()) {
+                    case 'N':
+                        a = a + 10;
+                        break;
+                }
+            }
+        } else {
+            for (int i = 0; i < canMoveTo.size(); i++) {
+                switch (GameController.getChessboard().getChess(canMoveTo.get(i)).toChar()) {
+                    case 'n':
+                        a = a + 10;
+                        break;
+                }
+            }
+        }
+        canMoveTo = bishopChessComponent.canMoveTo();
+        if (chessColor == ChessColor.BLACK) {
+            for (int i = 0; i < canMoveTo.size(); i++) {
+                switch (GameController.getChessboard().getChess(canMoveTo.get(i)).toChar()) {
+                    case 'Q':
+                        a = a + 10;
+                        break;
+                    case 'B':
+                        a = a + 10;
+                        break;
+                }
+            }
+        } else {
+            for (int i = 0; i < canMoveTo.size(); i++) {
+                switch (GameController.getChessboard().getChess(canMoveTo.get(i)).toChar()) {
+                    case 'q':
+                        a = a + 10;
+                        break;
+                    case 'b':
+                        a = a + 10;
+                        break;
+                }
+            }
+        }
+        if (chessColor == ChessColor.BLACK) {
+            if (GameController.getChessboard().getChess(chessboardPoint.getX() - 1, chessboardPoint.getY() + 1).toChar() == 'P') {
+                a = a + 10;
+            }
+            if (GameController.getChessboard().getChess(chessboardPoint.getX() - 1, chessboardPoint.getY() - 1).toChar() == 'P') {
+                a = a + 10;
+            }
+        } else {
+            if (GameController.getChessboard().getChess(chessboardPoint.getX() - 1, chessboardPoint.getY() + 1).toChar() == 'p') {
+                a = a + 10;
+            }
+            if (GameController.getChessboard().getChess(chessboardPoint.getX() - 1, chessboardPoint.getY() - 1).toChar() == 'p') {
+                a = a + 10;
             }
         }
         return a;

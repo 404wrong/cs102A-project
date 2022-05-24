@@ -36,7 +36,8 @@ public abstract class ChessComponent extends JComponent {
 
     boolean firstMove;
 
-    public int count;//用于记录棋子分数
+    public int count=-1;//用于记录棋子分数
+    public ChessboardPoint chessboardPointTo;//用于记录分数最高的棋子
 
     public ConcreteChessGame getGame() {
         return game;

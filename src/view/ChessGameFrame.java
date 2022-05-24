@@ -52,6 +52,7 @@ public class ChessGameFrame extends JFrame {
         addResetButton();
         addRepentButton();
         addPlaybackButton();
+        addBackToMenuButton();
 
         //加入背景图片
         ImageIcon img = new ImageIcon("backGroundImages/MainFrame2/gameBackground2.jpg");//这是背景图片
@@ -99,6 +100,22 @@ public class ChessGameFrame extends JFrame {
         gamer.setFont(new Font("Rockwell", Font.BOLD, 20));
         add(gamer);
         gamer.repaint();
+    }
+
+    private void addBackToMenuButton() {
+        JButton button = new TransparentButton(2, 3, 4, 3, "   Menu", 200, 60, 20);
+
+        button.setLocation(HEIGTH, HEIGTH / 10 + 180);
+        button.setSize(200, 60);
+        button.setFont(new Font("Rockwell", Font.BOLD, 20));
+        add(button);
+
+        button.addActionListener(e -> {
+            System.out.println("Click BackToMenu");
+            FunctionFrame functionFrame = new FunctionFrame(500, 400);
+            this.setVisible(false);
+            functionFrame.setVisible(true);
+        });
     }
 
     private void addPlaybackButton() {
