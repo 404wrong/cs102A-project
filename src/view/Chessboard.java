@@ -1,6 +1,7 @@
 package view;
 
 import addModel.TransparentButton;
+import controller.AIController;
 import controller.ClickController;
 import controller.GameController;
 import model.*;
@@ -36,6 +37,7 @@ public class Chessboard extends JComponent {
     private ChessColor currentColor;
     //all chessComponents in this chessboard are shared only one model controller
     private final ClickController clickController = new ClickController(this);
+    private final AIController aiController=new AIController(1);
     private int CHESS_SIZE;
     public JLabel timerLabel;
     int a;
@@ -209,7 +211,7 @@ public class Chessboard extends JComponent {
         GameController.getChessGameFrame().gamer.repaint();
         a = 20;
         if (currentColor == ChessColor.BLACK && GameController.getUser2().equals("AI")) {
-            //todo:调用AIController里的方法
+            GameController.aiController.randomGo();
         }
         eventCheckAfter();
     }

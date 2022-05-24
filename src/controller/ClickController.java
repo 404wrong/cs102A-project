@@ -11,6 +11,7 @@ public class ClickController {
 
     public ClickController(Chessboard chessboard) {
         this.chessboard = chessboard;
+        GameController.clickController=this;
     }
 
     public void onClick(ChessComponent chessComponent) {
@@ -34,9 +35,9 @@ public class ClickController {
                 if (handleSecond(chessComponent)) {
                     //repaint in swap chess method.
                     chessboard.swapChessComponents(first, chessComponent);
-                    chessboard.swapColor();
                     first.setSelected(false);
                     first = null;
+                    chessboard.swapColor();
                 } else {
                     first.setSelected(false);
                     ChessComponent recordFirst = first;

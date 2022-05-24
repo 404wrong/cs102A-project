@@ -19,6 +19,7 @@ public class GameController {
     public static int playback=0;
     public static AIController aiController;
     public static int nullClick=0;
+    public static ClickController clickController;
 //    public static TimeController timeController=new TimeController();
 
     public static int getFunctionFrameExist() {
