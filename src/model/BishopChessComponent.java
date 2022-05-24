@@ -86,7 +86,7 @@ public class BishopChessComponent extends ChessComponent {
      * @return 象棋子移动的合法性
      */
     @Override
-    public boolean canMoveTo( ChessboardPoint destination) {
+    public boolean canMoveTo(ChessboardPoint destination) {
         for (ChessboardPoint p:GameController.getChessboard().getChess(getChessboardPoint().getX(),getChessboardPoint().getY()).canMoveTo()) {
             if(p.getX() == destination.getX() && p.getY() == destination.getY()){
                 return true;

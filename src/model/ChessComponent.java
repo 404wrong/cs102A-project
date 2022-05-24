@@ -36,6 +36,7 @@ public abstract class ChessComponent extends JComponent {
 
     boolean firstMove;
 
+    public int count;//用于记录棋子分数
 
     public ConcreteChessGame getGame() {
         return game;

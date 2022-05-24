@@ -493,5 +493,7 @@ public class Chessboard extends JComponent {
         }
     }
 
+    public void checkJiangjun(){
 
+    }
 }
