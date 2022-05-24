@@ -232,8 +232,8 @@ public class AIController {
 
                     ChessColor chessColor = chessComponent.getChessColor();
                     if (EatenController.beLookedBy(chessComponent, chessColor) - EatenController.beEatenBy(chessComponent, chessColor) >= 0) {
-                        if (EatenController.eatOpponent(chessComponent, chessColor) > chessComponent.count) {
-                            blackChess.get(i).count = EatenController.eatOpponent(chessComponent, chessColor);
+                        if (EatenController.eatOpponent(chessComponent, chessColor)+ EatenController.beLookedBy(chessComponent, chessColor) - EatenController.beEatenBy(chessComponent, chessColor)> chessComponent.count) {
+                            blackChess.get(i).count = EatenController.eatOpponent(chessComponent, chessColor)+EatenController.beLookedBy(chessComponent, chessColor) - EatenController.beEatenBy(chessComponent, chessColor);
                             blackChess.get(i).chessboardPointTo = chessComponent.getChessboardPoint();
                         }
                     } else if (blackChess.get(i).count < 0) {
