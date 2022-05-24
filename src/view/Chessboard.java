@@ -78,11 +78,25 @@ public class Chessboard extends JComponent {
         for (int row = 0; row < 8; row++) {
             for (int col = 0; col < 8; col++) {
                 initOnBoard(row, col, chessComponents[row][col]);
+                if (store.size()!=1) {
+                    ChessComponent chess = chessComponents[row][col];
+                    ChessComponent.ChessType thistype = chess.getType();
+                    if (thistype != store.get(0)[row][col].getType())
+                    {
+                        chessComponents[row][col].setFirstMove(false);
+                        if (thistype.equals(ChessComponent.ChessType.Pawn)) {
+                            ((PawnChessComponent) chess).setChuang(true);
+                        }
+                    }
+                }
+
             }
         }
         GameController.getChessGameFrame().gamer.setText("Current  " + getCurrentColor().toString());
         GameController.getChessGameFrame().gamer.repaint();
         addTimerLabel();
+        updateLists();
+
     }
 
     /**
@@ -364,6 +378,7 @@ public class Chessboard extends JComponent {
     }
 
     public void eventCheckAfter() {
+        updateLists();
         cantChuang();
         checkWinner();
     }
@@ -387,6 +402,8 @@ public class Chessboard extends JComponent {
                 if (!rook.isFirstMove() || !king.isFirstMove()) {
                     return false;
                 }
+            } else {
+                return false;
             }
         }
         if (currentColor.equals(ChessColor.WHITE)) {
@@ -405,6 +422,8 @@ public class Chessboard extends JComponent {
                 if (!rook.isFirstMove() || !king.isFirstMove()) {
                     return false;
                 }
+            } else {
+                return false;
             }
         }
         //换左车
@@ -460,19 +479,19 @@ public class Chessboard extends JComponent {
 
     //检查能兵变
     public void checkAwesomePawn() {
-        //在这里写兵变面板，默认是变车，对应变啥写兵里面了
         for (PawnChessComponent p : Pawns) {
             if (p.getChessColor().equals(ChessColor.WHITE) && p.getChessboardPoint().getX() == 0) {
-                p.balalaPawn(0);
-
+                UP up=new UP(this);
+                up.setVisible(true);
                 return;
             }
             if (p.getChessColor().equals(ChessColor.BLACK) && p.getChessboardPoint().getX() == 7) {
-                p.balalaPawn(0);
+                p.balalaPawn(3);
 
                 return;
             }
         }
+
     }
 
     public void checkWinner() {
