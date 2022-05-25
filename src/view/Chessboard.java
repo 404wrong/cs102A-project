@@ -20,6 +20,7 @@ public class Chessboard extends JComponent {
     public static ArrayList<ChessComponent> blackChess;
     public static ArrayList<ChessComponent> allChess;
     public static ArrayList<PawnChessComponent> Pawns;
+    public static int finished=0;
 
     /**
      * CHESSBOARD_SIZE： 棋盘是8 * 8的<br>
@@ -531,6 +532,7 @@ public class Chessboard extends JComponent {
             }
             GameController.getUserController().writeFileByFileWriter(GameController.getUserController().path);
             JOptionPane.showMessageDialog(null, String.format("%s win", GameController.getUser1()), "Game finished!", JOptionPane.PLAIN_MESSAGE);
+            finished=1;
         } else if (GameController.getChessboard().getSpecificChess(ChessColor.WHITE, ChessComponent.ChessType.King) == null) {
             GameController.nullClick = 1;
             timer.stop();
@@ -540,30 +542,32 @@ public class Chessboard extends JComponent {
             GameController.getUserController().userSite.get(GameController.getUser1()).addLose();
             GameController.getUserController().writeFileByFileWriter(GameController.getUserController().path);
             JOptionPane.showMessageDialog(null, String.format("%s win", GameController.getUser2()), "Game finished!", JOptionPane.PLAIN_MESSAGE);
+            finished=1;
         }
     }
 
-    public void checkWang(){
-        ChessComponent chessComponentBlack=blackChess.get(0);
-        for (int i = 0; i < blackChess.size(); i++) {
-            if(blackChess.get(i).getType().equals(ChessComponent.ChessType.King)){
-                chessComponentBlack=blackChess.get(i);
-                break;
+    public void checkWang() {
+        if (finished != 1) {
+            ChessComponent chessComponentBlack = blackChess.get(0);
+            for (int i = 0; i < blackChess.size(); i++) {
+                if (blackChess.get(i).getType().equals(ChessComponent.ChessType.King)) {
+                    chessComponentBlack = blackChess.get(i);
+                    break;
+                }
             }
-        }
-        ChessComponent chessComponentWhite=blackChess.get(0);
-        for (int i = 0; i < whiteChess.size(); i++) {
-            if(whiteChess.get(i).getType().equals(ChessComponent.ChessType.King)){
-                chessComponentWhite=whiteChess.get(i);
-                break;
+            ChessComponent chessComponentWhite = blackChess.get(0);
+            for (int i = 0; i < whiteChess.size(); i++) {
+                if (whiteChess.get(i).getType().equals(ChessComponent.ChessType.King)) {
+                    chessComponentWhite = whiteChess.get(i);
+                    break;
+                }
             }
-        }
-        if (EatenController.beEatenBy(chessComponentBlack,ChessColor.BLACK)!=0 ){
-            JOptionPane.showMessageDialog(null, "BLACK KING will be eaten!","Warning",JOptionPane.WARNING_MESSAGE);
-        }
-        if (EatenController.beEatenBy(chessComponentWhite,ChessColor.WHITE)!=0){
-            JOptionPane.showMessageDialog(null, "WHITE KING will be eaten!","Warning",JOptionPane.WARNING_MESSAGE);
+            if (EatenController.beEatenBy(chessComponentBlack, ChessColor.BLACK) != 0) {
+                JOptionPane.showMessageDialog(null, "BLACK KING will be eaten!", "Warning", JOptionPane.WARNING_MESSAGE);
+            }
+            if (EatenController.beEatenBy(chessComponentWhite, ChessColor.WHITE) != 0) {
+                JOptionPane.showMessageDialog(null, "WHITE KING will be eaten!", "Warning", JOptionPane.WARNING_MESSAGE);
+            }
         }
     }
-
 }
