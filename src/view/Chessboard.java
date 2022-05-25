@@ -3,6 +3,7 @@ package view;
 import addModel.TransparentButton;
 import controller.AIController;
 import controller.ClickController;
+import controller.EatenController;
 import controller.GameController;
 import model.*;
 import save_write.Save_Write;
@@ -389,7 +390,9 @@ public class Chessboard extends JComponent {
     }
 
     public void eventCheckAfter() {
+        updateLists();
         cantChuang();
+        checkWang();
     }
 
     public boolean canSwitchKR(int i) {
@@ -540,7 +543,27 @@ public class Chessboard extends JComponent {
         }
     }
 
-    public void checkJiangjun() {
-
+    public void checkWang(){
+        ChessComponent chessComponentBlack=blackChess.get(0);
+        for (int i = 0; i < blackChess.size(); i++) {
+            if(blackChess.get(i).getType().equals(ChessComponent.ChessType.King)){
+                chessComponentBlack=blackChess.get(i);
+                break;
+            }
+        }
+        ChessComponent chessComponentWhite=blackChess.get(0);
+        for (int i = 0; i < whiteChess.size(); i++) {
+            if(whiteChess.get(i).getType().equals(ChessComponent.ChessType.King)){
+                chessComponentWhite=whiteChess.get(i);
+                break;
+            }
+        }
+        if (EatenController.beEatenBy(chessComponentBlack,ChessColor.BLACK)!=0 ){
+            JOptionPane.showMessageDialog(null, "BLACK KING will be eaten!","Warning",JOptionPane.WARNING_MESSAGE);
+        }
+        if (EatenController.beEatenBy(chessComponentWhite,ChessColor.WHITE)!=0){
+            JOptionPane.showMessageDialog(null, "WHITE KING will be eaten!","Warning",JOptionPane.WARNING_MESSAGE);
+        }
     }
+
 }
