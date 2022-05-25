@@ -38,6 +38,7 @@ public class UP extends JFrame {
                 }
                 if (p.getChessColor().equals(ChessColor.BLACK) && p.getChessboardPoint().getX() == 7) {
                     p.balalaPawn(3);
+                    this.dispose();
                     return;
                 }
 
@@ -49,15 +50,15 @@ public class UP extends JFrame {
             for (PawnChessComponent p : Pawns) {
                 if (p.getChessColor().equals(ChessColor.WHITE) && p.getChessboardPoint().getX() == 0) {
                     p.balalaPawn(0);
-
+                    this.dispose();
                     return;
                 }
                 if (p.getChessColor().equals(ChessColor.BLACK) && p.getChessboardPoint().getX() == 7) {
                     p.balalaPawn(0);
-
+                    this.dispose();
                     return;
                 }
-            }this.dispose();
+            }
 
         });
         knight.addActionListener(e ->{
@@ -66,15 +67,15 @@ public class UP extends JFrame {
             for (PawnChessComponent p : Pawns) {
                 if (p.getChessColor().equals(ChessColor.WHITE) && p.getChessboardPoint().getX() == 0) {
                     p.balalaPawn(1);
-
+                    this.dispose();
                     return;
                 }
                 if (p.getChessColor().equals(ChessColor.BLACK) && p.getChessboardPoint().getX() == 7) {
                     p.balalaPawn(1);
-
+                    this.dispose();
                     return;
                 }
-            }this.dispose();
+            }
 
         });
         bishop.addActionListener(e ->{
@@ -83,15 +84,15 @@ public class UP extends JFrame {
             for (PawnChessComponent p : Pawns) {
                 if (p.getChessColor().equals(ChessColor.WHITE) && p.getChessboardPoint().getX() == 0) {
                     p.balalaPawn(2);
-
+                    this.dispose();
                     return;
                 }
                 if (p.getChessColor().equals(ChessColor.BLACK) && p.getChessboardPoint().getX() == 7) {
                     p.balalaPawn(2);
-
+                    this.dispose();
                     return;
                 }
-            }this.dispose();
+            }
 
         });
     }
