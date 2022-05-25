@@ -486,10 +486,13 @@ public class Chessboard extends JComponent {
                 return;
             }
             if (p.getChessColor().equals(ChessColor.BLACK) && p.getChessboardPoint().getX() == 7) {
-                p.balalaPawn(3);
-
+                if (GameController.getUser2().equals("AIController")){
+                    p.balalaPawn(3);
+                }else {
+                UP up=new UP(this);
+                up.setVisible(true);
                 return;
-            }
+            }}
         }
 
     }

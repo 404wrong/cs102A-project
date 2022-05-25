@@ -28,7 +28,6 @@ public class UP extends JFrame {
         add(bishop);
         setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
         queen.addActionListener(e ->{
-            // TODO: 2022/5/23
             for (PawnChessComponent p : Pawns) {
                 this.dispose();
                 if (p.getChessColor().equals(ChessColor.WHITE) && p.getChessboardPoint().getX() == 0) {
@@ -42,52 +41,44 @@ public class UP extends JFrame {
             }
         });
         rook.addActionListener(e ->{
-            // TODO: 2022/5/23
             for (PawnChessComponent p : Pawns) {
+                this.dispose();
                 if (p.getChessColor().equals(ChessColor.WHITE) && p.getChessboardPoint().getX() == 0) {
                     p.balalaPawn(0);
-
                     return;
                 }
                 if (p.getChessColor().equals(ChessColor.BLACK) && p.getChessboardPoint().getX() == 7) {
                     p.balalaPawn(0);
-
                     return;
                 }
             }
-            this.dispose();
         });
         knight.addActionListener(e ->{
-            // TODO: 2022/5/23
             for (PawnChessComponent p : Pawns) {
+                this.dispose();
                 if (p.getChessColor().equals(ChessColor.WHITE) && p.getChessboardPoint().getX() == 0) {
                     p.balalaPawn(1);
-
                     return;
                 }
                 if (p.getChessColor().equals(ChessColor.BLACK) && p.getChessboardPoint().getX() == 7) {
                     p.balalaPawn(1);
-
                     return;
                 }
             }
-            this.dispose();
         });
         bishop.addActionListener(e ->{
             // TODO: 2022/5/23
             for (PawnChessComponent p : Pawns) {
+                this.dispose();
                 if (p.getChessColor().equals(ChessColor.WHITE) && p.getChessboardPoint().getX() == 0) {
                     p.balalaPawn(2);
-
                     return;
                 }
                 if (p.getChessColor().equals(ChessColor.BLACK) && p.getChessboardPoint().getX() == 7) {
                     p.balalaPawn(2);
-
                     return;
                 }
             }
-            this.dispose();
         });
     }
 }
