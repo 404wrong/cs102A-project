@@ -30,19 +30,22 @@ public class UP extends JFrame {
         queen.addActionListener(e ->{
             // TODO: 2022/5/23
             for (PawnChessComponent p : Pawns) {
-                this.dispose();
+
                 if (p.getChessColor().equals(ChessColor.WHITE) && p.getChessboardPoint().getX() == 0) {
                     p.balalaPawn(3);
+                    this.dispose();
                     return;
                 }
                 if (p.getChessColor().equals(ChessColor.BLACK) && p.getChessboardPoint().getX() == 7) {
                     p.balalaPawn(3);
                     return;
                 }
+
             }
         });
         rook.addActionListener(e ->{
             // TODO: 2022/5/23
+
             for (PawnChessComponent p : Pawns) {
                 if (p.getChessColor().equals(ChessColor.WHITE) && p.getChessboardPoint().getX() == 0) {
                     p.balalaPawn(0);
@@ -54,11 +57,12 @@ public class UP extends JFrame {
 
                     return;
                 }
-            }
-            this.dispose();
+            }this.dispose();
+
         });
         knight.addActionListener(e ->{
             // TODO: 2022/5/23
+
             for (PawnChessComponent p : Pawns) {
                 if (p.getChessColor().equals(ChessColor.WHITE) && p.getChessboardPoint().getX() == 0) {
                     p.balalaPawn(1);
@@ -70,11 +74,12 @@ public class UP extends JFrame {
 
                     return;
                 }
-            }
-            this.dispose();
+            }this.dispose();
+
         });
         bishop.addActionListener(e ->{
             // TODO: 2022/5/23
+
             for (PawnChessComponent p : Pawns) {
                 if (p.getChessColor().equals(ChessColor.WHITE) && p.getChessboardPoint().getX() == 0) {
                     p.balalaPawn(2);
@@ -86,8 +91,8 @@ public class UP extends JFrame {
 
                     return;
                 }
-            }
-            this.dispose();
+            }this.dispose();
+
         });
     }
 }

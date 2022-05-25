@@ -402,10 +402,12 @@ public class Chessboard extends JComponent {
                 if (!rook.isFirstMove() || !king.isFirstMove()) {
                     return false;
                 }
-            } else {
+            }
+            if(rook==null||king==null){
                 return false;
             }
         }
+
         if (currentColor.equals(ChessColor.WHITE)) {
             for (ChessComponent p : whiteChess) {
                 if (p.getType().equals(ChessComponent.ChessType.Rook)) {
@@ -422,7 +424,7 @@ public class Chessboard extends JComponent {
                 if (!rook.isFirstMove() || !king.isFirstMove()) {
                     return false;
                 }
-            } else {
+            } if(rook==null||king==null){
                 return false;
             }
         }
@@ -486,7 +488,8 @@ public class Chessboard extends JComponent {
                 return;
             }
             if (p.getChessColor().equals(ChessColor.BLACK) && p.getChessboardPoint().getX() == 7) {
-                p.balalaPawn(3);
+                UP up=new UP(this);
+                up.setVisible(true);
 
                 return;
             }
