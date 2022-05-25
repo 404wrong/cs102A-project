@@ -81,7 +81,7 @@ public class Chessboard extends JComponent {
                 if (store.size()!=1) {
                     ChessComponent chess = chessComponents[row][col];
                     ChessComponent.ChessType thistype = chess.getType();
-                    if (thistype != store.get(0)[row][col].getType()||chess.getChessColor()!=store.get(0)[row][col].getChessColor())
+                    if (thistype != store.get(0)[row][col].getType() || chess.getChessColor()!=store.get(0)[row][col].getChessColor())
                     {
                         chessComponents[row][col].setFirstMove(false);
                         if (thistype.equals(ChessComponent.ChessType.Pawn)) {
@@ -95,7 +95,6 @@ public class Chessboard extends JComponent {
         GameController.getChessGameFrame().gamer.setText("Current  " + getCurrentColor().toString());
         GameController.getChessGameFrame().gamer.repaint();
         addTimerLabel();
-        updateLists();
 
         if (currentColor == ChessColor.BLACK && GameController.getUser2().equals("AIController")) {
             GameController.aiController.AIDifficulties();
@@ -126,6 +125,17 @@ public class Chessboard extends JComponent {
         for (int row = 0; row < 8; row++) {
             for (int col = 0; col < 8; col++) {
                 initOnBoard(row, col, chessComponents[row][col]);
+                if (store.size()!=1) {
+                    ChessComponent chess = chessComponents[row][col];
+                    ChessComponent.ChessType thistype = chess.getType();
+                    if (thistype != store.get(0)[row][col].getType() || chess.getChessColor() != store.get(0)[row][col].getChessColor())
+                    {
+                        chessComponents[row][col].setFirstMove(false);
+                        if (thistype.equals(ChessComponent.ChessType.Pawn)) {
+                            ((PawnChessComponent) chess).setChuang(true);
+                        }
+                    }
+                }
             }
         }
         GameController.getChessGameFrame().gamer.setText("Current  " + GameController.getChessboard().getCurrentColor().toString());
@@ -180,8 +190,6 @@ public class Chessboard extends JComponent {
                 if (pawn.getChessboardPoint().getX() == 3 || pawn.getChessboardPoint().getX() == 4) {
                     pawn.setChuang(true);
                 }
-                System.out.println(pawn.getChuang());
-
             }
             //创死过路的
             ChessComponent back = getChess(pawn.getChessboardPoint().getX() + (-1 * pawn.getDirect().getX()), pawn.getChessboardPoint().getY());
@@ -338,7 +346,7 @@ public class Chessboard extends JComponent {
         Pawns = new ArrayList<>();
         for (int c = 0; c < chessComponents.length; c++) {
             for (int r = 0; r < chessComponents[0].length; r++) {
-                ChessComponent chess = getChess(c, r);
+                ChessComponent chess = chessComponents[c][r];
                 if (chess.getChessColor().equals(ChessColor.BLACK)) {
                     blackChess.add(chess);
                     allChess.add(chess);
@@ -378,65 +386,60 @@ public class Chessboard extends JComponent {
     public void eventCheckBefore() {
         updateLists();
         checkAwesomePawn();
-
     }
 
     public void eventCheckAfter() {
-        updateLists();
         cantChuang();
         checkWinner();
     }
 
     public boolean canSwitchKR(int i) {
-        RookChessComponent rook = null;
+        System.out.println("Checking");
         KingChessComponent king = null;
         if (currentColor.equals(ChessColor.BLACK)) {
             for (ChessComponent p : blackChess) {
-                if (p.getType().equals(ChessComponent.ChessType.Rook)) {
-                    RookChessComponent r = (RookChessComponent) p;
-                    if (r.getID() == i) {
-                        rook = r;
-                    }
-                }
                 if (p.getType().equals(ChessComponent.ChessType.King)) {
                     king = (KingChessComponent) p;
+                    System.out.println("Found King");
                 }
             }
-            if (rook != null && king != null) {
-                if (!rook.isFirstMove() || !king.isFirstMove()) {
-                    return false;
-                }
-            } else {
+            if (king == null) {
+                System.out.println("not Found");
+                return false;
+            }
+            if (!king.isFirstMove()) {
+                System.out.println("not FirstMove");
                 return false;
             }
         }
         if (currentColor.equals(ChessColor.WHITE)) {
             for (ChessComponent p : whiteChess) {
-                if (p.getType().equals(ChessComponent.ChessType.Rook)) {
-                    RookChessComponent r = (RookChessComponent) p;
-                    if (r.getID() == i) {
-                        rook = r;
-                    }
-                }
                 if (p.getType().equals(ChessComponent.ChessType.King)) {
                     king = (KingChessComponent) p;
+                    System.out.println("Found King");
                 }
             }
-            if (rook != null && king != null) {
-                if (!rook.isFirstMove() || !king.isFirstMove()) {
-                    return false;
-                }
-            } else {
+            if ( king == null) {
+                System.out.println("not Found");
+                return false;
+            }
+            if (!king.isFirstMove()) {
+                System.out.println("not FirstMove");
                 return false;
             }
         }
         //换左车
+        RookChessComponent rook = null;
         if (i == 1) {
             for (int index = 1; index < 4; index++) {
                 if (!getChess(king.getChessboardPoint().getX(), king.getChessboardPoint().getY() - index).getType().equals(ChessComponent.ChessType.Empty)) {
                     return false;
                 }
             }
+            if (!getChess(king.getChessboardPoint().getX(), king.getChessboardPoint().getY() - 4).getType().equals(ChessComponent.ChessType.Rook)) {
+                return false;
+            }
+            rook = (RookChessComponent) getChess(king.getChessboardPoint().getX(), king.getChessboardPoint().getY() - 4);
         }
         //换右车
         else if (i == 0) {
@@ -445,7 +448,20 @@ public class Chessboard extends JComponent {
                     return false;
                 }
             }
+            if (!getChess(king.getChessboardPoint().getX(), king.getChessboardPoint().getY() + 3).getType().equals(ChessComponent.ChessType.Rook)) {
+                return false;
+            }
+            rook = (RookChessComponent) getChess(king.getChessboardPoint().getX(), king.getChessboardPoint().getY() + 3);
+
         }
+        if (!rook.isFirstMove() || rook.isFake() || rook.getChessColor() != currentColor) {
+            System.out.println("bad rook");
+            return false;
+        }
+
+
+
+
         return true;
     }
 

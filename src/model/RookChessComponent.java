@@ -27,6 +27,7 @@ public class RookChessComponent extends ChessComponent {
     private static int BlackCnt=0;
     private int id;
 
+
     /**
      * 车棋子对象自身的图片，是上面两种中的一种
      */
@@ -72,7 +73,6 @@ public class RookChessComponent extends ChessComponent {
         super(chessboardPoint, location, color, listener, size);
         initiateRookImage(color);
         this.Type = ChessType.Rook;
-
     }
     public RookChessComponent(ChessboardPoint chessboardPoint,ChessColor color){
         super(chessboardPoint,color);
@@ -165,5 +165,6 @@ public class RookChessComponent extends ChessComponent {
     public int getID(){
         return this.id;
     }
+
 
 }

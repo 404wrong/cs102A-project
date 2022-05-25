@@ -243,34 +243,32 @@ public class PawnChessComponent extends ChessComponent {
     public void balalaPawn(int i) {
         ChessComponent newChess;
         GameController.getChessboard().remove(this);
-        switch (i){
-            case 0: //车
-                newChess = new RookChessComponent(this.getChessboardPoint(),this.getChessColor());
-                GameController.getChessboard().initOnBoard(this.getChessboardPoint().getX(),this.getChessboardPoint().getY(),newChess);
+        switch (i) {
+            case 0 -> { //车
+                newChess = new RookChessComponent(this.getChessboardPoint(), this.getChessColor());
+                GameController.getChessboard().initOnBoard(this.getChessboardPoint().getX(), this.getChessboardPoint().getY(), newChess);
+                newChess.setLocation(this.getLocation());
+                newChess.fake();
+                newChess.repaint();
+            }
+            case 1 -> { //马
+                newChess = new KnightChessComponent(this.getChessboardPoint(), this.getChessColor());
+                GameController.getChessboard().initOnBoard(this.getChessboardPoint().getX(), this.getChessboardPoint().getY(), newChess);
                 newChess.setLocation(this.getLocation());
                 newChess.repaint();
-
-                break;
-            case 1: //马
-                newChess = new KnightChessComponent(this.getChessboardPoint(),this.getChessColor());
-                GameController.getChessboard().initOnBoard(this.getChessboardPoint().getX(),this.getChessboardPoint().getY(),newChess);
+            }
+            case 2 -> { //象
+                newChess = new BishopChessComponent(this.getChessboardPoint(), this.getChessColor());
+                GameController.getChessboard().initOnBoard(this.getChessboardPoint().getX(), this.getChessboardPoint().getY(), newChess);
                 newChess.setLocation(this.getLocation());
                 newChess.repaint();
-
-                break;
-            case 2: //象
-                newChess = new BishopChessComponent(this.getChessboardPoint(),this.getChessColor());
-                GameController.getChessboard().initOnBoard(this.getChessboardPoint().getX(),this.getChessboardPoint().getY(),newChess);
+            }
+            case 3 -> { //后
+                newChess = new QueenChessComponent(this.getChessboardPoint(), this.getChessColor());
+                GameController.getChessboard().initOnBoard(this.getChessboardPoint().getX(), this.getChessboardPoint().getY(), newChess);
                 newChess.setLocation(this.getLocation());
                 newChess.repaint();
-
-                break;
-            case 3: //后
-                newChess = new QueenChessComponent(this.getChessboardPoint(),this.getChessColor());
-                GameController.getChessboard().initOnBoard(this.getChessboardPoint().getX(),this.getChessboardPoint().getY(),newChess);
-                newChess.setLocation(this.getLocation());
-                newChess.repaint();
-                break;
+            }
         }
     }
 

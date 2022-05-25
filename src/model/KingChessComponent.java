@@ -128,9 +128,11 @@ public class KingChessComponent extends ChessComponent {
         }
 
         if (GameController.getChessboard().canSwitchKR(1)) {
+            System.out.println("true");
             list.add(new ChessboardPoint(this.getChessboardPoint().getX(), this.getChessboardPoint().getY()-2));
         }
         if (GameController.getChessboard().canSwitchKR(0)) {
+            System.out.println("true");
             list.add(new ChessboardPoint(this.getChessboardPoint().getX(), this.getChessboardPoint().getY()+2));
         }
         return list;

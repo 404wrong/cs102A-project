@@ -34,7 +34,9 @@ public abstract class ChessComponent extends JComponent {
 
     private ConcreteChessGame game;
 
-    boolean firstMove;
+    boolean firstMove=true;
+
+    private boolean fake=false;
 
     public int count=-1;//用于记录棋子分数
     public ChessboardPoint chessboardPointTo;//用于记录分数最高的棋子
@@ -213,5 +215,13 @@ public abstract class ChessComponent extends JComponent {
 
     public void setFirstMove(boolean flag) {
         this.firstMove = flag;
+    }
+
+    public boolean isFake(){
+        return this.fake;
+    }
+
+    public void fake(){
+        this.fake=true;
     }
 }
