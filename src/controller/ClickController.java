@@ -38,6 +38,16 @@ public class ClickController {
                     first.setSelected(false);
                     first = null;
                     chessboard.swapColor();
+                } else if (first.getChessColor().equals(GameController.getChessboard().getCurrentColor())) {
+                    first.setSelected(false);
+                    ChessComponent recordFirst = first;
+                    first = null;
+                    recordFirst.repaint();
+                    if (handleFirst(chessComponent)) {
+                        chessComponent.setSelected(true);
+                        first = chessComponent;
+                        first.repaint();
+                    }
                 } else {
                     first.setSelected(false);
                     ChessComponent recordFirst = first;
