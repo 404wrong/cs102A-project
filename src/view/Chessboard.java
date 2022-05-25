@@ -82,6 +82,7 @@ public class Chessboard extends JComponent {
                     ChessComponent chess = chessComponents[row][col];
                     ChessComponent.ChessType thistype = chess.getType();
                     if (thistype != store.get(0)[row][col].getType() || chess.getChessColor()!=store.get(0)[row][col].getChessColor())
+
                     {
                         chessComponents[row][col].setFirstMove(false);
                         if (thistype.equals(ChessComponent.ChessType.Pawn)) {
@@ -95,10 +96,6 @@ public class Chessboard extends JComponent {
         GameController.getChessGameFrame().gamer.setText("Current  " + getCurrentColor().toString());
         GameController.getChessGameFrame().gamer.repaint();
         addTimerLabel();
-
-        if (currentColor == ChessColor.BLACK && GameController.getUser2().equals("AIController")) {
-            GameController.aiController.AIDifficulties();
-        }
 
     }
 
@@ -409,9 +406,11 @@ public class Chessboard extends JComponent {
             }
             if (!king.isFirstMove()) {
                 System.out.println("not FirstMove");
+
                 return false;
             }
         }
+
         if (currentColor.equals(ChessColor.WHITE)) {
             for (ChessComponent p : whiteChess) {
                 if (p.getType().equals(ChessComponent.ChessType.King)) {
@@ -425,6 +424,7 @@ public class Chessboard extends JComponent {
             }
             if (!king.isFirstMove()) {
                 System.out.println("not FirstMove");
+
                 return false;
             }
         }
@@ -506,13 +506,11 @@ public class Chessboard extends JComponent {
                 return;
             }
             if (p.getChessColor().equals(ChessColor.BLACK) && p.getChessboardPoint().getX() == 7) {
-                if (GameController.getUser2().equals("AIController")){
-                    p.balalaPawn(3);
-                }else {
                 UP up=new UP(this);
                 up.setVisible(true);
+
                 return;
-            }}
+            }
         }
 
     }
