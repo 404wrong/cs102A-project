@@ -96,7 +96,7 @@ public class Chessboard extends JComponent {
         GameController.getChessGameFrame().gamer.setText("Current  " + getCurrentColor().toString());
         GameController.getChessGameFrame().gamer.repaint();
         addTimerLabel();
-
+        updateLists();
     }
 
     /**
@@ -135,6 +135,7 @@ public class Chessboard extends JComponent {
                 }
             }
         }
+        updateLists();
         GameController.getChessGameFrame().gamer.setText("Current  " + GameController.getChessboard().getCurrentColor().toString());
         GameController.getChessGameFrame().gamer.repaint();
     }
@@ -358,9 +359,6 @@ public class Chessboard extends JComponent {
         }
     }
 
-    public void isChecked() {
-
-    }
 
     public void cantChuang() {
         //在换边之后
@@ -382,12 +380,12 @@ public class Chessboard extends JComponent {
 
     public void eventCheckBefore() {
         updateLists();
+        checkWinner();
         checkAwesomePawn();
     }
 
     public void eventCheckAfter() {
         cantChuang();
-        checkWinner();
     }
 
     public boolean canSwitchKR(int i) {
