@@ -81,7 +81,7 @@ public class Chessboard extends JComponent {
                 if (store.size()!=1) {
                     ChessComponent chess = chessComponents[row][col];
                     ChessComponent.ChessType thistype = chess.getType();
-                    if (thistype != store.get(0)[row][col].getType())
+                    if (thistype != store.get(0)[row][col].getType()||chess.getChessColor()!=store.get(0)[row][col].getChessColor())
                     {
                         chessComponents[row][col].setFirstMove(false);
                         if (thistype.equals(ChessComponent.ChessType.Pawn)) {
@@ -96,6 +96,10 @@ public class Chessboard extends JComponent {
         GameController.getChessGameFrame().gamer.repaint();
         addTimerLabel();
         updateLists();
+
+        if (currentColor == ChessColor.BLACK && GameController.getUser2().equals("AIController")) {
+            GameController.aiController.AIDifficulties();
+        }
 
     }
 
