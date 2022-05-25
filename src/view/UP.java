@@ -30,66 +30,55 @@ public class UP extends JFrame {
         queen.addActionListener(e ->{
             // TODO: 2022/5/23
             for (PawnChessComponent p : Pawns) {
-
+                this.dispose();
                 if (p.getChessColor().equals(ChessColor.WHITE) && p.getChessboardPoint().getX() == 0) {
                     p.balalaPawn(3);
-                    this.dispose();
                     return;
                 }
                 if (p.getChessColor().equals(ChessColor.BLACK) && p.getChessboardPoint().getX() == 7) {
                     p.balalaPawn(3);
-                    this.dispose();
                     return;
                 }
 
             }
         });
         rook.addActionListener(e ->{
-            // TODO: 2022/5/23
-
+            this.dispose();
             for (PawnChessComponent p : Pawns) {
                 if (p.getChessColor().equals(ChessColor.WHITE) && p.getChessboardPoint().getX() == 0) {
                     p.balalaPawn(0);
-                    this.dispose();
                     return;
                 }
                 if (p.getChessColor().equals(ChessColor.BLACK) && p.getChessboardPoint().getX() == 7) {
                     p.balalaPawn(0);
-                    this.dispose();
                     return;
                 }
             }
 
         });
         knight.addActionListener(e ->{
-            // TODO: 2022/5/23
-
+            this.dispose();
             for (PawnChessComponent p : Pawns) {
                 if (p.getChessColor().equals(ChessColor.WHITE) && p.getChessboardPoint().getX() == 0) {
                     p.balalaPawn(1);
-                    this.dispose();
                     return;
                 }
                 if (p.getChessColor().equals(ChessColor.BLACK) && p.getChessboardPoint().getX() == 7) {
                     p.balalaPawn(1);
-                    this.dispose();
                     return;
                 }
             }
 
         });
         bishop.addActionListener(e ->{
-            // TODO: 2022/5/23
-
+            this.dispose();
             for (PawnChessComponent p : Pawns) {
                 if (p.getChessColor().equals(ChessColor.WHITE) && p.getChessboardPoint().getX() == 0) {
                     p.balalaPawn(2);
-                    this.dispose();
                     return;
                 }
                 if (p.getChessColor().equals(ChessColor.BLACK) && p.getChessboardPoint().getX() == 7) {
                     p.balalaPawn(2);
-                    this.dispose();
                     return;
                 }
             }

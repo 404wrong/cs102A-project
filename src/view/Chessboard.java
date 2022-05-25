@@ -54,7 +54,7 @@ public class Chessboard extends JComponent {
      *         chessComponents<br>
      */
     public Chessboard(int width, int height, String path) {
-        GameController.nullClick=0;
+        GameController.nullClick = 0;
         setLayout(null); // Use absolute layout.
         CHESS_SIZE = width / 8;
         setLocation(0, 0);
@@ -78,12 +78,10 @@ public class Chessboard extends JComponent {
         for (int row = 0; row < 8; row++) {
             for (int col = 0; col < 8; col++) {
                 initOnBoard(row, col, chessComponents[row][col]);
-                if (store.size()!=1) {
+                if (store.size() != 1) {
                     ChessComponent chess = chessComponents[row][col];
                     ChessComponent.ChessType thistype = chess.getType();
-                    if (thistype != store.get(0)[row][col].getType() || chess.getChessColor()!=store.get(0)[row][col].getChessColor())
-
-                    {
+                    if (thistype != store.get(0)[row][col].getType() || chess.getChessColor() != store.get(0)[row][col].getChessColor()) {
                         chessComponents[row][col].setFirstMove(false);
                         if (thistype.equals(ChessComponent.ChessType.Pawn)) {
                             ((PawnChessComponent) chess).setChuang(true);
@@ -97,6 +95,10 @@ public class Chessboard extends JComponent {
         GameController.getChessGameFrame().gamer.repaint();
         addTimerLabel();
         updateLists();
+
+        if (currentColor == ChessColor.BLACK && GameController.getUser2().equals("AIController")) {
+            GameController.aiController.AIDifficulties();
+        }
     }
 
     /**
@@ -108,7 +110,7 @@ public class Chessboard extends JComponent {
      * @param currentColor
      */
     public Chessboard(int width, int height, ChessComponent[][] chessComponent, ChessColor currentColor) {
-        GameController.nullClick=1;
+        GameController.nullClick = 1;
         setLayout(null); // Use absolute layout.
         CHESS_SIZE = width / 8;
         setLocation(0, 0);
@@ -122,11 +124,10 @@ public class Chessboard extends JComponent {
         for (int row = 0; row < 8; row++) {
             for (int col = 0; col < 8; col++) {
                 initOnBoard(row, col, chessComponents[row][col]);
-                if (store.size()!=1) {
+                if (store.size() != 1) {
                     ChessComponent chess = chessComponents[row][col];
                     ChessComponent.ChessType thistype = chess.getType();
-                    if (thistype != store.get(0)[row][col].getType() || chess.getChessColor() != store.get(0)[row][col].getChessColor())
-                    {
+                    if (thistype != store.get(0)[row][col].getType() || chess.getChessColor() != store.get(0)[row][col].getChessColor()) {
                         chessComponents[row][col].setFirstMove(false);
                         if (thistype.equals(ChessComponent.ChessType.Pawn)) {
                             ((PawnChessComponent) chess).setChuang(true);
@@ -314,7 +315,10 @@ public class Chessboard extends JComponent {
             changeTimerLabel();
             if (a == 0) {
                 swapColor();
-                try {GameController.clickController.setClick();}catch (Exception s){}
+                try {
+                    GameController.clickController.setClick();
+                } catch (Exception s) {
+                }
             }
         });
         timer.start();
@@ -416,7 +420,7 @@ public class Chessboard extends JComponent {
                     System.out.println("Found King");
                 }
             }
-            if ( king == null) {
+            if (king == null) {
                 System.out.println("not Found");
                 return false;
             }
@@ -458,8 +462,6 @@ public class Chessboard extends JComponent {
         }
 
 
-
-
         return true;
     }
 
@@ -499,15 +501,18 @@ public class Chessboard extends JComponent {
     public void checkAwesomePawn() {
         for (PawnChessComponent p : Pawns) {
             if (p.getChessColor().equals(ChessColor.WHITE) && p.getChessboardPoint().getX() == 0) {
-                UP up=new UP(this);
+                UP up = new UP(this);
                 up.setVisible(true);
                 return;
             }
             if (p.getChessColor().equals(ChessColor.BLACK) && p.getChessboardPoint().getX() == 7) {
-                UP up=new UP(this);
-                up.setVisible(true);
-
-                return;
+                if (GameController.getUser2().equals("AIController")) {
+                    p.balalaPawn(3);
+                } else {
+                    UP up = new UP(this);
+                    up.setVisible(true);
+                    return;
+                }
             }
         }
 
@@ -515,27 +520,27 @@ public class Chessboard extends JComponent {
 
     public void checkWinner() {
         if (GameController.getChessboard().getSpecificChess(ChessColor.BLACK, ChessComponent.ChessType.King) == null) {
-            GameController.nullClick=1;
+            GameController.nullClick = 1;
             timer.stop();
             GameController.getUserController().userSite.get(GameController.getUser1()).addWin();
-            if(!GameController.getUser2().equals("AIController")) {
+            if (!GameController.getUser2().equals("AIController")) {
                 GameController.getUserController().userSite.get(GameController.getUser2()).addLose();
             }
             GameController.getUserController().writeFileByFileWriter(GameController.getUserController().path);
-            JOptionPane.showMessageDialog(null, String.format("%s win",GameController.getUser1()),"Game finished!",JOptionPane.PLAIN_MESSAGE);
+            JOptionPane.showMessageDialog(null, String.format("%s win", GameController.getUser1()), "Game finished!", JOptionPane.PLAIN_MESSAGE);
         } else if (GameController.getChessboard().getSpecificChess(ChessColor.WHITE, ChessComponent.ChessType.King) == null) {
-            GameController.nullClick=1;
+            GameController.nullClick = 1;
             timer.stop();
-            if(!GameController.getUser2().equals("AIController")) {
+            if (!GameController.getUser2().equals("AIController")) {
                 GameController.getUserController().userSite.get(GameController.getUser2()).addWin();
             }
             GameController.getUserController().userSite.get(GameController.getUser1()).addLose();
             GameController.getUserController().writeFileByFileWriter(GameController.getUserController().path);
-            JOptionPane.showMessageDialog(null, String.format("%s win",GameController.getUser2()),"Game finished!",JOptionPane.PLAIN_MESSAGE);
+            JOptionPane.showMessageDialog(null, String.format("%s win", GameController.getUser2()), "Game finished!", JOptionPane.PLAIN_MESSAGE);
         }
     }
 
-    public void checkJiangjun(){
+    public void checkJiangjun() {
 
     }
 }
