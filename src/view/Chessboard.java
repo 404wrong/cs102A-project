@@ -241,6 +241,16 @@ public class Chessboard extends JComponent {
             GameController.aiController.AIDifficulties();
         }
     }
+    public void pureSwapColor() {
+        currentColor = currentColor == ChessColor.BLACK ? ChessColor.WHITE : ChessColor.BLACK;
+        currentColors.add(currentColor);
+        GameController.getChessGameFrame().gamer.setText("Current  " + GameController.getChessboard().getCurrentColors().get(GameController.getChessboard().getCurrentColors().size() - 1).toString());
+        GameController.getChessGameFrame().gamer.repaint();
+        a = 20;
+        if (currentColor == ChessColor.BLACK && GameController.getUser2().equals("AIController")) {
+            GameController.aiController.AIDifficulties();
+        }
+    }
 
     /**
      * 将棋子加入棋盘
@@ -316,7 +326,7 @@ public class Chessboard extends JComponent {
         timer = new javax.swing.Timer(1000, e -> {
             changeTimerLabel();
             if (a == 0) {
-                swapColor();
+                pureSwapColor();
                 try {
                     GameController.clickController.setClick();
                 } catch (Exception s) {
@@ -488,14 +498,16 @@ public class Chessboard extends JComponent {
 
         }
         //换左车
-        RookChessComponent rook = null;
+        ChessComponent rook = null;
         if (i == 1) {
-            rook = (RookChessComponent) getChess(king.getChessboardPoint().getX(), king.getChessboardPoint().getY() - 2);
-            swapChessComponents(rook, getChess(king.getChessboardPoint().getX(), king.getChessboardPoint().getY() + 1));
+            rook =  chessComponents[king.getChessboardPoint().getX()][0];
+            if(rook.toChar()=='r'||rook.toChar()=='R') {
+                swapChessComponents(rook, getChess(king.getChessboardPoint().getX(), 3));
+            }
         }
         //换右车
         else if (i == 0) {
-            rook = (RookChessComponent) getChess(king.getChessboardPoint().getX(), king.getChessboardPoint().getY() + 1);
+            rook =  getChess(king.getChessboardPoint().getX(), king.getChessboardPoint().getY() + 1);
             swapChessComponents(rook, getChess(king.getChessboardPoint().getX(), king.getChessboardPoint().getY() - 1));
         }
         rook.repaint();
