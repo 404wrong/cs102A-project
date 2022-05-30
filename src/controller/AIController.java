@@ -19,7 +19,7 @@ public class AIController {
     }
 
     /**
-     * 随机行棋
+     * 区分难度
      */
     public void AIDifficulties(){
         switch (difficulty){
@@ -34,6 +34,9 @@ public class AIController {
                 break;
         }
     }
+    /**
+     * 随机行棋
+     */
     public void randomGo() {
         ArrayList<ChessComponent> blackChess = Chessboard.blackChess;
 
@@ -50,7 +53,9 @@ public class AIController {
             }
         }
     }
-
+    /**
+     * 先吃大的再吃小的
+     */
     public void greedGO(){
         ArrayList<ChessComponent> blackChess = Chessboard.blackChess;
         for (int i = 0; i < blackChess.size(); i++) {
@@ -127,8 +132,12 @@ public class AIController {
         }
         randomGo();
     }
+    /**
+     * 能吃先吃，不能吃对每一个棋子进行分数排序
+     */
     public void AIGO() {
         ArrayList<ChessComponent> blackChess = Chessboard.blackChess;
+        //和greedgo内部相似
         for (int i = 0; i < blackChess.size(); i++) {
             List<ChessboardPoint> canMoveTo = blackChess.get(i).canMoveTo();
             for (int j = 0; j < canMoveTo.size(); j++) {
@@ -208,27 +217,16 @@ public class AIController {
                 blackChess.remove(i);
             }else {
                 for (int j = 0; j < canMoveTo.size(); j++) {
-                    ChessComponent chessComponent = new KingChessComponent(canMoveTo.get(j), ChessColor.BLACK);//干掉报错
-                    switch (blackChess.get(i).toChar()) {
-                        case 'K':
-                            chessComponent = new KingChessComponent(canMoveTo.get(j), ChessColor.BLACK);
-                            break;
-                        case 'Q':
-                            chessComponent = new QueenChessComponent(canMoveTo.get(j), ChessColor.BLACK);
-                            break;
-                        case 'B':
-                            chessComponent = new BishopChessComponent(canMoveTo.get(j), ChessColor.BLACK);
-                            break;
-                        case 'N':
-                            chessComponent = new KnightChessComponent(canMoveTo.get(j), ChessColor.BLACK);
-                            break;
-                        case 'R':
-                            chessComponent = new RookChessComponent(canMoveTo.get(j), ChessColor.BLACK);
-                            break;
-                        case 'P':
-                            chessComponent = new PawnChessComponent(canMoveTo.get(j), ChessColor.BLACK);
-                            break;
-                    }
+                    new KingChessComponent(canMoveTo.get(j), ChessColor.BLACK);
+                    ChessComponent chessComponent = switch (blackChess.get(i).toChar()) {
+                        case 'K' -> new KingChessComponent(canMoveTo.get(j), ChessColor.BLACK);
+                        case 'Q' -> new QueenChessComponent(canMoveTo.get(j), ChessColor.BLACK);
+                        case 'B' -> new BishopChessComponent(canMoveTo.get(j), ChessColor.BLACK);
+                        case 'N' -> new KnightChessComponent(canMoveTo.get(j), ChessColor.BLACK);
+                        case 'R' -> new RookChessComponent(canMoveTo.get(j), ChessColor.BLACK);
+                        case 'P' -> new PawnChessComponent(canMoveTo.get(j), ChessColor.BLACK);
+                        default -> new KingChessComponent(canMoveTo.get(j), ChessColor.BLACK);
+                    };
 
                     ChessColor chessColor = chessComponent.getChessColor();
                     if (EatenController.beLookedBy(chessComponent, chessColor) - EatenController.beEatenBy(chessComponent, chessColor) >= 0) {
@@ -255,10 +253,12 @@ public class AIController {
         GameController.clickController.onClick(blackChess.get(0));
         //起点
         GameController.clickController.onClick(GameController.getChessboard().getChess(blackChess.get(0).chessboardPointTo));
-        for (int i = 0; i < blackChess.size(); i++) {
+        //重置AI内部评分
+        try {
+            for (int i = 0; i < blackChess.size(); i++) {
             blackChess.get(i).count=-1;
             blackChess.get(i).chessboardPointTo=blackChess.get(i).canMoveTo().get(0);
-        }
+        }}catch(Exception e){}
         //终点
         return;
     }

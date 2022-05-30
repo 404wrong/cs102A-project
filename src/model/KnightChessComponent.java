@@ -118,7 +118,7 @@ public class KnightChessComponent extends ChessComponent {
             }
         }
         for (ChessboardPoint i : list) {
-            System.out.println(i);
+//            System.out.println(i);
         }
         return list;
     }

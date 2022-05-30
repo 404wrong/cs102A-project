@@ -86,7 +86,7 @@ public abstract class ChessComponent extends JComponent {
         jb.setLocation(0,0);
         jb.setSize(size,size);
         jb.addActionListener(e->{
-            System.out.printf("Click [%d,%d]\n", chessboardPoint.getX(), chessboardPoint.getY());
+//            System.out.printf("Click [%d,%d]\n", chessboardPoint.getX(), chessboardPoint.getY());
             clickController.onClick(this);
         });
         add(jb);
@@ -110,7 +110,7 @@ public abstract class ChessComponent extends JComponent {
         jb.setLocation(0,0);
         jb.setSize(size,size);
         jb.addActionListener(e->{
-            System.out.printf("Click [%d,%d]\n", chessboardPoint.getX(), chessboardPoint.getY());
+//            System.out.printf("Click [%d,%d]\n", chessboardPoint.getX(), chessboardPoint.getY());
             clickController.onClick(this);
         });
         add(jb);
@@ -166,7 +166,7 @@ public abstract class ChessComponent extends JComponent {
         super.processMouseEvent(e);
 
         if (e.getID() == MouseEvent.MOUSE_PRESSED) {
-            System.out.printf("Click [%d,%d]\n", chessboardPoint.getX(), chessboardPoint.getY());
+//            System.out.printf("Click [%d,%d]\n", chessboardPoint.getX(), chessboardPoint.getY());
             clickController.onClick(this);
         }
     }

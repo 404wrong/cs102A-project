@@ -67,7 +67,7 @@ public class SignInPlayer2Frame extends JFrame {
         add(signIn);
 
         signIn.addActionListener(e -> {
-            System.out.println("Click sign in");
+//            System.out.println("Click sign in");
             switch (uc.hasThisUser(Name.getText(), String.valueOf(Password.getText().hashCode()))) {
                 case 2:
                     JOptionPane.showMessageDialog(null, "Please input your name!","error",JOptionPane.ERROR_MESSAGE);

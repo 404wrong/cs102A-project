@@ -111,7 +111,7 @@ public class ChessGameFrame extends JFrame {
         add(button);
 
         button.addActionListener(e -> {
-            System.out.println("Click BackToMenu");
+//            System.out.println("Click BackToMenu");
             FunctionFrame functionFrame = new FunctionFrame(500, 400);
             this.setVisible(false);
             functionFrame.setVisible(true);
@@ -128,7 +128,7 @@ public class ChessGameFrame extends JFrame {
         GameController.playback=1;
 
         button.addActionListener(e -> {
-            System.out.println("Click Playback");
+//            System.out.println("Click Playback");
             GameController.setError(100);
             JFileChooser fileChooser = new JFileChooser(); // 创建一个文件选择器
             fileChooser.setDialogTitle("选择要打开的文件"); // 给它一个标题
@@ -166,7 +166,7 @@ public class ChessGameFrame extends JFrame {
                     GameController.getChessboard().repaint();
                     new Play0("resource/落子.mp3").start();
                     qAdd();
-                    System.out.println("q");
+//                    System.out.println("q");
                     if(q==a.getStore().size()){
                         Thread.currentThread().stop();
                     }
@@ -201,7 +201,7 @@ public class ChessGameFrame extends JFrame {
         add(button);
 
         button.addActionListener(e -> {
-            System.out.println("Click ranking list");
+//            System.out.println("Click ranking list");
 
             JFrame frame = new JFrame("Ranking List"); //这里要用到import javax.swing.JFrame;
             frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -237,7 +237,7 @@ public class ChessGameFrame extends JFrame {
         add(button);
 
         button.addActionListener(e -> {
-            System.out.println("Click load");
+//            System.out.println("Click load");
             GameController.setError(100);
             JFileChooser fileChooser = new JFileChooser(); // 创建一个文件选择器
             fileChooser.setDialogTitle("选择要打开的文件"); // 给它一个标题
@@ -280,7 +280,7 @@ public class ChessGameFrame extends JFrame {
 
         button.addActionListener(e -> {
             try {
-                System.out.println("Click save");
+//                System.out.println("Click save");
                 String path = JOptionPane.showInputDialog(this, "Input Path here");
                 Save_Write sW = new Save_Write();
                 sW.setStore(GameController.getChessboard().getStore());
@@ -299,7 +299,7 @@ public class ChessGameFrame extends JFrame {
         add(button);
 
         button.addActionListener(e -> {
-            System.out.println("Click reset");
+//            System.out.println("Click reset");
             remove(GameController.getChessboard());
             Save_Write a = new Save_Write();
             a.writeFileByFileWriter("resource/save1.txt", new ArrayList<String>() {{
@@ -324,17 +324,17 @@ public class ChessGameFrame extends JFrame {
         add(button);
 
         button.addActionListener(e -> {
-            System.out.println("Click repent");
+//            System.out.println("Click repent");
             if(GameController.getChessboard().getStore().size()!=1){
             remove(GameController.getChessboard());
             GameController.getChessboard().repentChess();
             //todo:异常处理
-            String path = "resource/save2.txt";
+            String path = "resource/回放.txt";
             Save_Write sW = new Save_Write();
             sW.setStore(GameController.getChessboard().getStore());
             sW.setCurrentColor(GameController.getChessboard().getCurrentColors());
             sW.writeFileByFileWriter(path, sW.convertToList(sW.getStore()));
-            GameController.setChessboard(new Chessboard(CHESSBOARD_SIZE, CHESSBOARD_SIZE, "resource/save2.txt"));
+            GameController.setChessboard(new Chessboard(CHESSBOARD_SIZE, CHESSBOARD_SIZE, "resource/回放.txt"));
             GameController.getChessboard().setLocation(0,0);
             add(GameController.getChessboard());
             GameController.getChessboard().repaint();

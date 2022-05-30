@@ -51,7 +51,7 @@ public class FunctionFrame extends JFrame {
         AIController aiController1 = new AIController(0);
 //todo
         jButton.addActionListener(e -> {
-            System.out.println("Click AIController");
+//            System.out.println("Click AIController");
             int difficulites = JOptionPane.showOptionDialog(null, "Select the difficulty", "Select the difficulty", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, new String[]{"Simple", "easy", "Hard"}, "Simple");
             AIController aiController = new AIController(difficulites);
             mainFrame = new ChessGameFrame(1000, 760);
@@ -69,7 +69,7 @@ public class FunctionFrame extends JFrame {
         add(jButton);
 //todo
         jButton.addActionListener(e -> {
-            System.out.println("Click 1V1");
+//            System.out.println("Click 1V1");
             this.setVisible(false);
             SignInPlayer2Frame signInPlayer2Frame = new SignInPlayer2Frame(300, 200);
             signInPlayer2Frame.setVisible(true);
@@ -84,7 +84,7 @@ public class FunctionFrame extends JFrame {
         add(button);
 
         button.addActionListener(e -> {
-            System.out.println("Click ranking list");
+//            System.out.println("Click ranking list");
 
             JFrame frame = new JFrame("Ranking List"); //这里要用到import javax.swing.JFrame;
             frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);

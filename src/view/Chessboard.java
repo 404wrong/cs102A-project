@@ -61,7 +61,7 @@ public class Chessboard extends JComponent {
         CHESS_SIZE = width / 8;
         setLocation(0, 0);
         setSize(width + CHESS_SIZE * 2, height);
-        System.out.printf("chessboard size = %d, chess size = %d\n", width, CHESS_SIZE);
+//        System.out.printf("chessboard size = %d, chess size = %d\n", width, CHESS_SIZE);
 
         Save_Write a = new Save_Write();
         if (!a.convertToChessboard(a.readFileByFileReader(path))) {
@@ -117,7 +117,7 @@ public class Chessboard extends JComponent {
         CHESS_SIZE = width / 8;
         setLocation(0, 0);
         setSize(width + CHESS_SIZE * 2, height);
-        System.out.printf("chessboard size = %d, chess size = %d\n", width, CHESS_SIZE);
+//        System.out.printf("chessboard size = %d, chess size = %d\n", width, CHESS_SIZE);
 
         this.currentColor = currentColor;
         this.chessComponents = chessComponent;
@@ -407,21 +407,21 @@ public class Chessboard extends JComponent {
     }
 
     public boolean canSwitchKR(int i) {
-        System.out.println("Checking");
+//        System.out.println("Checking");
         KingChessComponent king = null;
         if (currentColor.equals(ChessColor.BLACK)) {
             for (ChessComponent p : blackChess) {
                 if (p.getType().equals(ChessComponent.ChessType.King)) {
                     king = (KingChessComponent) p;
-                    System.out.println("Found King");
+//                    System.out.println("Found King");
                 }
             }
             if (king == null) {
-                System.out.println("not Found");
+//                System.out.println("not Found");
                 return false;
             }
             if (!king.isFirstMove()) {
-                System.out.println("not FirstMove");
+//                System.out.println("not FirstMove");
 
                 return false;
             }
@@ -431,15 +431,15 @@ public class Chessboard extends JComponent {
             for (ChessComponent p : whiteChess) {
                 if (p.getType().equals(ChessComponent.ChessType.King)) {
                     king = (KingChessComponent) p;
-                    System.out.println("Found King");
+//                    System.out.println("Found King");
                 }
             }
             if (king == null) {
-                System.out.println("not Found");
+//                System.out.println("not Found");
                 return false;
             }
             if (!king.isFirstMove()) {
-                System.out.println("not FirstMove");
+//                System.out.println("not FirstMove");
 
                 return false;
             }
@@ -471,7 +471,7 @@ public class Chessboard extends JComponent {
 
         }
         if (!rook.isFirstMove() || rook.isFake() || rook.getChessColor() != currentColor) {
-            System.out.println("bad rook");
+//            System.out.println("bad rook");
             return false;
         }
 

@@ -63,7 +63,7 @@ public class Save_Write {
         }
         for (int i = 0; i < readlines.size(); i++) {
             String pieces = readlines.get(i);
-            System.out.println((pieces.charAt(pieces.length()-1)));
+//            System.out.println((pieces.charAt(pieces.length()-1)));
             if(pieces.charAt(pieces.length()-1)!='w'&&pieces.charAt(pieces.length()-1)!='b')
             {
                 GameController.setError(103);

@@ -193,7 +193,7 @@ public class PawnChessComponent extends ChessComponent {
                 PawnChessComponent bastard = (PawnChessComponent) right;
                 if (bastard.getChuang()) {
                     list.add(new ChessboardPoint(right.getChessboardPoint().getX() + this.getDirect().getX(), right.getChessboardPoint().getY()));
-                    System.out.println(bastard.getChuang());
+//                    System.out.println(bastard.getChuang());
                 }
             }
         }

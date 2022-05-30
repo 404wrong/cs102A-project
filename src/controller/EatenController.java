@@ -6,30 +6,22 @@ import view.ChessboardPoint;
 import java.util.List;
 
 public class EatenController {
+    /**
+     * 可以吃到的对方的棋子
+     * 将棋子赋予不同的分值
+     */
     public static int eatOpponent(ChessComponent chessComponent, ChessColor chessColor) {
         int a = 0;
         List<ChessboardPoint> canMoveTo = chessComponent.canMoveTo();
         if (chessColor == ChessColor.WHITE) {
             for (int i = 0; i < canMoveTo.size(); i++) {
                 switch (GameController.getChessboard().getChess(canMoveTo.get(i)).toChar()) {
-                    case 'Q':
-                        a = a + 9;
-                        break;
-                    case 'R':
-                        a = a + 5;
-                        break;
-                    case 'N':
-                        a = a + 4;
-                        break;
-                    case 'B':
-                        a = a + 3;
-                        break;
-                    case 'P':
-                        a = a + 1;
-                        break;
-                    case 'K':
-                        a = a + 100;
-                        break;
+                    case 'Q': a = a + 9;   break;
+                    case 'R': a = a + 5;   break;
+                    case 'N': a = a + 4;   break;
+                    case 'B': a = a + 3;   break;
+                    case 'P': a = a + 1;   break;
+                    case 'K': a = a + 100; break;
                 }
             }
         } else {
@@ -58,7 +50,6 @@ public class EatenController {
         }
         return a;
     }
-
     /**
      * 被对方的棋子吃
      */
@@ -73,12 +64,8 @@ public class EatenController {
         if (chessColor == ChessColor.WHITE) {
             for (int i = 0; i < canMoveTo.size(); i++) {
                 switch (GameController.getChessboard().getChess(canMoveTo.get(i)).toChar()) {
-                    case 'Q':
-                        a = a + 1;
-                        break;
-                    case 'R':
-                        a = a + 1;
-                        break;
+                    case 'Q': a = a + 1;break;
+                    case 'R': a = a + 1;break;
                 }
             }
         } else {
@@ -93,6 +80,7 @@ public class EatenController {
                 }
             }
         }
+
         canMoveTo = knightChessComponent.canMoveTo();
         if (chessColor == ChessColor.WHITE) {
             for (int i = 0; i < canMoveTo.size(); i++) {
@@ -160,7 +148,6 @@ public class EatenController {
         }
         return a;
     }
-
     /**
      * 被自己的棋子保护
      */
